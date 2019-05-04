@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DiskVai!</string>
+    <string name="title_activity_tipo_cadastro">TipoCadastro</string>
+    <string name="title_activity_teste">TESTE</string>
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TipoCadastro"
+    android:background="#fff"
+    android:orientation="vertical">
+
+
+    <!-- Botão Voltar -->
+    <Button
+        android:layout_margin="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_back_button"
+        android:backgroundTint="@color/colorPrimary"
+        />
+
+    <!-- Logotipo -->
+    <ImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@mipmap/logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="40dp"
+        />
+
+    <!-- Botão Quero Comprar!-->
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_line"
+        android:text="Quero comprar!"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:paddingHorizontal="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/comprar"
+        android:onClick="CadastroCli"/>
+
+    <!-- Botão Quero Vender!-->
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_line"
+        android:text="Quero vender!"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:paddingHorizontal="20dp"
+        android:layout_gravity="center"
+        android:id="@+id/vender"/>
+
+</LinearLayout>

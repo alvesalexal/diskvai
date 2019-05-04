@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <!-- Logotipo -->
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@mipmap/logo"
+        android:layout_weight="1"
+        />
+
+    <!-- Campo Email -->
+    <EditText
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Login"
+        android:paddingLeft="20dp"
+        android:inputType="textEmailAddress"
+	    android:maxLines="1"
+        android:id="@+id/usuario"
+        />
+
+    <!-- Campo Senha -->
+    <EditText
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Senha"
+        android:paddingLeft="20dp"
+        android:inputType="textPassword"
+	    android:maxLines="1"
+        android:id="@+id/senha"
+        />
+
+    <!-- Recuperar Senha ou Login -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <!-- Esqueci minha senha -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Esqueci minha senha"
+            android:textColor="@color/colorDefaultText"
+            android:paddingRight="20dp"
+            android:id="@+id/esqueceuSenha"
+            />
+
+        <!-- Botão de Login-->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_filled"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="#fff"
+            android:text="Login"
+            android:id="@+id/login"
+
+            />
+
+    </LinearLayout>
+
+    <!-- Entrar com o Facebook -->
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_filled"
+        android:backgroundTint="#4267b2"
+        android:drawableLeft="@drawable/ic_facebook_logo"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:drawablePadding="10dp"
+        android:text="Entrar com o Facebook"
+        android:textColor="#fff"
+        />
+
+    <!-- Entrar com o Google -->
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_filled"
+        android:drawableLeft="@drawable/ic_google__g__logo"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:drawablePadding="10dp"
+        android:text="Entrar com o Google" />
+
+    <!-- Cadastrar -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:paddingBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Não tem uma Conta? "
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Cadastre-se"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/cadastrar"
+            android:onClick="Cadastro"/>
+    </LinearLayout>
+
+
+</LinearLayout>
