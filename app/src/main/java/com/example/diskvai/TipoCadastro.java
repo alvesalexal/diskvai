@@ -19,12 +19,16 @@ public class TipoCadastro extends AppCompatActivity {
     }
 
     public void back(View view) {
-        Intent intent = new Intent(this, Activity_login.class);
-        startActivity(intent);
+        this.finish();
     }
 
     public void CadastroEmp(View view) {
         Intent intent = new Intent(this, CadastroEmpresa.class);
+        startActivity(intent);
+    }
+
+    public void CadastroEntr(View view) {
+        Intent intent = new Intent(this, CadastroEntregador.class);
         startActivity(intent);
     }
 }

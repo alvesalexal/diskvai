@@ -17,6 +17,7 @@
         android:layout_height="30dp"
         android:background="@drawable/ic_back_button"
         android:backgroundTint="@color/colorPrimary"
+        android:onClick="back"
         />
 
     <!-- Logotipo -->
@@ -56,6 +57,7 @@
         android:paddingLeft="20dp"
         android:layout_marginBottom="20dp"
 	    android:maxLines="1"
+        android:inputType="textPersonName"
         android:id="@+id/Nome"
         />
 

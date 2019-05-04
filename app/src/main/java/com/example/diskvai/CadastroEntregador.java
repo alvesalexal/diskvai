@@ -1,9 +1,9 @@
 package com.example.diskvai;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,15 +22,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CadastroCliente extends AppCompatActivity {
+public class CadastroEntregador extends AppCompatActivity {
 
     private Button btnCadastrar, btnvoltar;
-    private EditText nome, telefone, senha, confirmasenha, login;
+    private EditText nome;
+    private EditText telefone;
+    private EditText senha;
+    private EditText confirmasenha;
+    private EditText login;
     private String resposta;
-    private AutoCompleteTextView email;
     private String a[]={"#"};
-
-
+    private AutoCompleteTextView email;
 
     private void read() {
         btnCadastrar = findViewById(R.id.cadastrar);
@@ -40,16 +42,14 @@ public class CadastroCliente extends AppCompatActivity {
         confirmasenha = findViewById(R.id.confirmaSenha);
         email = (AutoCompleteTextView) findViewById(R.id.EndEmail);
         login = findViewById(R.id.Login);
-
         telefone = (EditText) findViewById(R.id.telefone);
         telefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_cliente);
+        setContentView(R.layout.activity_cadastro_entregador);
 
         read();
         email.addTextChangedListener(new TextWatcher() {
@@ -79,12 +79,12 @@ public class CadastroCliente extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertCli.php").newBuilder();
-                    urlBuilder.addQueryParameter("C_Nome", nome.getText().toString());
-                    urlBuilder.addQueryParameter("C_Tel", telefone.getText().toString());
-                    urlBuilder.addQueryParameter("C_LOGIN", login.getText().toString());
-                    urlBuilder.addQueryParameter("C_Senha", senha.getText().toString());
-                    urlBuilder.addQueryParameter("C_Email", email.getText().toString());
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertEntr.php").newBuilder();
+                    urlBuilder.addQueryParameter("Ent_Nome", nome.getText().toString());
+                    urlBuilder.addQueryParameter("Ent_TEL", telefone.getText().toString());
+                    urlBuilder.addQueryParameter("Ent_LOGIN", login.getText().toString());
+                    urlBuilder.addQueryParameter("Ent_SENHA", senha.getText().toString());
+                    urlBuilder.addQueryParameter("Ent_EMAIL", email.getText().toString());
 
                     String url = urlBuilder.build().toString();
 
@@ -94,9 +94,7 @@ public class CadastroCliente extends AppCompatActivity {
 
                     client.newCall(request).enqueue(new Callback() {
                         @Override
-                        public void onFailure(Call call, IOException e) {
-
-                        }
+                        public void onFailure(Call call, IOException e) {}
 
                         @Override
                         public void onResponse(Call call, final Response response) throws IOException {
@@ -115,21 +113,23 @@ public class CadastroCliente extends AppCompatActivity {
                                     }
                                 }
                             });
-
                         }
                     });
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 btnCadastrar.setEnabled(true);
             }
+
         });
     }
 
-    private void alert(String valor) {
-        Toast.makeText(this, valor, Toast.LENGTH_LONG).show();
+    private void principal(String []a){
+        if(a[1].equals("Cadastrado com Sucesso!")) {
+            Intent intent = new Intent(this, PrincipalEntr.class);
+            startActivity(intent);
+            limparcampos();
+        }
     }
 
     private boolean validaCadastro() {
@@ -156,14 +156,11 @@ public class CadastroCliente extends AppCompatActivity {
         senha.setText("");
         confirmasenha.setText("");
         login.setText("");
+
     }
 
-    private void principal(String []a){
-        if(a[1].equals("Cadastrado com Sucesso!")) {
-            Intent intent = new Intent(this, PrincipalCli.class);
-            startActivity(intent);
-            limparcampos();
-        }
+    private void alert(String valor) {
+        Toast.makeText(this, valor, Toast.LENGTH_LONG).show();
     }
 
     public void back(View view) {

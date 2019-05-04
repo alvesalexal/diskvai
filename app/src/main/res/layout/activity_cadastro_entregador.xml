@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroEmpresa"
+    tools:context=".CadastroEntregador"
     android:background="#fff"
     android:orientation="vertical">
-
 
     <!-- Botão Voltar -->
     <Button
@@ -99,18 +98,6 @@
                 android:inputType="phone"
                 android:maxLines="1"
                 android:id="@+id/telefone"
-                />
-            <EditText
-                android:layout_width="240dp"
-                android:layout_height="30dp"
-                android:background="@drawable/rounded_corner_line"
-                android:hint="CNPJ"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:layout_marginBottom="20dp"
-                android:inputType="number"
-                android:maxLines="1"
-                android:id="@+id/cnpj"
                 />
 
             <!-- Campo Senha -->

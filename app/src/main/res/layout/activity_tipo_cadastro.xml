@@ -16,6 +16,7 @@
         android:layout_height="30dp"
         android:background="@drawable/ic_back_button"
         android:backgroundTint="@color/colorPrimary"
+        android:onClick="back"
         />
 
     <!-- Logotipo -->
@@ -50,8 +51,23 @@
         android:textColor="@color/colorPrimary"
         android:textSize="20dp"
         android:paddingHorizontal="20dp"
+        android:layout_marginBottom="40dp"
         android:layout_gravity="center"
         android:id="@+id/vender"
         android:onClick="CadastroEmp"/>
+
+    <!-- Botão Quero Entregar!-->
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_line"
+        android:text="Quero Entregar!"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:paddingHorizontal="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/entregar"
+        android:onClick="CadastroEntr"/>
 
 </LinearLayout>

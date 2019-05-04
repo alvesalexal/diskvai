@@ -1,11 +1,13 @@
 package com.example.diskvai;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ public class CadastroEmpresa extends AppCompatActivity {
     private Button btnCadastrar, btnvoltar;
     private EditText nome, telefone, senha, confirmasenha, login, cnpj;
     private String resposta;
+    private String a[]={"#"};
     private AutoCompleteTextView email;
 
 
@@ -103,14 +106,12 @@ public class CadastroEmpresa extends AppCompatActivity {
 
                                     try {
                                         resposta = (response.body().string());
+                                        a=resposta.split("#");
+                                        alert(a[1]);
+                                        principal(a);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                    String a[]=resposta.split("#");
-                                    alert(a[1]);
-                                    if(a[1].equals("Cadastrado com Sucesso!")) limparcampos();
-
-                                    btnCadastrar.setEnabled(true);
                                 }
                             });
                         }
@@ -118,7 +119,10 @@ public class CadastroEmpresa extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                btnCadastrar.setEnabled(true);
             }
+
         });
     }
 
@@ -139,6 +143,14 @@ public class CadastroEmpresa extends AppCompatActivity {
         return false;
     }
 
+    private void principal(String []a){
+        if(a[1].equals("Cadastrado com Sucesso!")) {
+            Intent intent = new Intent(this, PrincipalEmp.class);
+            startActivity(intent);
+            limparcampos();
+        }
+    }
+
     private void limparcampos() {
         nome.setText("");
         email.setText("");
@@ -146,9 +158,14 @@ public class CadastroEmpresa extends AppCompatActivity {
         senha.setText("");
         confirmasenha.setText("");
         login.setText("");
+        cnpj.setText("");
     }
 
     private void alert(String valor) {
         Toast.makeText(this, valor, Toast.LENGTH_LONG).show();
+    }
+
+    public void back(View view) {
+        this.finish();
     }
 }

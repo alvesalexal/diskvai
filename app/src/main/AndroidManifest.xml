@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CadastroEmpresa"></activity>
+        <activity android:name=".CadastroEntregador"></activity>
+        <activity android:name=".PrincipalEntr" />
+        <activity android:name=".PrincipalEmp" />
+        <activity android:name=".PrincipalCli" />
+        <activity android:name=".CadastroEmpresa" />
         <activity android:name=".telaTeste" />
         <activity android:name=".CadastroCliente" />
         <activity android:name=".TipoCadastro" />
