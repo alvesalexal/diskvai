@@ -22,4 +22,9 @@ public class TipoCadastro extends AppCompatActivity {
         Intent intent = new Intent(this, Activity_login.class);
         startActivity(intent);
     }
+
+    public void CadastroEmp(View view) {
+        Intent intent = new Intent(this, CadastroEmpresa.class);
+        startActivity(intent);
+    }
 }
