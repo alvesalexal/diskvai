@@ -25,8 +25,7 @@ import okhttp3.Response;
 public class Activity_login extends AppCompatActivity {
 
     private boolean permissaoArmazenamento = false;
-    private String usuario="Alex";
-    private String senha = "123";
+    private String a[]={""};
     private Button btnLogar;
     private EditText pass;
     private EditText user;
@@ -65,9 +64,7 @@ public class Activity_login extends AppCompatActivity {
 
                     String url = urlBuilder.build().toString();
 
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .build();
+                    Request request = new Request.Builder().url(url).build();
 
                     client.newCall(request).enqueue(new Callback() {
                         @Override
@@ -82,8 +79,11 @@ public class Activity_login extends AppCompatActivity {
                                 public void run() {
                                     try {
                                         resposta = (response.body().string());
-                                        String a[] = resposta.split("#");
-                                        login(a[1]);
+                                        a = resposta.split("#");
+                                        login(a);
+                                        //int tam = a.length;
+                                        //alert(a[tam-1]);
+                                        //btnLogar.setEnabled(true);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -106,10 +106,23 @@ public class Activity_login extends AppCompatActivity {
         Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
     }
 
-    private void login(String resposta){
-        if(resposta.equals("sucesso")){
-            Intent intent = new Intent(this, telaTeste.class);
-            startActivity(intent);
+    private void login(String resposta[]){
+        if(resposta[1].equals("sucesso")){
+            Intent intent;
+            switch (Integer.parseInt(resposta[2])){
+                case 1:
+                    intent = new Intent(this, PrincipalCli.class);
+                    startActivity(intent);
+                break;
+                case 2:
+                    intent = new Intent(this, PrincipalEmp.class);
+                    startActivity(intent);
+                break;
+                case 3:
+                    intent = new Intent(this, PrincipalEntr.class);
+                    startActivity(intent);
+                break;
+            }
         }
         else {
             alert("Nome Usuario ou Senha incorretos");
@@ -121,5 +134,4 @@ public class Activity_login extends AppCompatActivity {
         Intent intent = new Intent(this, TipoCadastro.class);
         startActivity(intent);
     }
-
 }
