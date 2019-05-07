@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
+    tools:context=".Activity_login"
     android:background="#fff"
     android:orientation="vertical">
 
     <!-- Logotipo -->
     <ImageView
+        android:id="@+id/avatar"
         android:layout_gravity="center_horizontal"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -78,19 +79,12 @@
     </LinearLayout>
 
     <!-- Entrar com o Facebook -->
-    <Button
+    <com.facebook.login.widget.LoginButton
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/login_fb"
         android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner_filled"
-        android:backgroundTint="#4267b2"
-        android:drawableLeft="@drawable/ic_facebook_logo"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:drawablePadding="10dp"
-        android:text="Entrar com o Facebook"
-        android:textColor="#fff"
         />
 
     <!-- Entrar com o Google -->

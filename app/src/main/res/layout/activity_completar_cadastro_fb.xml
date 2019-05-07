@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".Activity_completar_cadastro_fb"
+android:background="#fff"
+android:orientation="vertical">
+
+
+<!-- Botão Voltar -->
+<Button
+    android:id="@+id/voltar"
+    android:layout_margin="20dp"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:background="@drawable/ic_back_button"
+    android:backgroundTint="@color/colorPrimary"
+    android:onClick="back"
+    />
+
+<!-- Logotipo -->
+<ImageView
+    android:layout_width="75dp"
+    android:layout_height="75dp"
+    android:src="@mipmap/logo"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="20dp"
+    />
+
+<!-- Texto Crie sua Conta! -->
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precisamos saber seu telefone"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"/>
+
+
+
+        <!-- Campo Telefone -->
+        <EditText
+            android:layout_width="240dp"
+            android:layout_height="30dp"
+            android:background="@drawable/rounded_corner_line"
+            android:hint="Telefone"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="20dp"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:id="@+id/telefone"
+            />
+
+        <!-- Botão Cadastrar -->
+        <Button
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_filled"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Cadastrar"
+            android:textColor="#fff"
+            android:paddingHorizontal="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/cadastrar"/>
+
+
+    </LinearLayout>
+
+</ScrollView>
+
+</LinearLayout>

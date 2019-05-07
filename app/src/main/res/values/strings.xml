@@ -2,4 +2,7 @@
     <string name="app_name">DiskVai!</string>
     <string name="title_activity_tipo_cadastro">TipoCadastro</string>
     <string name="title_activity_teste">TESTE</string>
+    <string name="facebook_app_id">579096549268871</string>
+    <string name="fb_login_protocol_scheme">fb579096549268871</string>
+
 </resources>
