@@ -101,6 +101,12 @@ public class Activity_login extends AppCompatActivity {
                                 e.printStackTrace();
                                 // caso o JSON não tiver id nem nome
                             }
+                            try {
+                                String email = object.getString("email");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                // se não tiver email no JSON
+                            }
 
                         });
                 Bundle parameters = new Bundle();
@@ -135,53 +141,61 @@ public class Activity_login extends AppCompatActivity {
         btnLogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnLogar.setEnabled(false);
-                try {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-
-                    OkHttpClient client = new OkHttpClient();
-
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/readLogin.php").newBuilder();
-                    urlBuilder.addQueryParameter("usuario", user.getText().toString());
-                    urlBuilder.addQueryParameter("senha", pass.getText().toString());
-
-                    String url = urlBuilder.build().toString();
-
-                    Request request = new Request.Builder().url(url).build();
-
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            alert("deu lenha");
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        resposta = (response.body().string());
-                                        a = resposta.split("#");
-                                        login(a);
-                                        //int tam = a.length;
-                                        //alert(a[tam-1]);
-                                        //btnLogar.setEnabled(true);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            });
-                        }
-                    });
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if(user.getText().toString().equals("")) {
+                    user.setError("Digite um Login Válido");
                 }
+                if(pass.getText().toString().equals("")) {
+                    pass.setError("Digite uma Senha Válida");
+                }
+                if(user.getError()==null&&pass.getError()==null) {
+                    btnLogar.setEnabled(false);
+                    try {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
 
+                        OkHttpClient client = new OkHttpClient();
+
+                        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/readLogin.php").newBuilder();
+                        urlBuilder.addQueryParameter("usuario", user.getText().toString());
+                        urlBuilder.addQueryParameter("senha", pass.getText().toString());
+
+                        String url = urlBuilder.build().toString();
+
+                        Request request = new Request.Builder().url(url).build();
+
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                alert("deu lenha");
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            resposta = (response.body().string());
+                                            a = resposta.split("#");
+                                            login(a);
+                                            //int tam = a.length;
+                                            //alert(a[tam-1]);
+                                            //btnLogar.setEnabled(true);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                });
+                            }
+                        });
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
             }
         });
     }

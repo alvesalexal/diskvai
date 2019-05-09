@@ -30,6 +30,7 @@
         android:inputType="textEmailAddress"
 	    android:maxLines="1"
         android:id="@+id/usuario"
+        android:paddingRight="10dp"
         />
 
     <!-- Campo Senha -->
@@ -44,6 +45,7 @@
         android:inputType="textPassword"
 	    android:maxLines="1"
         android:id="@+id/senha"
+        android:paddingRight="10dp"
         />
 
     <!-- Recuperar Senha ou Login -->

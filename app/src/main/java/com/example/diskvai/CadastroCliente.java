@@ -52,6 +52,13 @@ public class CadastroCliente extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro_cliente);
 
         read();
+
+        // Tratamento de Dados
+        nomeValido();
+        emailValido();
+        senhaValida();
+        senhaConfirmada();
+
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -61,8 +68,10 @@ public class CadastroCliente extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String Texto = email.getText().toString();
-                String[] ArrayTexto = Texto.split("@");
-                login.setText(ArrayTexto[0]);
+                if(!Texto.equals("@")) {
+                    String[] ArrayTexto = Texto.split("@");
+                    login.setText(ArrayTexto[0]);
+                }
             }
 
             @Override
@@ -133,19 +142,33 @@ public class CadastroCliente extends AppCompatActivity {
     }
 
     private boolean validaCadastro() {
-        if ((senha.getText().toString()).equals(confirmasenha.getText().toString())&& !(senha.getText().toString()).equals("")) {
-            if (!(nome.getText().equals("") &&
-                    !(telefone.getText().equals("")) &&
-                    !(senha.getText().equals("")) &&
-                    !(login.getText().equals("")) &&
-                    !(email.getText().equals(""))
-            )) {
-                //alert("Preencher todos os campos");
+        if(camposOK()) {
+            if ((senha.getText().toString()).equals(confirmasenha.getText().toString()) && !(senha.getText().toString()).equals("")) {
+                if (!nome.getText().toString().equals("") &&
+                        !(senha.getText().toString().equals("")) &&
+                        !(login.getText().toString().equals("")) &&
+                        !(email.getText().toString().equals(""))
+                ) {
+                    return true;
+                } else {
+                    alert("Preencha todos os campos");
+                    return  false;
+                }
             }
+        }
+        alert("Confira os dados e tente novamente");
+        //limparcampos();
+        return false;
+    }
+
+    private boolean camposOK() {
+        if(nome.getError()==null&&email.getError()==null&&
+                login.getError()==null&&
+                telefone.getError()==null&&
+                senha.getError()==null&&
+                confirmasenha.getError()==null) {
             return true;
         }
-        alert("Dados incorretos");
-        //limparcampos();
         return false;
     }
 
@@ -168,5 +191,82 @@ public class CadastroCliente extends AppCompatActivity {
 
     public void back(View view) {
         this.finish();
+    }
+
+    // métodos dos tratamentos de dados
+
+    public void nomeValido() {
+        nome.setOnFocusChangeListener((v, hasFocus) -> {
+            if(!hasFocus) {
+                if(nome.getText().toString().length()>=2) {
+                    nome.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    nome.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                    nome.setError(null);
+                } else {
+                    nome.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    nome.setError("Insira um nome válido com dois ou mais caracteres");
+                }
+            }
+        });
+    }
+
+    public void emailValido() {
+        TratamentoDados valida = new TratamentoDados();
+        email.setOnFocusChangeListener((v, hasFocus) -> {
+            if(!hasFocus) {
+                if(valida.isEmail(email.getText().toString())) {
+                    email.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    email.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                    email.setError(null);
+
+                } else {
+                    email.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    email.setError("Insira um Email Válido");
+                }
+            }
+        });
+    }
+
+    public void senhaValida() {
+        TratamentoDados valida = new TratamentoDados();
+        senha.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if(valida.senhaValida(senha.getText().toString())) {
+                    senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                    senha.setError(null);
+                } else {
+                    senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    senha.setError("A senha deve ter 6 ou mais dígitos e pode incluir letras, números e caracteres especiais");
+                }
+                if(!confirmasenha.getText().toString().equals("")) {
+                    if(confirmasenha.getText().toString().equals(senha.getText().toString())) {
+                        confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                        confirmasenha.setError(null);
+                    } else {
+                        confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        confirmasenha.setError("As senhas digitadas não conferem");
+                    }
+                }
+            }
+        });
+    }
+
+    public void senhaConfirmada() {
+        TratamentoDados valida = new TratamentoDados();
+        confirmasenha.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if(confirmasenha.getText().toString().equals(senha.getText().toString())) {
+                    confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                    confirmasenha.setError(null);
+                } else {
+                    confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    confirmasenha.setError("As senhas digitadas não conferem");
+
+                }
+            }
+        });
     }
 }

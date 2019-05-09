@@ -59,6 +59,7 @@
                 android:maxLines="1"
                 android:inputType="textPersonName"
                 android:id="@+id/Nome"
+                android:paddingRight="10dp"
                 />
 
             <!-- Campo Email -->
@@ -73,6 +74,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:id="@+id/EndEmail"
+                android:paddingRight="10dp"
                 />
 
             <EditText
@@ -85,6 +87,7 @@
                 android:layout_marginBottom="20dp"
                 android:maxLines="1"
                 android:id="@+id/Login"
+                android:paddingRight="10dp"
                 />
 
             <!-- Campo Telefone -->
@@ -92,14 +95,17 @@
                 android:layout_width="240dp"
                 android:layout_height="30dp"
                 android:background="@drawable/rounded_corner_line"
-                android:hint="Telefone"
+                android:hint="Telefone (opcional)"
                 android:layout_gravity="center"
                 android:paddingLeft="20dp"
                 android:layout_marginBottom="20dp"
                 android:inputType="phone"
                 android:maxLines="1"
                 android:id="@+id/telefone"
+                android:paddingRight="10dp"
                 />
+
+            <!-- Campo CNPJ -->
             <EditText
                 android:layout_width="240dp"
                 android:layout_height="30dp"
@@ -111,6 +117,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:id="@+id/cnpj"
+                android:paddingRight="10dp"
                 />
 
             <!-- Campo Senha -->
@@ -125,6 +132,7 @@
                 android:maxLines="1"
                 android:id="@+id/senha"
                 android:inputType="textPassword"
+                android:paddingRight="10dp"
                 />
 
             <!-- Campo Confirmar Senha -->
@@ -139,6 +147,7 @@
                 android:maxLines="1"
                 android:id="@+id/confirmaSenha"
                 android:inputType="textPassword"
+                android:paddingRight="10dp"
                 />
 
             <!-- Botão Cadastrar -->
