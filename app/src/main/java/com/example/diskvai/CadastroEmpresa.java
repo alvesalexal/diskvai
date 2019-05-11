@@ -122,8 +122,14 @@ public class CadastroEmpresa extends AppCompatActivity {
                                     try {
                                         resposta = (response.body().string());
                                         a=resposta.split("#");
-                                        alert(a[1]);
-                                        principal(a);
+
+                                        if(a[1].split("'")[0].equals("Duplicate entry ")){
+                                            alert("email ja cadastrado");
+                                        }
+                                        else {
+                                            alert(a[1]);
+                                            principal(a);
+                                        }
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }

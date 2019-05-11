@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -117,8 +118,14 @@ public class CadastroCliente extends AppCompatActivity {
                                     try {
                                         resposta = (response.body().string());
                                         a=resposta.split("#");
-                                        alert(a[1]);
-                                        principal(a);
+
+                                        if(a[1].split("'")[0].equals("Duplicate entry ")){
+                                            alert("email ja cadastrado");
+                                        }
+                                        else {
+                                            alert(a[1]);
+                                            principal(a);
+                                        }
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -131,14 +138,13 @@ public class CadastroCliente extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 btnCadastrar.setEnabled(true);
             }
         });
     }
 
     private void alert(String valor) {
-        Toast.makeText(this, valor, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, valor, Toast.LENGTH_SHORT).show();
     }
 
     private boolean validaCadastro() {

@@ -5,12 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-public class Activity_completar_cadastro_fb extends AppCompatActivity {
+public class Activity_completar_cadastro_google extends AppCompatActivity {
 
     private Button btnCadastrar, btnvoltar;
     private EditText telefone;
@@ -27,15 +25,15 @@ public class Activity_completar_cadastro_fb extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_completar_cadastro_fb);
+        setContentView(R.layout.activity_completar_cadastro_google);
         Intent intent = this.getIntent();
         String id = intent.getStringExtra("id");
         String nome = intent.getStringExtra("nome");
+        String email = intent.getStringExtra("email");
         read();
 
         // cadastrar no bd: id, nome e telefone
         // ir para activity principal do cliente
-
 
 
     }

@@ -1,13 +1,13 @@
 package com.example.diskvai;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -24,18 +23,25 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.squareup.picasso.Picasso;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -47,30 +53,55 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Activity_login extends AppCompatActivity {
+public class Activity_login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private boolean permissaoArmazenamento = false;
-    private String a[]={""};
+    private boolean permissaoInternet = false;
+
     private Button btnLogar;
+    private SignInButton signInButton;
     private EditText pass;
     private EditText user;
-    private String resposta="888";
+    private JSONObject jsonObject;
+
+    private static final String TAG = "SignInActivity";
+    private static final int RC_SIGN_IN = 9001;
+    GoogleApiClient mGoogleApiClient;
 
     CallbackManager callbackManager;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext()); // inicializar a sdk antes de inflar o Layout
         setContentView(R.layout.activity_login);
+        btnLogar= (Button) findViewById(R.id.login);
+        user = (EditText) findViewById(R.id.usuario);
+        pass = (EditText) findViewById(R.id.senha);
+
+        //------------login google
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,  this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+        signInButton = (SignInButton) findViewById(R.id.signInButton);
 
 
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
+
+
+
+        //---------- login facebook
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         if(isLoggedIn) {
@@ -83,7 +114,6 @@ public class Activity_login extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         (object, response) -> {
@@ -107,7 +137,6 @@ public class Activity_login extends AppCompatActivity {
                                 e.printStackTrace();
                                 // se não tiver email no JSON
                             }
-
                         });
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,email,gender,birthday");
@@ -123,17 +152,16 @@ public class Activity_login extends AppCompatActivity {
             @Override
             public void onError(FacebookException error) {
                 // se der erro o login do facebook
+                alert(error.toString());
+                error.printStackTrace();
+                printKeyHash();
             }
         });
-
-        btnLogar= (Button) findViewById(R.id.login);
-        user = (EditText) findViewById(R.id.usuario);
-        pass = (EditText) findViewById(R.id.senha);
 
         if(ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.INTERNET)
                 != PackageManager.PERMISSION_GRANTED) {
-            permissaoArmazenamento = false;
+            permissaoInternet = false;
             Log.e("Permissão", "Sem permissão");
             Toast.makeText(this,"sem permissao de internet",Toast.LENGTH_SHORT).show();
         }
@@ -175,21 +203,26 @@ public class Activity_login extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         try {
-                                            resposta = (response.body().string());
-                                            a = resposta.split("#");
-                                            login(a);
-                                            //int tam = a.length;
-                                            //alert(a[tam-1]);
-                                            //btnLogar.setEnabled(true);
+                                            //alert(response.body().string());
+                                            try {
+                                                String data = response.body().string();
+                                                JSONArray jsonArray = new JSONArray(data);
+                                                if(jsonArray.length()!=0){
+                                                    jsonObject = jsonArray.getJSONObject(0);
+                                                    login(jsonObject);
+                                                }
+                                                else alert("nome de usuario ou senha incorretos");
+                                            } catch (JSONException e) {
+                                                alert("erro no json");
+                                                btnLogar.setEnabled(true);
+                                            }
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
-
                                     }
                                 });
                             }
                         });
-
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -204,26 +237,21 @@ public class Activity_login extends AppCompatActivity {
         Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
     }
 
-    private void login(String resposta[]){
-        if(resposta[1].equals("sucesso")){
-            Intent intent;
-            switch (Integer.parseInt(resposta[2])){
-                case 1:
-                    intent = new Intent(this, PrincipalCli.class);
-                    startActivity(intent);
-                break;
-                case 2:
-                    intent = new Intent(this, PrincipalEmp.class);
-                    startActivity(intent);
-                break;
-                case 3:
-                    intent = new Intent(this, PrincipalEntr.class);
-                    startActivity(intent);
-                break;
-            }
-        }
-        else {
-            alert("Nome Usuario ou Senha incorretos");
+    private void login(JSONObject jsonObjects) throws JSONException {
+        Intent intent;
+        switch (Integer.parseInt(jsonObjects.getString("tipo_cli"))){
+            case 1:
+                intent = new Intent(this, PrincipalCli.class);
+                startActivity(intent);
+            break;
+            case 2:
+                intent = new Intent(this, PrincipalEmp.class);
+                startActivity(intent);
+            break;
+            case 3:
+                intent = new Intent(this, PrincipalEntr.class);
+                startActivity(intent);
+            break;
         }
         btnLogar.setEnabled(true);
     }
@@ -259,6 +287,56 @@ public class Activity_login extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
 
+//------------------------------login google
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent,RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result){
+        Log.d(TAG,"handleSignInResult:"+result.isSuccess());
+        if(result.isSuccess()){
+            GoogleSignInAccount acct = result.getSignInAccount();
+
+            Bundle parameters = new Bundle();
+            parameters.putString("id", acct.getId());
+            parameters.putString("nome", acct.getDisplayName());
+            parameters.putString("email", acct.getEmail());
+
+
+
+            Intent intent;
+            intent = new Intent(this, Activity_completar_cadastro_google.class);
+            intent.putExtras(parameters);
+            startActivity(intent);
+            // colocar aqui o que fazer logo apos o login com o google
+
+        }
+    }
+
+    public void LoginGoogle(View view) {
+        switch (view.getId()){
+            case R.id.signInButton:
+                signIn();
+                break;
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG,"onConnectionFailed:"+connectionResult);
     }
 }
