@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "581571877701",
+    "firebase_url": "https://diskvai.firebaseio.com",
+    "project_id": "diskvai",
+    "storage_bucket": "diskvai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581571877701:android:6c0bff08f11fd05e",
+        "android_client_info": {
+          "package_name": "com.example.diskvai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581571877701-gq0qs50t5r728dh7ij5gaurcoa1roh0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA36vnu9gd5myg3zgM37aANVpv81J4IjQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581571877701-gq0qs50t5r728dh7ij5gaurcoa1roh0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
