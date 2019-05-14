@@ -26,16 +26,12 @@ import com.facebook.GraphRequest;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -123,9 +119,63 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
                                 String id = object.getString("id");
                                 String nome = object.getString("name");
 
+                                try {
+                                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                    StrictMode.setThreadPolicy(policy);
+
+                                    OkHttpClient client = new OkHttpClient();
+
+                                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/readLoginFb.php").newBuilder();
+                                    urlBuilder.addQueryParameter("senha", id);
+                                    urlBuilder.addQueryParameter("nome", nome);
+
+                                    String url = urlBuilder.build().toString();
+
+                                    Request request2 = new Request.Builder().url(url).build();
+
+                                    client.newCall(request2).enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(Call call, IOException e) {
+                                            alert("deu lenha");
+                                        }
+
+                                        @Override
+                                        public void onResponse(Call call, Response response) throws IOException {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        //alert(response.body().string());/*
+                                                        try {
+                                                            String data = response.body().string();
+                                                            JSONArray jsonArray = new JSONArray(data);
+                                                            if(jsonArray.length()!=0){
+                                                                jsonObject = jsonArray.getJSONObject(0);
+                                                                login(jsonObject);
+                                                            }
+                                                            else {
+                                                                alert(String.valueOf(jsonArray.length()));
+                                                                cadastroFb(id, nome);
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            alert("erro no json");
+                                                            Log.e("ERRO",e.getMessage());
+                                                        }
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                                 // comparar aqui se a string id esta cadastrada no bd, se não estiver. chama o método
                                 // cadastroFb abaixo. Se ja estiver cadastrado ir pra activity do cliente já logado.
-                                cadastroFb(id, nome);
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -302,29 +352,90 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
 
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            try {
+                handleSignInResult(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result){
+    private void handleSignInResult(GoogleSignInResult result) throws JSONException {
         Log.d(TAG,"handleSignInResult:"+result.isSuccess());
         if(result.isSuccess()){
             GoogleSignInAccount acct = result.getSignInAccount();
+            String id=acct.getId();
+            String nome=acct.getDisplayName();
+            String email=acct.getEmail();
 
-            Bundle parameters = new Bundle();
-            parameters.putString("id", acct.getId());
-            parameters.putString("nome", acct.getDisplayName());
-            parameters.putString("email", acct.getEmail());
+            try {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
 
+                OkHttpClient client = new OkHttpClient();
 
+                HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/readLoginGoogle.php").newBuilder();
+                urlBuilder.addQueryParameter("senha", id);
+                urlBuilder.addQueryParameter("nome", nome);
+                urlBuilder.addQueryParameter("email", email);
 
-            Intent intent;
-            intent = new Intent(this, Activity_completar_cadastro_google.class);
-            intent.putExtras(parameters);
-            startActivity(intent);
-            // colocar aqui o que fazer logo apos o login com o google
+                String url = urlBuilder.build().toString();
 
+                Request request = new Request.Builder().url(url).build();
+
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        alert("deu lenha");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    //alert(response.body().string());/*
+                                    try {
+                                        String data = response.body().string();
+                                        JSONArray jsonArray = new JSONArray(data);
+                                        if(jsonArray.length()!=0){
+                                            jsonObject = jsonArray.getJSONObject(0);
+                                            login(jsonObject);
+                                        }
+                                        else {
+                                            alert(String.valueOf(jsonArray.length()));
+                                            completarGoogle(id,nome, email);
+                                        }
+                                    } catch (JSONException e) {
+                                        alert("erro no json");
+                                        Log.e("ERRO",e.getMessage());
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    void completarGoogle(String id, String nome, String email){
+        Intent intent;
+        intent = new Intent(this, Activity_completar_cadastro_google.class);
+        Bundle parameters = new Bundle();
+
+        parameters.putString("id", id);
+        parameters.putString("nome", nome);
+        parameters.putString("email", email);
+
+        intent.putExtras(parameters);
+        startActivity(intent);
     }
 
     public void LoginGoogle(View view) {
