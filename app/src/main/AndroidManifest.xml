@@ -14,6 +14,7 @@
         <activity android:name=".Activity_completar_cadastro_google"></activity>
         <activity android:name=".Activity_completar_cadastro_fb" />
 
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

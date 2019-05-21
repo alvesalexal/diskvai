@@ -54,7 +54,8 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
     private boolean permissaoInternet = false;
 
     private Button btnLogar;
-    private SignInButton signInButton;
+    private SignInButton signInButton; // botão google
+    private LoginButton loginButton; // botão face
     private EditText pass;
     private EditText user;
     private JSONObject jsonObject;
@@ -73,7 +74,6 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
         btnLogar= (Button) findViewById(R.id.login);
         user = (EditText) findViewById(R.id.usuario);
         pass = (EditText) findViewById(R.id.senha);
-
         //------------login google
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -91,7 +91,7 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+
             }
         });
 
@@ -105,11 +105,12 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
         }
 
         callbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = findViewById(R.id.login_fb);
+        loginButton = findViewById(R.id.login_fb);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         (object, response) -> {
@@ -181,12 +182,7 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
                                 e.printStackTrace();
                                 // caso o JSON não tiver id nem nome
                             }
-                            try {
-                                String email = object.getString("email");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                // se não tiver email no JSON
-                            }
+
                         });
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,email,gender,birthday");
@@ -202,9 +198,6 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
             @Override
             public void onError(FacebookException error) {
                 // se der erro o login do facebook
-                alert(error.toString());
-                error.printStackTrace();
-                printKeyHash();
             }
         });
 
@@ -349,7 +342,7 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             try {
@@ -449,5 +442,13 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG,"onConnectionFailed:"+connectionResult);
+    }
+
+    public void fbButton(View v) {
+        loginButton.performClick();
+    }
+
+    public void googleButton(View v) {
+        signIn();
     }
 }
