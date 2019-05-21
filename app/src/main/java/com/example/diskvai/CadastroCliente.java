@@ -263,7 +263,7 @@ public class CadastroCliente extends AppCompatActivity {
         TratamentoDados valida = new TratamentoDados();
         confirmasenha.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                if(confirmasenha.getText().toString().equals(senha.getText().toString())) {
+                if(confirmasenha.getText().toString().equals(senha.getText().toString())&&!confirmasenha.getText().toString().equals("")) {
                     confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                     confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
                     confirmasenha.setError(null);
