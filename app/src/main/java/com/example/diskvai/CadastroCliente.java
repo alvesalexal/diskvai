@@ -27,6 +27,7 @@ public class CadastroCliente extends AppCompatActivity {
 
     private Button btnCadastrar, btnvoltar;
     private EditText nome, telefone, senha, confirmasenha, login;
+    private com.rey.material.widget.CheckBox checkBox;
     private String resposta;
     private AutoCompleteTextView email;
     private String a[]={"#"};
@@ -34,6 +35,7 @@ public class CadastroCliente extends AppCompatActivity {
 
 
     private void read() {
+        checkBox = findViewById(R.id.checkbox);
         btnCadastrar = findViewById(R.id.cadastrar);
         //btnvoltar = findViewById(R.id.voltar);
         nome = findViewById(R.id.Nome);
@@ -155,15 +157,18 @@ public class CadastroCliente extends AppCompatActivity {
                         !(login.getText().toString().equals("")) &&
                         !(email.getText().toString().equals(""))
                 ) {
-                    return true;
+                    if(checkBox.isChecked()) {
+                        return true;
+                    } else { alert("Você deve aceitar os termos da Política de Privacidade"); }
                 } else {
                     alert("Preencha todos os campos");
                     return  false;
                 }
             }
+        } else {
+            alert("Confira os dados e tente novamente");
+            //limparcampos();
         }
-        alert("Confira os dados e tente novamente");
-        //limparcampos();
         return false;
     }
 
@@ -274,5 +279,9 @@ public class CadastroCliente extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void verPoliticaPrivacidade(View view) {
+
     }
 }

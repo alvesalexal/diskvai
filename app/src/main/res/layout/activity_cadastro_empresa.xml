@@ -149,6 +149,28 @@
                 android:inputType="textPassword"
                 android:paddingRight="10dp"
                 />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+                <com.rey.material.widget.CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Li e aceito os termos da "
+                    android:checked="false"
+                    android:gravity="center_vertical"
+                    app:cbd_strokeColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Política de Privacidade"
+                    android:textColor="@color/colorPrimary"
+                    android:onClick="verPoliticaPrivacidade"/>
+
+            </LinearLayout>
 
             <!-- Botão Cadastrar -->
             <Button

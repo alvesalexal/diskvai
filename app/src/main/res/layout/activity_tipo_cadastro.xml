@@ -33,7 +33,7 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corner_line"
-        android:text="Quero vender!"
+        android:text="Quero comprar!"
         android:textColor="@color/colorPrimary"
         android:textSize="20dp"
         android:paddingHorizontal="20dp"

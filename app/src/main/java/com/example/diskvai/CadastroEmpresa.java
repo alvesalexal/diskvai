@@ -29,6 +29,7 @@ public class CadastroEmpresa extends AppCompatActivity {
 
     private Button btnCadastrar, btnvoltar;
     private EditText nome, telefone, senha, confirmasenha, login, cnpj;
+    private com.rey.material.widget.CheckBox checkBox;
     private String resposta;
     private String a[]={"#"};
     private AutoCompleteTextView email;
@@ -36,6 +37,7 @@ public class CadastroEmpresa extends AppCompatActivity {
 
 
     private void read() {
+        checkBox = findViewById(R.id.checkbox);
         btnCadastrar = findViewById(R.id.cadastrar);
         //btnvoltar = findViewById(R.id.voltar);
         nome = findViewById(R.id.Nome);
@@ -156,15 +158,18 @@ public class CadastroEmpresa extends AppCompatActivity {
                         !(email.getText().toString().equals("")) &&
                         !(cnpj.getText().toString().equals(""))
                 ) {
-                    return true;
+                    if(checkBox.isChecked()) {
+                        return true;
+                    } else { alert("Você deve aceitar os termos da Política de Privacidade"); }
                 } else {
                     alert("Preencha todos os campos");
-                    return false;
+                    return  false;
                 }
             }
+        } else {
+            alert("Confira os dados e tente novamente");
+            //limparcampos();
         }
-        alert("Confira os dados e tente novamente");
-        //limparcampos();
         return false;
     }
     private boolean camposOK() {
@@ -300,5 +305,8 @@ public class CadastroEmpresa extends AppCompatActivity {
         });
     }
 
+    public void verPoliticaPrivacidade(View view) {
+
+    }
 
 }

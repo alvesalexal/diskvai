@@ -33,8 +33,10 @@ public class CadastroEntregador extends AppCompatActivity {
     private String resposta;
     private String a[]={"#"};
     private AutoCompleteTextView email;
+    private com.rey.material.widget.CheckBox checkBox;
 
     private void read() {
+        checkBox = findViewById(R.id.checkbox);
         btnCadastrar = findViewById(R.id.cadastrar);
         //btnvoltar = findViewById(R.id.voltar);
         nome = findViewById(R.id.Nome);
@@ -149,20 +151,23 @@ public class CadastroEntregador extends AppCompatActivity {
     private boolean validaCadastro() {
         if(camposOK()) {
             if ((senha.getText().toString()).equals(confirmasenha.getText().toString()) && !(senha.getText().toString()).equals("")) {
-                if (nome.getText().toString().equals("") &&
+                if (!nome.getText().toString().equals("") &&
                         !(senha.getText().toString().equals("")) &&
                         !(login.getText().toString().equals("")) &&
                         !(email.getText().toString().equals(""))
                 ) {
-                    return true;
+                    if(checkBox.isChecked()) {
+                        return true;
+                    } else { alert("Você deve aceitar os termos da Política de Privacidade"); }
                 } else {
                     alert("Preencha todos os campos");
-                    return false;
+                    return  false;
                 }
             }
+        } else {
+            alert("Confira os dados e tente novamente");
+            //limparcampos();
         }
-        alert("Confira os dados e tente novamente");
-        //limparcampos();
         return false;
     }
 
@@ -270,5 +275,9 @@ public class CadastroEntregador extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void verPoliticaPrivacidade(View view) {
+
     }
 }

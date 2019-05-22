@@ -20,12 +20,14 @@ public class Produto {
     private String descricao;
     private double preco;
     private String id_empresa;
+    private String url_imagem;
 
-    public Produto(String nome, String descricao, double preco, String id_empresa) {
+    public Produto(String nome, String descricao, double preco, String id_empresa, String url_imagem) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.id_empresa = id_empresa;
+        this.url_imagem = url_imagem;
     }
 
     public void publicarProduto() {
@@ -40,6 +42,7 @@ public class Produto {
             urlBuilder.addQueryParameter("desc_prod", descricao);
             urlBuilder.addQueryParameter("preco_prod", Double.toString(preco));
             urlBuilder.addQueryParameter("id_empresa", id_empresa);
+            urlBuilder.addQueryParameter("url_imagem", url_imagem);
 
             String url = urlBuilder.build().toString();
 
