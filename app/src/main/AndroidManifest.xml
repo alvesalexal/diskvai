@@ -37,7 +37,9 @@
         </activity>
         <activity android:name=".CadastroEntregador" />
         <activity android:name=".PrincipalEntr" />
-        <activity android:name=".PrincipalEmp" />
+        <activity android:name=".PrincipalEmp" >
+
+        </activity>
         <activity android:name=".PrincipalCli" />
         <activity android:name=".CadastroEmpresa" />
         <activity android:name=".CadastroCliente" />

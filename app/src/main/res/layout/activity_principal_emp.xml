@@ -6,15 +6,138 @@
     android:layout_height="match_parent"
     tools:context=".PrincipalEmp"
     android:background="#fff"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Principal Empresa"
-        android:textColor="@color/colorPrimary"
-        android:layout_gravity="center_horizontal"
-        android:textSize="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+    <com.github.aakira.expandablelayout.ExpandableLinearLayout
+        android:id="@+id/menuLateral"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ael_expanded="true"
+        app:ael_duration="300"
+        app:ael_interpolator="accelerate"
+        app:ael_orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+
+
+
+            <ImageButton
+                android:src="@drawable/ic_icons8_menu"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fechar"
+                android:onClick="fechar"/>
+
+            <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                android:id="@+id/infoPerfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ael_expanded="true"
+                app:ael_duration="200"
+                app:ael_interpolator="accelerate"
+                app:ael_orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                >
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:id="@+id/imgPerfil"
+                        android:src="@mipmap/perfil_empresa"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/google_button"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/nomeEmpresa"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:text="Nome_Empresa"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"/>
+
+
+
+            </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+
+
+
+            <Button
+                android:id="@+id/editarPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Editar Perfil"
+                android:drawableRight="@drawable/ic_icons8_contacts"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="#fff"
+                />
+            <Button
+                android:id="@+id/pedidos"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Pedidos"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_icons8_scroll"
+                android:backgroundTint="@color/colorPrimaryDark"/>
+            <Button
+                android:id="@+id/cadastrarProduto"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Cadastrar Produto"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_icons8_box"
+                android:backgroundTint="@color/colorPrimaryDark"/>
+
+            <Button
+                android:id="@+id/cadastrarEntregador"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Cadastrar Entregador"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_icons8_user_male"
+                android:backgroundTint="@color/colorPrimaryDark"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                ></View>
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Logout"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_logout"
+                android:backgroundTint="@color/colorPrimaryDark"/>
+        </LinearLayout>
+
+
+
+    </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pedidos aqui.."/>
+
+    </LinearLayout>
+
 </LinearLayout>

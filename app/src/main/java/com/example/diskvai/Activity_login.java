@@ -86,15 +86,12 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
                 .build();
         signInButton = (SignInButton) findViewById(R.id.signInButton);
 
-
-
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signIn();
             }
         });
-
 
 
         //---------- login facebook
