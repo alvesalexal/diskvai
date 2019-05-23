@@ -16,6 +16,7 @@
         app:ael_duration="300"
         app:ael_interpolator="accelerate"
         app:ael_orientation="vertical"
+
         >
 
         <LinearLayout

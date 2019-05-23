@@ -223,7 +223,7 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
 
                         OkHttpClient client = new OkHttpClient();
 
-                        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/readLogin.php").newBuilder();
+                        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/fazerLogin.php").newBuilder();
                         urlBuilder.addQueryParameter("usuario", user.getText().toString());
                         urlBuilder.addQueryParameter("senha", pass.getText().toString());
 

@@ -91,12 +91,15 @@ public class CadastroCliente extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertCli.php").newBuilder();
-                    urlBuilder.addQueryParameter("C_Nome", nome.getText().toString());
-                    urlBuilder.addQueryParameter("C_Tel", telefone.getText().toString());
-                    urlBuilder.addQueryParameter("C_LOGIN", login.getText().toString());
-                    urlBuilder.addQueryParameter("C_Senha", senha.getText().toString());
-                    urlBuilder.addQueryParameter("C_Email", email.getText().toString());
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/inserirComprador.php").newBuilder();
+                    urlBuilder.addQueryParameter("nome_comp", nome.getText().toString());
+                    urlBuilder.addQueryParameter("email", email.getText().toString());
+                    urlBuilder.addQueryParameter("login", login.getText().toString());
+                    urlBuilder.addQueryParameter("telefone", telefone.getText().toString());
+                    urlBuilder.addQueryParameter("senha", senha.getText().toString());
+                    urlBuilder.addQueryParameter("url_foto", null);
+                    urlBuilder.addQueryParameter("id_facebook", null);
+                    urlBuilder.addQueryParameter("id_google", null);
 
                     String url = urlBuilder.build().toString();
 
