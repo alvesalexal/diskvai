@@ -96,13 +96,15 @@ public class CadastroEmpresa extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertEmp.php").newBuilder();
-                    urlBuilder.addQueryParameter("E_Nome", nome.getText().toString());
-                    urlBuilder.addQueryParameter("E_Tel", telefone.getText().toString());
-                    urlBuilder.addQueryParameter("E_LOGIN", login.getText().toString());
-                    urlBuilder.addQueryParameter("E_Senha", senha.getText().toString());
-                    urlBuilder.addQueryParameter("E_Email", email.getText().toString());
-                    urlBuilder.addQueryParameter("E_CNPJ", cnpj.getText().toString());
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/inserirVendedor.php").newBuilder();
+                    urlBuilder.addQueryParameter("nome_vend", nome.getText().toString());
+                    urlBuilder.addQueryParameter("email", email.getText().toString());
+                    urlBuilder.addQueryParameter("login", login.getText().toString());
+                    urlBuilder.addQueryParameter("telefone", telefone.getText().toString());
+                    urlBuilder.addQueryParameter("cnpj", cnpj.getText().toString());
+                    urlBuilder.addQueryParameter("senha", senha.getText().toString());
+                    urlBuilder.addQueryParameter("url_foto", null);
+
 
                     String url = urlBuilder.build().toString();
 

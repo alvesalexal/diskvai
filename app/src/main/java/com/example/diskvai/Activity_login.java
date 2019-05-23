@@ -249,9 +249,13 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
                                                 JSONArray jsonArray = new JSONArray(data);
                                                 if(jsonArray.length()!=0){
                                                     jsonObject = jsonArray.getJSONObject(0);
-                                                    login(jsonObject);
+                                                    alert(jsonObject.getString("tipo_usuario"));
+
+                                                    //login(jsonObject);
+                                                } else {
+                                                    btnLogar.setEnabled(true);
+                                                    alert("nome de usuario ou senha incorretos");
                                                 }
-                                                else alert("nome de usuario ou senha incorretos");
                                             } catch (JSONException e) {
                                                 alert("erro no json");
                                                 btnLogar.setEnabled(true);
