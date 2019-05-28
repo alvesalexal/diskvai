@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_completar_cadastro_google"></activity>
+        <activity android:name=".ListarProdutosActivity"></activity>
+        <activity android:name=".Activity_completar_cadastro_google" />
         <activity android:name=".Activity_completar_cadastro_fb" />
-
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -37,9 +37,7 @@
         </activity>
         <activity android:name=".CadastroEntregador" />
         <activity android:name=".PrincipalEntr" />
-        <activity android:name=".PrincipalEmp" >
-
-        </activity>
+        <activity android:name=".PrincipalEmp"></activity>
         <activity android:name=".PrincipalCli" />
         <activity android:name=".CadastroEmpresa" />
         <activity android:name=".CadastroCliente" />

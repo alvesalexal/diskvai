@@ -1,11 +1,13 @@
 package com.example.diskvai;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -17,11 +19,15 @@ public class PrincipalEmp extends AppCompatActivity {
     Button editarPerfil, pedidos, cadastrarProduto, cadastrarEntregador, logout;
     ImageView imgPerfil;
     TextView nome_empresa;
+    String id_empresa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal_emp);
+        Intent intent = this.getIntent();
+        id_empresa = intent.getStringExtra("ID");
+        alert("empresa de id:" + id_empresa);
 
         read();
         menu();
@@ -88,5 +94,18 @@ public class PrincipalEmp extends AppCompatActivity {
 
     public void fechar(View view) {
         menuLateral.toggle();
+    }
+
+    private void alert(String valor) {
+        Toast.makeText(this, valor, Toast.LENGTH_SHORT).show();
+    }
+
+    public  void listarProdutos(View view) {
+        Intent intent;
+        Bundle parameters = new Bundle();
+        parameters.putString("ID", id_empresa);
+        intent = new Intent(this, ListarProdutosActivity.class);
+        intent.putExtras(parameters);
+        startActivity(intent);
     }
 }

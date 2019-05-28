@@ -287,7 +287,10 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
                 startActivity(intent);
             break;
             case 2:
+                Bundle parameters = new Bundle();
+                parameters.putString("ID", jsonObjects.getString("ID"));
                 intent = new Intent(this, PrincipalEmp.class);
+                intent.putExtras(parameters);
                 startActivity(intent);
             break;
             case 3:

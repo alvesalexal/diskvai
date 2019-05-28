@@ -91,6 +91,17 @@
                 android:textColor="#fff"
                 android:drawableRight="@drawable/ic_icons8_scroll"
                 android:backgroundTint="@color/colorPrimaryDark"/>
+
+            <Button
+                android:id="@+id/listarProduto"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Listar Produtos"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_icons8_box"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:onClick="listarProdutos"/>
+
             <Button
                 android:id="@+id/cadastrarProduto"
                 android:layout_width="match_parent"
