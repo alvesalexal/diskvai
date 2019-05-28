@@ -52,12 +52,12 @@ public class Activity_completar_cadastro_google extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertCli.php").newBuilder();
-                    urlBuilder.addQueryParameter("C_Nome", nome);
-                    urlBuilder.addQueryParameter("C_Tel", telefone.getText().toString());
-                    urlBuilder.addQueryParameter("C_Senha", id);
-                    urlBuilder.addQueryParameter("C_LOGIN", email);
-                    urlBuilder.addQueryParameter("C_Email", email);
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/inserirComprador.php").newBuilder();
+                    urlBuilder.addQueryParameter("nome_comp", nome);
+                    urlBuilder.addQueryParameter("telefone", telefone.getText().toString());
+                    urlBuilder.addQueryParameter("senha", id);
+                    urlBuilder.addQueryParameter("login", email);
+                    urlBuilder.addQueryParameter("email", email);
 
                     String url = urlBuilder.build().toString();
 

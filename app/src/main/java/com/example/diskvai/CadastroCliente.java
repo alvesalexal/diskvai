@@ -33,7 +33,6 @@ public class CadastroCliente extends AppCompatActivity {
     private String a[]={"#"};
 
 
-
     private void read() {
         checkBox = findViewById(R.id.checkbox);
         btnCadastrar = findViewById(R.id.cadastrar);

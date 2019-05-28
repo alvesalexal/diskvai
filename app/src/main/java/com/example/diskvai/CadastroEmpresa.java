@@ -39,7 +39,7 @@ public class CadastroEmpresa extends AppCompatActivity {
     private void read() {
         checkBox = findViewById(R.id.checkbox);
         btnCadastrar = findViewById(R.id.cadastrar);
-        //btnvoltar = findViewById(R.id.voltar);
+        btnvoltar = findViewById(R.id.voltar);
         nome = findViewById(R.id.Nome);
         senha = findViewById(R.id.senha);
         confirmasenha = findViewById(R.id.confirmaSenha);

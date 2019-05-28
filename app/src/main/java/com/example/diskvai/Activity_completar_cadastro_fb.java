@@ -44,7 +44,6 @@ public class Activity_completar_cadastro_fb extends AppCompatActivity {
         String nome = intent.getStringExtra("nome");
         read();
 
-
         btnCadastrar.setOnClickListener(view -> {
             if (!telefone.getText().equals("")) {
                 try {
@@ -54,10 +53,10 @@ public class Activity_completar_cadastro_fb extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertCli.php").newBuilder();
-                    urlBuilder.addQueryParameter("C_Nome", nome);
-                    urlBuilder.addQueryParameter("C_Tel", telefone.getText().toString());
-                    urlBuilder.addQueryParameter("C_LOGIN", id);
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/inserirComprador.php").newBuilder();
+                    urlBuilder.addQueryParameter("nome_comp", nome);
+                    urlBuilder.addQueryParameter("telefone", telefone.getText().toString());
+                    urlBuilder.addQueryParameter("login", id);
 
                     String url = urlBuilder.build().toString();
 
