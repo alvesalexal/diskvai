@@ -1,9 +1,11 @@
 package com.example.diskvai;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class ListarProdutosActivity extends AppCompatActivity {
     String id_empresa;
     private JSONObject jsonObject;
     List<Produto> produtoLista;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,11 @@ public class ListarProdutosActivity extends AppCompatActivity {
 
         Request request = new Request.Builder().url(url).build();
 
+            progressDialog = ProgressDialog.show(ListarProdutosActivity.this, "",
+                    "Carregando Produtos", true);
+
         client.newCall(request).enqueue(new Callback() {
+
             @Override
             public void onFailure(Call call, IOException e) {
                 alert("deu lenha");
@@ -74,6 +81,7 @@ public class ListarProdutosActivity extends AppCompatActivity {
                                 JSONArray jsonArray = new JSONArray(data);
                                 if(jsonArray.length()!=0){
                                     //jsonObject = jsonArray.getJSONObject(0);
+
                                     listar(jsonArray);
                                 } else {
                                     alert("Não há produtos cadastrados");
@@ -114,9 +122,12 @@ public class ListarProdutosActivity extends AppCompatActivity {
 
             ListView listView = findViewById(R.id.listview);
             listView.setAdapter(new ProdutoAdapter(this, produtoLista));
+            progressDialog.dismiss();
 
         } catch (JSONException e) {
             Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            alert("Falha ao Carregar produtos");
         }
 
 
@@ -124,5 +135,9 @@ public class ListarProdutosActivity extends AppCompatActivity {
 
     private void alert(String valor) {
         Toast.makeText(this, valor, Toast.LENGTH_SHORT).show();
+    }
+
+    public void back(View view) {
+        this.finish();
     }
 }

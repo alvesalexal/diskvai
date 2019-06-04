@@ -109,7 +109,9 @@
                 android:text="Cadastrar Produto"
                 android:textColor="#fff"
                 android:drawableRight="@drawable/ic_icons8_box"
-                android:backgroundTint="@color/colorPrimaryDark"/>
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:onClick="cadastrarProdutos"
+                />
 
             <Button
                 android:id="@+id/cadastrarEntregador"

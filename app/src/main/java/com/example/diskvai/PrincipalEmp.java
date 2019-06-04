@@ -108,4 +108,13 @@ public class PrincipalEmp extends AppCompatActivity {
         intent.putExtras(parameters);
         startActivity(intent);
     }
+
+    public void cadastrarProdutos(View view) {
+        Intent intent;
+        Bundle parameters = new Bundle();
+        parameters.putString("ID", id_empresa);
+        intent = new Intent(this, CadastrarProdutoActivity.class);
+        intent.putExtras(parameters);
+        startActivity(intent);
+    }
 }

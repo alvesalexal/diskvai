@@ -74,6 +74,9 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
         btnLogar= (Button) findViewById(R.id.login);
         user = (EditText) findViewById(R.id.usuario);
         pass = (EditText) findViewById(R.id.senha);
+
+        printKeyHash();
+
         //------------login google
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
