@@ -278,6 +278,7 @@ public class CadastroEntregador extends AppCompatActivity {
     }
 
     public void verPoliticaPrivacidade(View view) {
-
+        Intent intent = new Intent(this, PoliticaDePrivacidadeActivity.class);
+        startActivity(intent);
     }
 }

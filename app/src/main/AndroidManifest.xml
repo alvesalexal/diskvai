@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CadastrarProdutoActivity"></activity>
+        <activity android:name=".PoliticaDePrivacidadeActivity"></activity>
+        <activity android:name=".CadastrarProdutoActivity" />
         <activity android:name=".ListarProdutosActivity" />
         <activity android:name=".Activity_completar_cadastro_google" />
         <activity android:name=".Activity_completar_cadastro_fb" />
