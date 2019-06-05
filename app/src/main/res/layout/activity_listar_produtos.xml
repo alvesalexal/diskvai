@@ -34,12 +34,32 @@
     </LinearLayout>
 
 
-
-    <ListView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/listview" />
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/listview" />
+
+        <ImageButton
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_icons8_plus"
+            android:background="@drawable/google_button"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_margin="20dp"
+            android:layout_alignBottom="@id/listview"
+            android:layout_alignRight="@id/listview"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:onClick="cadastrarProduto"/>
+
+    </RelativeLayout>
+
+
+
 
 
 </LinearLayout>

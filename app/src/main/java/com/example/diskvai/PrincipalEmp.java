@@ -16,7 +16,7 @@ import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 public class PrincipalEmp extends AppCompatActivity {
 
     ExpandableLinearLayout menuLateral, infoPerfil;
-    Button editarPerfil, pedidos, cadastrarProduto, listarEntregadores, logout;
+    Button editarPerfil, pedidos, listarProduto, listarEntregadores, logout;
     ImageView imgPerfil;
     TextView nome_empresa;
     String id_empresa;
@@ -57,7 +57,7 @@ public class PrincipalEmp extends AppCompatActivity {
             public void onPreClose() {
                 editarPerfil.setText("");
                 pedidos.setText("");
-                cadastrarProduto.setText("");
+                listarProduto.setText("");
                 listarEntregadores.setText("");
                 logout.setText("");
                 infoPerfil.collapse();
@@ -67,7 +67,7 @@ public class PrincipalEmp extends AppCompatActivity {
             public void onOpened() {
                 editarPerfil.setText("Editar Perfil");
                 pedidos.setText("Pedidos");
-                cadastrarProduto.setText("Cadastrar Produto");
+                listarProduto.setText("Listar Produto");
                 listarEntregadores.setText("Cadastrar Entregador");
                 logout.setText("Logout");
             }
@@ -83,7 +83,7 @@ public class PrincipalEmp extends AppCompatActivity {
         infoPerfil = findViewById(R.id.infoPerfil);
         editarPerfil = findViewById(R.id.editarPerfil);
         pedidos = findViewById(R.id.pedidos);
-        cadastrarProduto = findViewById(R.id.cadastrarProduto);
+        listarProduto = findViewById(R.id.listarProduto);
         listarEntregadores = findViewById(R.id.listarEntregador);
         imgPerfil = findViewById(R.id.imgPerfil);
         nome_empresa = findViewById(R.id.nomeEmpresa);
@@ -109,14 +109,6 @@ public class PrincipalEmp extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void cadastrarProdutos(View view) {
-        Intent intent;
-        Bundle parameters = new Bundle();
-        parameters.putString("ID", id_empresa);
-        intent = new Intent(this, CadastrarProdutoActivity.class);
-        intent.putExtras(parameters);
-        startActivity(intent);
-    }
 
     public void listarEntregadores(View view) {
         Intent intent;

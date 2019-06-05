@@ -96,22 +96,11 @@
                 android:id="@+id/listarProduto"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Listar Produtos"
+                android:text="Produtos"
                 android:textColor="#fff"
                 android:drawableRight="@drawable/ic_icons8_box"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:onClick="listarProdutos"/>
-
-            <Button
-                android:id="@+id/cadastrarProduto"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Cadastrar Produto"
-                android:textColor="#fff"
-                android:drawableRight="@drawable/ic_icons8_box"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:onClick="cadastrarProdutos"
-                />
 
             <Button
                 android:onClick="listarEntregadores"
