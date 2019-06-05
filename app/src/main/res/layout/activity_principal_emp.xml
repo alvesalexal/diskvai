@@ -114,10 +114,11 @@
                 />
 
             <Button
-                android:id="@+id/cadastrarEntregador"
+                android:onClick="listarEntregadores"
+                android:id="@+id/listarEntregador"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Cadastrar Entregador"
+                android:text="Listar Entregadores"
                 android:textColor="#fff"
                 android:drawableRight="@drawable/ic_icons8_user_male"
                 android:backgroundTint="@color/colorPrimaryDark"/>

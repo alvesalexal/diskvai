@@ -17,6 +17,7 @@
         <activity android:name=".ListarProdutosActivity" />
         <activity android:name=".Activity_completar_cadastro_google" />
         <activity android:name=".Activity_completar_cadastro_fb" />
+        <activity android:name=".ListarEntregador" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

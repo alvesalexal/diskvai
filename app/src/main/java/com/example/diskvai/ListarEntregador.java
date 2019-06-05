@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Call;
@@ -35,7 +34,7 @@ public class ListarEntregador extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listarEntregador);
+        setContentView(R.layout.listar_entregador);
 
         Intent intent = this.getIntent();
         id_empresa = intent.getStringExtra("ID");

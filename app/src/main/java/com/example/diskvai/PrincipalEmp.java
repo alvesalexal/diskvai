@@ -16,7 +16,7 @@ import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 public class PrincipalEmp extends AppCompatActivity {
 
     ExpandableLinearLayout menuLateral, infoPerfil;
-    Button editarPerfil, pedidos, cadastrarProduto, cadastrarEntregador, logout;
+    Button editarPerfil, pedidos, cadastrarProduto, listarEntregadores, logout;
     ImageView imgPerfil;
     TextView nome_empresa;
     String id_empresa;
@@ -58,7 +58,7 @@ public class PrincipalEmp extends AppCompatActivity {
                 editarPerfil.setText("");
                 pedidos.setText("");
                 cadastrarProduto.setText("");
-                cadastrarEntregador.setText("");
+                listarEntregadores.setText("");
                 logout.setText("");
                 infoPerfil.collapse();
             }
@@ -68,7 +68,7 @@ public class PrincipalEmp extends AppCompatActivity {
                 editarPerfil.setText("Editar Perfil");
                 pedidos.setText("Pedidos");
                 cadastrarProduto.setText("Cadastrar Produto");
-                cadastrarEntregador.setText("Cadastrar Entregador");
+                listarEntregadores.setText("Cadastrar Entregador");
                 logout.setText("Logout");
             }
 
@@ -84,7 +84,7 @@ public class PrincipalEmp extends AppCompatActivity {
         editarPerfil = findViewById(R.id.editarPerfil);
         pedidos = findViewById(R.id.pedidos);
         cadastrarProduto = findViewById(R.id.cadastrarProduto);
-        cadastrarEntregador = findViewById(R.id.cadastrarEntregador);
+        listarEntregadores = findViewById(R.id.listarEntregador);
         imgPerfil = findViewById(R.id.imgPerfil);
         nome_empresa = findViewById(R.id.nomeEmpresa);
         menuLateral = findViewById(R.id.menuLateral);
@@ -114,6 +114,15 @@ public class PrincipalEmp extends AppCompatActivity {
         Bundle parameters = new Bundle();
         parameters.putString("ID", id_empresa);
         intent = new Intent(this, CadastrarProdutoActivity.class);
+        intent.putExtras(parameters);
+        startActivity(intent);
+    }
+
+    public void listarEntregadores(View view) {
+        Intent intent;
+        Bundle parameters = new Bundle();
+        parameters.putString("ID", id_empresa);
+        intent = new Intent(this, ListarEntregador.class);
         intent.putExtras(parameters);
         startActivity(intent);
     }

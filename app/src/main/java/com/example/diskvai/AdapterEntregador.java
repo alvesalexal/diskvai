@@ -37,7 +37,7 @@ public class AdapterEntregador extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View view = act.getLayoutInflater().inflate(R.layout.adapterEntregador, parent, false);
+        View view = act.getLayoutInflater().inflate(R.layout.adapter_entregador, parent, false);
         final Entregador func = entregadores.get(position);
 
         TextView nome = (TextView) view.findViewById(R.id.nome);
@@ -45,7 +45,7 @@ public class AdapterEntregador extends BaseAdapter {
         ImageView imagem = (ImageView) view.findViewById(R.id.foto);
 
         nome.setText(func.getNome_ent());
-        imagem.setImageResource(func.getFoto());
+        //imagem.setImageResource(func.getFoto());
 
         view.findViewById(R.id.editar).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

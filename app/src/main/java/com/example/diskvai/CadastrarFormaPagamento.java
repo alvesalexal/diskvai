@@ -8,6 +8,6 @@ public class CadastrarFormaPagamento extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastrar_forma_pagamento);
+        //setContentView(R.layout.activity_cadastrar_forma_pagamento);
     }
 }
