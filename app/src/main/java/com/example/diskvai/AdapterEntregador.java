@@ -41,7 +41,7 @@ public class AdapterEntregador extends BaseAdapter {
         final Entregador func = entregadores.get(position);
 
         TextView nome = (TextView) view.findViewById(R.id.nome);
-        TextView descricao = (TextView) view.findViewById(Integer.parseInt("entregador"));
+        //TextView descricao = (TextView) view.findViewById(Integer.parseInt("entregador"));
         ImageView imagem = (ImageView) view.findViewById(R.id.foto);
 
         nome.setText(func.getNome_ent());

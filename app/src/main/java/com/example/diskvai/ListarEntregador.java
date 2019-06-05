@@ -122,7 +122,7 @@ public class ListarEntregador extends AppCompatActivity {
 
             ListView listaDeEntregadores = (ListView) findViewById(R.id.listView);
 
-            AdapterEntregador adapterEntregador = new AdapterEntregador(entregadores, this);
+            AdapterEntregador adapterEntregador = new AdapterEntregador(entregadores, ListarEntregador.this);
             listaDeEntregadores.setAdapter(adapterEntregador);
             progressDialog.dismiss();
 
