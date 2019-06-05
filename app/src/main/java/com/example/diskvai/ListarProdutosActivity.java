@@ -129,8 +129,6 @@ public class ListarProdutosActivity extends AppCompatActivity {
             progressDialog.dismiss();
             alert("Falha ao Carregar produtos");
         }
-
-
     }
 
     private void alert(String valor) {

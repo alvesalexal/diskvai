@@ -56,7 +56,6 @@ public class ProdutoAdapter extends BaseAdapter {
         descricao.setText("Descrição: " + produtoLista.get(position).getDescricao());
         preco.setText("Preço: R$ " + produtoLista.get(position).getPreco());
 
-
         return view1;
     }
 }
