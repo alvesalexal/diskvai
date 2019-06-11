@@ -138,4 +138,13 @@ public class ListarProdutosActivity extends AppCompatActivity {
     public void back(View view) {
         this.finish();
     }
+
+    public void cadastrarProduto(View view) {
+            Intent intent;
+            Bundle parameters = new Bundle();
+            parameters.putString("ID", id_empresa);
+            intent = new Intent(this, CadastrarProdutoActivity.class);
+            intent.putExtras(parameters);
+            startActivity(intent);
+    }
 }
