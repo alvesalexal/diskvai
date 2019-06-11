@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,9 +48,11 @@ public class ProdutoAdapter extends BaseAdapter {
         );
 
         TextView id = view1.findViewById(R.id.id);
-        TextView nome = view1.findViewById(R.id.nome);
+        Button nome = view1.findViewById(R.id.nome);
         TextView descricao = view1.findViewById(R.id.descricao);
         TextView preco = view1.findViewById(R.id.preco);
+        ImageButton editar = view1.findViewById(R.id.editar);
+        ImageButton excluir = view1.findViewById(R.id.excluir);
         //ImageView imagem = view1.findViewById(R.id.imgProduto);
 
         id.setText("ID: " + produtoLista.get(position).getId());
@@ -58,4 +62,5 @@ public class ProdutoAdapter extends BaseAdapter {
 
         return view1;
     }
+
 }

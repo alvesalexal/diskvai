@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CadastrarFormaPagamento"></activity>
+        <activity android:name=".ProdutoSimplesAdapter"></activity>
+        <activity android:name=".CadastrarFormaPagamento" />
         <activity android:name=".PoliticaDePrivacidadeActivity" />
         <activity android:name=".CadastrarProdutoActivity" />
         <activity android:name=".ListarProdutosActivity" />

@@ -54,10 +54,12 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nome: example"
+                android:text="Nome: examplo qualquer"
                 android:maxWidth="200dp"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
         </LinearLayout>
 
@@ -71,8 +73,9 @@
                 android:id="@+id/descricao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:text="Descricao: lorem ipsum..."/>
+                android:text="Descricao: lorem qualquer texto pra ver como fica"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
 
         </LinearLayout>
@@ -103,12 +106,14 @@
         android:layout_marginRight="10dp">
 
         <ImageButton
+            android:id="@+id/editar"
             android:backgroundTint="#fff"
             android:src="@drawable/ic_icons8_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
             />
         <ImageButton
+            android:id="@+id/excluir"
             android:backgroundTint="#fff"
             android:src="@drawable/ic_icons8_trash"
             android:layout_width="30dp"
