@@ -48,7 +48,7 @@ public class ProdutoAdapter extends BaseAdapter {
         );
 
         TextView id = view1.findViewById(R.id.id);
-        Button nome = view1.findViewById(R.id.nome);
+        TextView nome = view1.findViewById(R.id.nome);
         TextView descricao = view1.findViewById(R.id.descricao);
         TextView preco = view1.findViewById(R.id.preco);
         ImageButton editar = view1.findViewById(R.id.editar);

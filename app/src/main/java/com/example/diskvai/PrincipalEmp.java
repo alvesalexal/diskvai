@@ -19,7 +19,7 @@ public class PrincipalEmp extends AppCompatActivity {
     Button editarPerfil, pedidos, listarProduto, listarEntregadores, logout;
     ImageView imgPerfil;
     TextView nome_empresa;
-    String id_empresa;
+    String id_empresa, emrpesa_nome, login_empresa, email_empresa, telefone_empresa, cnpj_empresa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +115,15 @@ public class PrincipalEmp extends AppCompatActivity {
         Bundle parameters = new Bundle();
         parameters.putString("ID", id_empresa);
         intent = new Intent(this, ListarEntregador.class);
+        intent.putExtras(parameters);
+        startActivity(intent);
+    }
+
+    public void editarPerfil(View view) {
+        Intent intent;
+        Bundle parameters = new Bundle();
+        parameters.putString("ID", id_empresa);
+        intent = new Intent(this, EditarPerfilActivty.class);
         intent.putExtras(parameters);
         startActivity(intent);
     }

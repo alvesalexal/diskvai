@@ -82,6 +82,7 @@
                 android:drawableRight="@drawable/ic_icons8_contacts"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:textColor="#fff"
+                android:onClick="editarPerfil"
                 />
             <Button
                 android:id="@+id/pedidos"
@@ -107,7 +108,7 @@
                 android:id="@+id/listarEntregador"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Listar Entregadores"
+                android:text="Entregadores"
                 android:textColor="#fff"
                 android:drawableRight="@drawable/ic_icons8_user_male"
                 android:backgroundTint="@color/colorPrimaryDark"/>
