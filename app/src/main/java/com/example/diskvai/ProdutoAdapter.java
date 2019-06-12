@@ -16,6 +16,8 @@ import java.util.List;
 
 public class ProdutoAdapter extends BaseAdapter {
 
+
+
     private Context context;
     private List<Produto> produtoLista;
 

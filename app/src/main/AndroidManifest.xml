@@ -13,6 +13,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".EditarPerfilActivty"></activity>
         <activity android:name=".ProdutoSimplesAdapter" />
+        <activity android:name=".EditarEntregador"></activity>
+        <activity android:name=".ListarEmpresasActivity" />
+        <activity android:name=".ProdutoSimplesAdapter" />
         <activity android:name=".CadastrarFormaPagamento" />
         <activity android:name=".PoliticaDePrivacidadeActivity" />
         <activity android:name=".CadastrarProdutoActivity" />
