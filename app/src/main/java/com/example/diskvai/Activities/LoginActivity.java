@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,6 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.InterfaceCadastro.CompletarCadastroFacebookActivity;
+import com.example.diskvai.Activities.InterfaceCadastro.CompletarCadastroGoogleActivity;
+import com.example.diskvai.Activities.InterfaceCadastro.MenuCadastroActivity;
+import com.example.diskvai.Activities.InterfaceCliente.ClienteHomeActivity;
+import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
+import com.example.diskvai.Activities.InterfaceEntregador.EntregadorHomeActivity;
+import com.example.diskvai.Helpers.ConexaoPhp;
+import com.example.diskvai.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -49,7 +57,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Activity_login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private boolean permissaoInternet = false;
 
@@ -71,11 +79,11 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext()); // inicializar a sdk antes de inflar o Layout
         setContentView(R.layout.activity_login);
+
+
         btnLogar= (Button) findViewById(R.id.login);
         user = (EditText) findViewById(R.id.usuario);
         pass = (EditText) findViewById(R.id.senha);
-
-        printKeyHash();
 
         //------------login google
 
@@ -208,74 +216,6 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
             Log.e("Permissão", "Sem permissão");
             Toast.makeText(this,"sem permissao de internet",Toast.LENGTH_SHORT).show();
         }
-
-        btnLogar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(user.getText().toString().equals("")) {
-                    user.setError("Digite um Login Válido");
-                }
-                if(pass.getText().toString().equals("")) {
-                    pass.setError("Digite uma Senha Válida");
-                }
-                if(user.getError()==null&&pass.getError()==null) {
-                    btnLogar.setEnabled(false);
-                    try {
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-
-                        OkHttpClient client = new OkHttpClient();
-
-                        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/fazerLogin.php").newBuilder();
-                        urlBuilder.addQueryParameter("usuario", user.getText().toString());
-                        urlBuilder.addQueryParameter("senha", pass.getText().toString());
-
-                        String url = urlBuilder.build().toString();
-
-                        Request request = new Request.Builder().url(url).build();
-
-                        client.newCall(request).enqueue(new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                alert("deu lenha");
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            //alert(response.body().string());
-                                            try {
-                                                String data = response.body().string();
-                                                JSONArray jsonArray = new JSONArray(data);
-                                                if(jsonArray.length()!=0){
-                                                    jsonObject = jsonArray.getJSONObject(0);
-                                                    login(jsonObject);
-                                                } else {
-                                                    btnLogar.setEnabled(true);
-                                                    alert("nome de usuario ou senha incorretos");
-                                                }
-                                            } catch (JSONException e) {
-                                                alert("erro no json");
-                                                btnLogar.setEnabled(true);
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
-                            }
-                        });
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
     }
 
     private void alert(String string) {
@@ -286,18 +226,18 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
         Intent intent;
         switch (Integer.parseInt(jsonObjects.getString("tipo_usuario"))){
             case 1:
-                intent = new Intent(this, PrincipalCli.class);
+                intent = new Intent(this, ClienteHomeActivity.class);
                 startActivity(intent);
             break;
             case 2:
                 Bundle parameters = new Bundle();
                 parameters.putString("ID", jsonObjects.getString("ID"));
-                intent = new Intent(this, PrincipalEmp.class);
+                intent = new Intent(this, EmpresaHomeActivity.class);
                 intent.putExtras(parameters);
                 startActivity(intent);
             break;
             case 3:
-                intent = new Intent(this, PrincipalEntr.class);
+                intent = new Intent(this, EntregadorHomeActivity.class);
                 startActivity(intent);
             break;
         }
@@ -305,7 +245,7 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
     }
 
     public void Cadastro(View view) {
-        Intent intent = new Intent(this, TipoCadastro.class);
+        Intent intent = new Intent(this, MenuCadastroActivity.class);
         startActivity(intent);
     }
 
@@ -316,7 +256,7 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
         parameters.putString("id", id);
         parameters.putString("nome", nome);
         Intent intent;
-        intent = new Intent(this, Activity_completar_cadastro_fb.class);
+        intent = new Intent(this, CompletarCadastroFacebookActivity.class);
         intent.putExtras(parameters);
         startActivity(intent);
     }
@@ -427,7 +367,7 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
 
     void completarGoogle(String id, String nome, String email){
         Intent intent;
-        intent = new Intent(this, Activity_completar_cadastro_google.class);
+        intent = new Intent(this, CompletarCadastroGoogleActivity.class);
         Bundle parameters = new Bundle();
 
         parameters.putString("id", id);
@@ -457,5 +397,84 @@ public class Activity_login extends AppCompatActivity implements GoogleApiClient
 
     public void googleButton(View v) {
         signIn();
+    }
+
+    public void botaoLogar(View view) {
+        if(user.getText().toString().equals("")) {
+            user.setError("Digite um Login Válido");
+        }
+        if(pass.getText().toString().equals("")) {
+            pass.setError("Digite uma Senha Válida");
+        }
+        if(user.getError()==null&&pass.getError()==null) {
+            btnLogar.setEnabled(false);
+//                    try {
+//                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//                        StrictMode.setThreadPolicy(policy);
+//
+//                        OkHttpClient client = new OkHttpClient();
+//
+//                        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/fazerLogin.php").newBuilder();
+//                        urlBuilder.addQueryParameter("usuario", user.getText().toString());
+//                        urlBuilder.addQueryParameter("senha", pass.getText().toString());
+//
+//                        String url = urlBuilder.build().toString();
+//
+//                        Request request = new Request.Builder().url(url).build();
+//
+//                        client.newCall(request).enqueue(new Callback() {
+//                            @Override
+//                            public void onFailure(Call call, IOException e) {
+//                                alert("deu lenha");
+//                            }
+//
+//                            @Override
+//                            public void onResponse(Call call, Response response) throws IOException {
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+//                                            //alert(response.body().string());
+//                                            try {
+//                                                String data = response.body().string();
+//                                                JSONArray jsonArray = new JSONArray(data);
+//                                                if(jsonArray.length()!=0){
+//                                                    jsonObject = jsonArray.getJSONObject(0);
+//                                                    login(jsonObject);
+//                                                } else {
+//                                                    btnLogar.setEnabled(true);
+//                                                    alert("nome de usuario ou senha incorretos");
+//                                                }
+//                                            } catch (JSONException e) {
+//                                                alert("erro no json");
+//                                                btnLogar.setEnabled(true);
+//                                            }
+//                                        } catch (IOException e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+            try {
+                ConexaoPhp conexaoPhp = new ConexaoPhp("http://gabriellacastro.com.br/disk_vai/fazerLogin.php");
+                conexaoPhp.add("usuario", user.getText().toString());
+                conexaoPhp.add("senha", pass.getText().toString());
+                JSONObject dados = conexaoPhp.enviar();
+                if(dados!=null) {
+                    login(dados);
+                } else {
+                    alert("Login ou Senha incorretos");
+                    btnLogar.setEnabled(true);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                btnLogar.setEnabled(true);
+            }
+
+        }
     }
 }

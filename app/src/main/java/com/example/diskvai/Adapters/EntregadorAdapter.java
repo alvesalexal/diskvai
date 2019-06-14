@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Adapters;
 
 import android.app.Activity;
 import android.view.View;
@@ -8,14 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diskvai.Models.Entregador;
+import com.example.diskvai.R;
+
 import java.util.List;
 
-public class AdapterEntregador extends BaseAdapter {
+public class EntregadorAdapter extends BaseAdapter {
 
     private final List<Entregador> entregadores;
     private final Activity act;
 
-    public AdapterEntregador(List<Entregador> entregadores, Activity act) {
+    public EntregadorAdapter(List<Entregador> entregadores, Activity act) {
         this.entregadores = entregadores;
         this.act = act;
     }

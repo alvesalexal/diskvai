@@ -1,16 +1,15 @@
-package com.example.diskvai;
+package com.example.diskvai.Adapters;
 
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.diskvai.Models.Empresa;
+import com.example.diskvai.R;
 
 import java.util.List;
 

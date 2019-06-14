@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceCadastro;
 
 import android.content.Intent;
 import android.os.StrictMode;
@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.InterfaceCliente.ClienteHomeActivity;
+import com.example.diskvai.R;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -19,7 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Activity_completar_cadastro_google extends AppCompatActivity {
+public class CompletarCadastroGoogleActivity extends AppCompatActivity {
 
     private Button btnCadastrar, btnvoltar;
     private EditText telefone;
@@ -108,7 +111,7 @@ public class Activity_completar_cadastro_google extends AppCompatActivity {
     }
     private void principal(String []a){
         if(a[1].equals("Cadastrado com Sucesso!")) {
-            Intent intent = new Intent(this, PrincipalCli.class);
+            Intent intent = new Intent(this, ClienteHomeActivity.class);
             startActivity(intent);
             telefone.setText("");
         }

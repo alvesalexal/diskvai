@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceCadastro;
 
 import android.content.Intent;
 import android.os.StrictMode;
@@ -6,11 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.diskvai.Activities.InterfaceCliente.ClienteHomeActivity;
+import com.example.diskvai.R;
 
 import java.io.IOException;
 
@@ -21,7 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Activity_completar_cadastro_fb extends AppCompatActivity {
+public class CompletarCadastroFacebookActivity extends AppCompatActivity {
 
     private Button btnCadastrar, btnvoltar;
     private EditText telefone;
@@ -107,7 +108,7 @@ public class Activity_completar_cadastro_fb extends AppCompatActivity {
     }
     private void principal(String []a){
         if(a[1].equals("Cadastrado com Sucesso!")) {
-            Intent intent = new Intent(this, PrincipalCli.class);
+            Intent intent = new Intent(this, ClienteHomeActivity.class);
             startActivity(intent);
             telefone.setText("");
         }

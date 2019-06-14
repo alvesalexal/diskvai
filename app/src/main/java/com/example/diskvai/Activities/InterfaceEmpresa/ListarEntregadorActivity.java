@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceEmpresa;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.diskvai.Adapters.EntregadorAdapter;
+import com.example.diskvai.Models.Entregador;
+import com.example.diskvai.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +29,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class ListarEntregador extends AppCompatActivity {
+public class ListarEntregadorActivity extends AppCompatActivity {
 
 
     List<Entregador> entregadores;
@@ -58,7 +62,7 @@ public class ListarEntregador extends AppCompatActivity {
 
             Request request = new Request.Builder().url(url).build();
 
-            progressDialog = ProgressDialog.show(ListarEntregador.this, "",
+            progressDialog = ProgressDialog.show(ListarEntregadorActivity.this, "",
                     "Carregando Produtos", true);
 
             client.newCall(request).enqueue(new Callback() {
@@ -122,8 +126,8 @@ public class ListarEntregador extends AppCompatActivity {
 
             ListView listaDeEntregadores = (ListView) findViewById(R.id.listView);
 
-            AdapterEntregador adapterEntregador = new AdapterEntregador(entregadores, ListarEntregador.this);
-            listaDeEntregadores.setAdapter(adapterEntregador);
+            EntregadorAdapter entregadorAdapter = new EntregadorAdapter(entregadores, ListarEntregadorActivity.this);
+            listaDeEntregadores.setAdapter(entregadorAdapter);
             progressDialog.dismiss();
 
         } catch (JSONException e) {

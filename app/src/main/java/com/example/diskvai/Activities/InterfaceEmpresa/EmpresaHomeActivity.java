@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceEmpresa;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diskvai.R;
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
-import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
-public class PrincipalEmp extends AppCompatActivity {
+public class EmpresaHomeActivity extends AppCompatActivity {
 
     ExpandableLinearLayout menuLateral, infoPerfil;
     Button editarPerfil, pedidos, listarProduto, listarEntregadores, logout;
@@ -67,8 +67,8 @@ public class PrincipalEmp extends AppCompatActivity {
             public void onOpened() {
                 editarPerfil.setText("Editar Perfil");
                 pedidos.setText("Pedidos");
-                listarProduto.setText("Listar Produto");
-                listarEntregadores.setText("Cadastrar Entregador");
+                listarProduto.setText("Produtos");
+                listarEntregadores.setText("Entregadores");
                 logout.setText("Logout");
             }
 
@@ -114,7 +114,7 @@ public class PrincipalEmp extends AppCompatActivity {
         Intent intent;
         Bundle parameters = new Bundle();
         parameters.putString("ID", id_empresa);
-        intent = new Intent(this, ListarEntregador.class);
+        intent = new Intent(this, ListarEntregadorActivity.class);
         intent.putExtras(parameters);
         startActivity(intent);
     }
@@ -123,7 +123,7 @@ public class PrincipalEmp extends AppCompatActivity {
         Intent intent;
         Bundle parameters = new Bundle();
         parameters.putString("ID", id_empresa);
-        intent = new Intent(this, EditarPerfilActivty.class);
+        intent = new Intent(this, EditarEmpresaActivity.class);
         intent.putExtras(parameters);
         startActivity(intent);
     }

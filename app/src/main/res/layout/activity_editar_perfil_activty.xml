@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditarPerfilActivty"
+    tools:context=".Activities.InterfaceEmpresa.EditarEmpresaActivity"
     android:orientation="vertical">
 
 
@@ -142,7 +142,6 @@
         android:textColor="#fff"
         android:paddingHorizontal="20dp"
         android:layout_gravity="center"
-        android:onClick="editarPerfil"
         android:id="@+id/editar"/>
 
 

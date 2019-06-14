@@ -1,9 +1,11 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceCliente;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class PrincipalCli extends AppCompatActivity {
+import com.example.diskvai.R;
+
+public class ClienteHomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

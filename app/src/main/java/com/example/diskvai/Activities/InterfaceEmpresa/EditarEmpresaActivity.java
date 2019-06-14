@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceEmpresa;
 
 import android.content.Intent;
 import android.os.StrictMode;
@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.diskvai.Helpers.TratamentoDados;
+import com.example.diskvai.R;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -21,7 +24,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class EditarPerfilActivty extends AppCompatActivity {
+public class EditarEmpresaActivity extends AppCompatActivity {
 
     String id_empresa;
     EditText nome, login, telefone, senha, nova_senha;
@@ -75,7 +78,7 @@ public class EditarPerfilActivty extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("url aterar vendendor").newBuilder();
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/editarVendedor.php").newBuilder();
                     urlBuilder.addQueryParameter("id", id_empresa);
                     urlBuilder.addQueryParameter("nome_vend", nome.getText().toString());
                     urlBuilder.addQueryParameter("email", email.getText().toString());
@@ -146,30 +149,20 @@ public class EditarPerfilActivty extends AppCompatActivity {
         this.finish();
     }
 
-    public void editarPerfil(View view) {
-
-    }
-
-
 
     private boolean validaCadastro() {
-        if(camposOK()) {
-            if (( !(senha.getText().toString()).equals(""))) {
-                if (!nome.getText().toString().equals("") &&
-                        !(senha.getText().toString().equals("")) &&
-                        !(login.getText().toString().equals("")) &&
-                        !(email.getText().toString().equals("")) &&
-                        !(nova_senha.getText().toString().equals(""))
-                ) {
-
-                } else {
-                    alert("Preencha todos os campos");
-                    return  false;
-                }
-            }
-        } else {
-            alert("Confira os dados e tente novamente");
-            //limparcampos();
+        if (camposOK()) {
+            if (!nome.getText().toString().equals("") &&
+                    !(senha.getText().toString().equals("")) &&
+                    !(login.getText().toString().equals("")) &&
+                    !(email.getText().toString().equals("")) &&
+                    !(nova_senha.getText().toString().equals(""))
+            ) {
+                return true;
+            } else {
+                alert("Preencha todos os campos");
+                return false;
+             }
         }
         return false;
     }

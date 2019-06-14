@@ -11,18 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditarPerfilActivty"></activity>
-        <activity android:name=".ProdutoSimplesAdapter" />
-        <activity android:name=".EditarEntregador"></activity>
-        <activity android:name=".ListarEmpresasActivity" />
-        <activity android:name=".ProdutoSimplesAdapter" />
-        <activity android:name=".CadastrarFormaPagamento" />
-        <activity android:name=".PoliticaDePrivacidadeActivity" />
-        <activity android:name=".CadastrarProdutoActivity" />
-        <activity android:name=".ListarProdutosActivity" />
-        <activity android:name=".Activity_completar_cadastro_google" />
-        <activity android:name=".Activity_completar_cadastro_fb" />
-        <activity android:name=".ListarEntregador" />
+        <activity android:name=".Activities.InterfaceEmpresa.EditarEmpresaActivity"></activity>
+        <activity android:name=".Activities.InterfaceEmpresa.EditarEntregadorActivity"></activity>
+        <activity android:name=".Activities.InterfaceCliente.ListarEmpresasActivity" />
+        <activity android:name=".Activities.InterfaceEmpresa.CadastrarFormaPagamentoActivity" />
+        <activity android:name=".Activities.PoliticaDePrivacidadeActivity" />
+        <activity android:name=".Activities.InterfaceEmpresa.CadastrarProdutoActivity" />
+        <activity android:name=".Activities.InterfaceEmpresa.ListarProdutosActivity" />
+        <activity android:name=".Activities.InterfaceCadastro.CompletarCadastroGoogleActivity" />
+        <activity android:name=".Activities.InterfaceCadastro.CompletarCadastroFacebookActivity" />
+        <activity android:name=".Activities.InterfaceEmpresa.ListarEntregadorActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -44,14 +42,14 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".CadastroEntregador" />
-        <activity android:name=".PrincipalEntr" />
-        <activity android:name=".PrincipalEmp" />
-        <activity android:name=".PrincipalCli" />
-        <activity android:name=".CadastroEmpresa" />
-        <activity android:name=".CadastroCliente" />
-        <activity android:name=".TipoCadastro" />
-        <activity android:name=".Activity_login">
+        <activity android:name=".Activities.InterfaceCadastro.CadastroEntregadorActivity" />
+        <activity android:name=".Activities.InterfaceEntregador.EntregadorHomeActivity" />
+        <activity android:name=".Activities.InterfaceEmpresa.EmpresaHomeActivity" />
+        <activity android:name=".Activities.InterfaceCliente.ClienteHomeActivity" />
+        <activity android:name=".Activities.InterfaceCadastro.CadastroEmpresaActivity" />
+        <activity android:name=".Activities.InterfaceCadastro.CadastroClienteActivity" />
+        <activity android:name=".Activities.InterfaceCadastro.MenuCadastroActivity" />
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

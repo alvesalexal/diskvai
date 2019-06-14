@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceCliente;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
+import com.example.diskvai.Adapters.EmpresaAdapter;
+import com.example.diskvai.Models.Empresa;
+import com.example.diskvai.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

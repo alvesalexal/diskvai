@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceCadastro;
 
 import android.content.Intent;
 import android.os.StrictMode;
@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
+import com.example.diskvai.Activities.PoliticaDePrivacidadeActivity;
+import com.example.diskvai.Helpers.TratamentoDados;
+import com.example.diskvai.R;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -22,28 +27,27 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CadastroEntregador extends AppCompatActivity {
+public class CadastroEmpresaActivity extends AppCompatActivity {
 
     private Button btnCadastrar, btnvoltar;
-    private EditText nome;
-    private EditText telefone;
-    private EditText senha;
-    private EditText confirmasenha;
-    private EditText login;
+    private EditText nome, telefone, senha, confirmasenha, login, cnpj;
+    private com.rey.material.widget.CheckBox checkBox;
     private String resposta;
     private String a[]={"#"};
     private AutoCompleteTextView email;
-    private com.rey.material.widget.CheckBox checkBox;
+
+
 
     private void read() {
         checkBox = findViewById(R.id.checkbox);
         btnCadastrar = findViewById(R.id.cadastrar);
-        //btnvoltar = findViewById(R.id.voltar);
+        btnvoltar = findViewById(R.id.voltar);
         nome = findViewById(R.id.Nome);
         senha = findViewById(R.id.senha);
         confirmasenha = findViewById(R.id.confirmaSenha);
         email = (AutoCompleteTextView) findViewById(R.id.EndEmail);
         login = findViewById(R.id.Login);
+        cnpj = findViewById(R.id.cnpj);
         telefone = (EditText) findViewById(R.id.telefone);
         telefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }
@@ -51,14 +55,19 @@ public class CadastroEntregador extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_entregador);
+        setContentView(R.layout.activity_cadastro_empresa);
+
 
         read();
+
         // Tratamento de Dados
         nomeValido();
         emailValido();
+        cnpjValido();
         senhaValida();
         senhaConfirmada();
+
+
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -89,12 +98,15 @@ public class CadastroEntregador extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertEntr.php").newBuilder();
-                    urlBuilder.addQueryParameter("Ent_Nome", nome.getText().toString());
-                    urlBuilder.addQueryParameter("Ent_TEL", telefone.getText().toString());
-                    urlBuilder.addQueryParameter("Ent_LOGIN", login.getText().toString());
-                    urlBuilder.addQueryParameter("Ent_SENHA", senha.getText().toString());
-                    urlBuilder.addQueryParameter("Ent_EMAIL", email.getText().toString());
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/inserirVendedor.php").newBuilder();
+                    urlBuilder.addQueryParameter("nome_vend", nome.getText().toString());
+                    urlBuilder.addQueryParameter("email", email.getText().toString());
+                    urlBuilder.addQueryParameter("login", login.getText().toString());
+                    urlBuilder.addQueryParameter("telefone", telefone.getText().toString());
+                    urlBuilder.addQueryParameter("cnpj", cnpj.getText().toString());
+                    urlBuilder.addQueryParameter("senha", senha.getText().toString());
+                    urlBuilder.addQueryParameter("url_foto", null);
+
 
                     String url = urlBuilder.build().toString();
 
@@ -134,18 +146,11 @@ public class CadastroEntregador extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 btnCadastrar.setEnabled(true);
             }
 
         });
-    }
-
-    private void principal(String []a){
-        if(a[1].equals("Cadastrado com Sucesso!")) {
-            Intent intent = new Intent(this, PrincipalEntr.class);
-            startActivity(intent);
-            limparcampos();
-        }
     }
 
     private boolean validaCadastro() {
@@ -154,7 +159,8 @@ public class CadastroEntregador extends AppCompatActivity {
                 if (!nome.getText().toString().equals("") &&
                         !(senha.getText().toString().equals("")) &&
                         !(login.getText().toString().equals("")) &&
-                        !(email.getText().toString().equals(""))
+                        !(email.getText().toString().equals("")) &&
+                        !(cnpj.getText().toString().equals(""))
                 ) {
                     if(checkBox.isChecked()) {
                         return true;
@@ -170,16 +176,24 @@ public class CadastroEntregador extends AppCompatActivity {
         }
         return false;
     }
-
     private boolean camposOK() {
         if(nome.getError()==null&&email.getError()==null&&
                 login.getError()==null&&
                 telefone.getError()==null&&
+                cnpj.getError()==null&&
                 senha.getError()==null&&
                 confirmasenha.getError()==null) {
             return true;
         }
         return false;
+    }
+
+    private void principal(String []a){
+        if(a[1].equals("Cadastrado com Sucesso!")) {
+            Intent intent = new Intent(this, EmpresaHomeActivity.class);
+            startActivity(intent);
+            limparcampos();
+        }
     }
 
     private void limparcampos() {
@@ -189,7 +203,7 @@ public class CadastroEntregador extends AppCompatActivity {
         senha.setText("");
         confirmasenha.setText("");
         login.setText("");
-
+        cnpj.setText("");
     }
 
     private void alert(String valor) {
@@ -234,28 +248,46 @@ public class CadastroEntregador extends AppCompatActivity {
         });
     }
 
+    public void cnpjValido() {
+
+        TratamentoDados valida = new TratamentoDados();
+        cnpj.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if(valida.isCNPJ(cnpj.getText().toString())) {
+                    cnpj.setText(valida.imprimeCNPJ(cnpj.getText().toString()));
+                    cnpj.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    cnpj.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                    cnpj.setError(null);
+                } else {
+                    cnpj.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    cnpj.setError("Insira um CNPJ válido. Com ou sem pontuação");
+                }
+            }
+        });
+    }
+
     public void senhaValida() {
         TratamentoDados valida = new TratamentoDados();
         senha.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                if(valida.senhaValida(senha.getText().toString())) {
-                    senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
-                    senha.setError(null);
-                } else {
-                    senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    senha.setError("A senha deve ter 6 ou mais dígitos e pode incluir letras, números e caracteres especiais");
-                }
-                if(!confirmasenha.getText().toString().equals("")) {
-                    if(confirmasenha.getText().toString().equals(senha.getText().toString())) {
-                        confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                        confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
-                        confirmasenha.setError(null);
-                    } else {
-                        confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                        confirmasenha.setError("As senhas digitadas não conferem");
-                    }
-                }
+               if(valida.senhaValida(senha.getText().toString())) {
+                   senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                   senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                   senha.setError(null);
+               } else {
+                   senha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                   senha.setError("A senha deve ter 6 ou mais dígitos e pode incluir letras, números e caracteres especiais");
+               }
+               if(!confirmasenha.getText().toString().equals("")) {
+                   if(confirmasenha.getText().toString().equals(senha.getText().toString())) {
+                       confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                       confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_icons8_checkmark, 0);
+                       confirmasenha.setError(null);
+                   } else {
+                       confirmasenha.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                       confirmasenha.setError("As senhas digitadas não conferem");
+                   }
+               }
             }
         });
     }
@@ -281,4 +313,5 @@ public class CadastroEntregador extends AppCompatActivity {
         Intent intent = new Intent(this, PoliticaDePrivacidadeActivity.class);
         startActivity(intent);
     }
+
 }

@@ -1,9 +1,11 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceEmpresa;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class EditarEntregador extends AppCompatActivity {
+import com.example.diskvai.R;
+
+public class EditarEntregadorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,11 +1,13 @@
-package com.example.diskvai;
+package com.example.diskvai.Activities.InterfaceCadastro;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class TipoCadastro extends AppCompatActivity {
+import com.example.diskvai.R;
+
+public class MenuCadastroActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,21 +16,22 @@ public class TipoCadastro extends AppCompatActivity {
     }
 
     public void CadastroCli(View view) {
-        Intent intent = new Intent(this, CadastroCliente.class);
+        Intent intent = new Intent(this, CadastroClienteActivity.class);
         startActivity(intent);
     }
 
-    public void back(View view) {
-        this.finish();
-    }
-
     public void CadastroEmp(View view) {
-        Intent intent = new Intent(this, CadastroEmpresa.class);
+        Intent intent = new Intent(this, CadastroEmpresaActivity.class);
         startActivity(intent);
     }
 
     public void CadastroEntr(View view) {
-        Intent intent = new Intent(this, CadastroEntregador.class);
+        Intent intent = new Intent(this, CadastroEntregadorActivity.class);
         startActivity(intent);
+    }
+
+    //voltar ao menu anterior
+    public void back(View view) {
+        this.finish();
     }
 }

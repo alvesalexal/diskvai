@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity_login"
+    tools:context=".Activities.LoginActivity"
     android:background="#fff"
     android:orientation="vertical">
 
@@ -18,7 +18,7 @@
         android:layout_weight="1"
         />
 
-    <!-- Campo Email -->
+    <!-- Campo Login -->
     <EditText
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
@@ -48,27 +48,20 @@
         android:paddingRight="10dp"
         />
 
-    <!-- Recuperar Senha ou Login -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+    <!-- Botão de Login-->
+    <Button
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_filled"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="#fff"
+        android:text="Login"
+        android:id="@+id/login"
+        android:onClick="botaoLogar"
+        />
 
-
-        <!-- Botão de Login-->
-        <Button
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner_filled"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="#fff"
-            android:text="Login"
-            android:id="@+id/login"
-            />
-
-    </LinearLayout>
 
     <TextView
         android:layout_marginTop="60dp"
@@ -77,12 +70,14 @@
         android:layout_gravity="center_horizontal"
         android:text="Ou entre com" />
 
-    <!-- Entrar com o Facebook -->
+    <!-- Login Alternativo -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
+
+        <!-- Entrar com o Facebook -->
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -93,15 +88,14 @@
                 android:visibility="gone"
                 android:layout_height="wrap_content"
                 />
-                <ImageButton
-                    android:layout_margin="10dp"
-                    android:src="@drawable/ic_facebook_f_filled"
-                    android:background="@drawable/fb_button"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:onClick="fbButton"
-                    android:elevation="5dp"/>
-
+            <ImageButton
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_facebook_f_filled"
+                android:background="@drawable/fb_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:onClick="fbButton"
+                android:elevation="5dp"/>
         </FrameLayout>
 
         <!-- Entrar com o Google -->
@@ -124,13 +118,11 @@
                 android:layout_height="60dp"
                 android:onClick="googleButton"
                 android:elevation="5dp"/>
-
         </FrameLayout>
-
     </LinearLayout>
 
-    <!-- Cadastrar -->
 
+    <!-- Cadastrar -->
     <TextView
         android:layout_gravity="center_horizontal"
         android:gravity="bottom"
@@ -140,7 +132,6 @@
         android:text="Não tem uma Conta? "
         android:textColor="@color/colorPrimary"
         android:layout_marginBottom="10dp"/>
-
     <Button
         android:id="@+id/cadastrar"
         android:layout_width="match_parent"

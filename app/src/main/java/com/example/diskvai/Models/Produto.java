@@ -1,4 +1,4 @@
-package com.example.diskvai;
+package com.example.diskvai.Models;
 
 
 public class Produto {
