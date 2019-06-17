@@ -19,7 +19,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
     Button editarPerfil, pedidos, listarProduto, listarEntregadores, logout;
     ImageView imgPerfil;
     TextView nome_empresa;
-    String id_empresa, emrpesa_nome, login_empresa, email_empresa, telefone_empresa, cnpj_empresa;
+    String id_empresa, empresa_nome, login_empresa, email_empresa, telefone_empresa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,15 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_principal_emp);
         Intent intent = this.getIntent();
         id_empresa = intent.getStringExtra("ID");
+        empresa_nome = intent.getStringExtra("Nome_empresa");
+        login_empresa = intent.getStringExtra("Login_empresa");
+        email_empresa= intent.getStringExtra("Email_empresa");
+        telefone_empresa= intent.getStringExtra("Telefone_empresa");
         alert("empresa de id:" + id_empresa);
 
         read();
         menu();
+        nome_empresa.setText(empresa_nome);
 
 
 
@@ -123,6 +128,10 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         Intent intent;
         Bundle parameters = new Bundle();
         parameters.putString("ID", id_empresa);
+        parameters.putString("Nome", empresa_nome);
+        parameters.putString("Login", login_empresa);
+        parameters.putString("Email", email_empresa);
+        parameters.putString("Telefone", telefone_empresa);
         intent = new Intent(this, EditarEmpresaActivity.class);
         intent.putExtras(parameters);
         startActivity(intent);

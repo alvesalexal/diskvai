@@ -26,7 +26,7 @@ import okhttp3.Response;
 
 public class EditarEmpresaActivity extends AppCompatActivity {
 
-    String id_empresa;
+    String id_empresa, nome_empresa, email_empresa, login_empresa, telefone_empresa;
     EditText nome, login, telefone, senha, nova_senha;
     Button btnEditar;
     private AutoCompleteTextView email;
@@ -39,8 +39,18 @@ public class EditarEmpresaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editar_perfil_activty);
         Intent intent = this.getIntent();
         id_empresa = intent.getStringExtra("ID");
+        nome_empresa = intent.getStringExtra("Nome");
+        email_empresa = intent.getStringExtra("Email");
+        login_empresa = intent.getStringExtra("Login");
+        telefone_empresa = intent.getStringExtra("Telefone");
+
 
         read();
+        nome.setText(nome_empresa);
+        email.setText(email_empresa);
+        login.setText(login_empresa);
+        telefone.setText(telefone_empresa);
+
         // Tratamento de Dados
         nomeValido();
         emailValido();

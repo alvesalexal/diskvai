@@ -18,6 +18,7 @@ import com.example.diskvai.R;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -35,7 +36,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
     private String id_empresa, resposta;
     private String a[]={"#"};
-    private ImageView imageView;
+    private CircleImageView imageView;
     private Bitmap bitmap;
     private Uri filePath;
 
@@ -135,7 +136,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
                 RequestBody multiPartBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("foto",uploadImage)
+                        .addFormDataPart("foto", uploadImage)
                         .addFormDataPart("nome_produto", nome.getText().toString())
                         .addFormDataPart("id_empresa", id_empresa)
                         .addFormDataPart("desc_produto", descricao.getText().toString())
@@ -183,6 +184,8 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                                     }
                                     else {
                                         alert(a[1]);
+                                        setResult(RESULT_OK);
+                                        finish();
                                     }
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -223,6 +226,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
             }
         }
     }
+
 
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

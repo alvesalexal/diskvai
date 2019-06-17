@@ -150,6 +150,20 @@ public class ListarProdutosActivity extends AppCompatActivity {
             parameters.putString("ID", id_empresa);
             intent = new Intent(this, CadastrarProdutoActivity.class);
             intent.putExtras(parameters);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+
+            if(resultCode == RESULT_OK){
+
+                resgatarProdutos();
+            }
+            if (resultCode == RESULT_CANCELED) {
+
+            }
+        }
     }
 }

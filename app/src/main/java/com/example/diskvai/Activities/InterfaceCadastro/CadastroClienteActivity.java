@@ -15,8 +15,12 @@ import android.widget.Toast;
 
 import com.example.diskvai.Activities.InterfaceCliente.ClienteHomeActivity;
 import com.example.diskvai.Activities.PoliticaDePrivacidadeActivity;
+import com.example.diskvai.Helpers.ConexaoPhp;
 import com.example.diskvai.Helpers.TratamentoDados;
 import com.example.diskvai.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 

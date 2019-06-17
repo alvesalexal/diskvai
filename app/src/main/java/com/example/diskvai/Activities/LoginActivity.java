@@ -234,6 +234,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case 2:
                 parameters = new Bundle();
                 parameters.putString("ID", jsonObjects.getString("ID"));
+                parameters.putString("Nome_empresa", jsonObjects.getString("Nome"));
+                parameters.putString("Email_empresa", jsonObjects.getString("Email"));
+                parameters.putString("Login_empresa", jsonObjects.getString("Login"));
+                parameters.putString("Telefone_empresa", jsonObjects.getString("Telefone"));
                 intent = new Intent(this, EmpresaHomeActivity.class);
                 intent.putExtras(parameters);
                 startActivity(intent);
