@@ -15,8 +15,6 @@ import java.util.List;
 
 public class EmpresaAdapter  extends BaseAdapter {
 
-
-
         private Context context;
         private List<Empresa> empresaList;
 
@@ -49,7 +47,7 @@ public class EmpresaAdapter  extends BaseAdapter {
             );
 
             TextView id = view1.findViewById(R.id.id);
-            Button nome = view1.findViewById(R.id.nome);
+            TextView nome = view1.findViewById(R.id.nome);
             TextView telefone = view1.findViewById(R.id.telefone);
             TextView preco = view1.findViewById(R.id.vlrFrete);
 

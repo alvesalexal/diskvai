@@ -11,8 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.InterfaceEmpresa.EditarEmpresaActivity"></activity>
-        <activity android:name=".Activities.InterfaceEmpresa.EditarEntregadorActivity"></activity>
+        <activity android:name=".Activities.InterfaceCliente.ListarProdutosCliActivity"></activity>
+        <activity android:name=".Activities.InterfaceEmpresa.EditarEmpresaActivity" />
+        <activity android:name=".Activities.InterfaceEmpresa.EditarEntregadorActivity" />
         <activity android:name=".Activities.InterfaceCliente.ListarEmpresasActivity" />
         <activity android:name=".Activities.InterfaceEmpresa.CadastrarFormaPagamentoActivity" />
         <activity android:name=".Activities.PoliticaDePrivacidadeActivity" />

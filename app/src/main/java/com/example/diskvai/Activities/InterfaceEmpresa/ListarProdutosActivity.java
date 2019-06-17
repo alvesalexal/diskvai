@@ -30,7 +30,7 @@ import okhttp3.Response;
 
 public class ListarProdutosActivity extends AppCompatActivity {
 
-    String id_empresa;
+    String id_empresa,id_cliente;
     private JSONObject jsonObject;
     List<Produto> produtoLista;
     ProgressDialog progressDialog;
@@ -41,8 +41,8 @@ public class ListarProdutosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listar_produtos);
 
         Intent intent = this.getIntent();
-        id_empresa = intent.getStringExtra("ID");
-
+        id_empresa = intent.getStringExtra("ID_Empresa");
+        id_cliente = intent.getStringExtra("ID_Clie");
 
 
         resgatarProdutos();
@@ -88,6 +88,7 @@ public class ListarProdutosActivity extends AppCompatActivity {
 
                                     listar(jsonArray);
                                 } else {
+                                    progressDialog.cancel();
                                     alert("Não há produtos cadastrados");
                                 }
                             } catch (JSONException e) {

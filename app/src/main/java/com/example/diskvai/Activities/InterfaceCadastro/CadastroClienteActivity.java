@@ -201,6 +201,8 @@ public class CadastroClienteActivity extends AppCompatActivity {
     private void principal(String []a){
         if(a[1].equals("Cadastrado com Sucesso!")) {
             Intent intent = new Intent(this, ClienteHomeActivity.class);
+            Bundle parameters = new Bundle();
+            parameters.putInt("ID_Cliente", Integer.parseInt(a[2]));
             startActivity(intent);
             limparcampos();
         }

@@ -6,13 +6,12 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
-import com.example.diskvai.Adapters.EmpresaAdapter;
-import com.example.diskvai.Models.Empresa;
+import com.example.diskvai.Adapters.ProdutoAdapter;
+import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
 
 import org.json.JSONArray;
@@ -30,19 +29,27 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ListarEmpresasActivity extends AppCompatActivity {
+public class ListarProdutosCliActivity extends AppCompatActivity {
 
-
-    String id_empresa;
+    String id_empresa,id_cliente,nome_vendedor;
     private JSONObject jsonObject;
-    List<Empresa> empresaLista;
+    List<Produto> produtoLista;
     ProgressDialog progressDialog;
-    private Empresa empresa;
+    TextView nomeVendedor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listar_empresas);
+        setContentView(R.layout.activity_listar_produtos_cli);
+
+        Intent intent = this.getIntent();
+        id_empresa = intent.getStringExtra("ID_Empresa");
+        //id_cliente = intent.getStringExtra("ID_Clie");
+        nome_vendedor = intent.getStringExtra("Nome_Vend");
+
+        nomeVendedor = findViewById(R.id.nome_Vendedor);
+        nomeVendedor.setText(nome_vendedor);
+        resgatarProdutos();
     }
 
     private void resgatarProdutos() {
@@ -52,15 +59,16 @@ public class ListarEmpresasActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarEmpresas.php").newBuilder();
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarProdutos.php").newBuilder();
             urlBuilder.addQueryParameter("id_empresa", id_empresa);
+
 
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder().url(url).build();
 
-            progressDialog = ProgressDialog.show(ListarEmpresasActivity.this, "",
-                    "Carregando Vendedores", true);
+            progressDialog = ProgressDialog.show(com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity.this, "",
+                    "Carregando Produtos", true);
 
             client.newCall(request).enqueue(new Callback() {
 
@@ -84,7 +92,8 @@ public class ListarEmpresasActivity extends AppCompatActivity {
 
                                         listar(jsonArray);
                                     } else {
-                                        alert("Não há Empresas cadastradas");
+                                        progressDialog.cancel();
+                                        alert("Não há produtos cadastrados");
                                     }
                                 } catch (JSONException e) {
                                     alert("erro no json");
@@ -103,7 +112,7 @@ public class ListarEmpresasActivity extends AppCompatActivity {
     }
 
     private void listar(JSONArray jsonArray) {
-        empresaLista = new ArrayList<Empresa>();
+        produtoLista = new ArrayList<>();
 
         try {
 
@@ -111,35 +120,24 @@ public class ListarEmpresasActivity extends AppCompatActivity {
 
                 JSONObject jsonChildNode = (JSONObject) jsonArray.getJSONObject(i);
                 String id = jsonChildNode.optString("ID");
-                String nome = jsonChildNode.optString("Nome_Vend");
-                String telefone = jsonChildNode.optString("Telefone");
-                Double vlrFrete = Double.parseDouble(jsonChildNode.optString("Valor_Frete"));
+                String nome = jsonChildNode.optString("Nome_prod");
+                String descricao = jsonChildNode.optString("Descricao");
+                Double preco = Double.parseDouble(jsonChildNode.optString("Preco"));
                 String url_img = jsonChildNode.optString("Foto");
 
-                Empresa empresa = new Empresa(id, nome, telefone, vlrFrete, url_img);
-                empresaLista.add(empresa);
+                Produto produto = new Produto(id, nome, descricao, preco, url_img);
+                produtoLista.add(produto);
             }
 
             ListView listView = findViewById(R.id.listview);
-            listView.setAdapter(new EmpresaAdapter(this, empresaLista));
+            listView.setAdapter(new ProdutoAdapter(this, produtoLista));
             progressDialog.dismiss();
 
         } catch (JSONException e) {
             Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
-            alert("Falha ao Carregar Vendedores");
+            alert("Falha ao Carregar produtos");
         }
-    }
-
-    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-
-        empresa = empresaLista.get(i);
-        alert("Item selecionado: "+empresa.getId()+" - Posição: "+i);
-        Intent intent = new Intent(this, ListarProdutosActivity.class);
-        startActivity(intent);
-        intent.putExtra("ID",empresa.getId());
-        startActivity(intent);
-        //ActivitySensor.TIPO_SENSOR=sensor.getType();
     }
 
     private void alert(String valor) {
@@ -150,3 +148,4 @@ public class ListarEmpresasActivity extends AppCompatActivity {
         this.finish();
     }
 }
+

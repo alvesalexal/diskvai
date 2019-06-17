@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.InterfaceCliente.ListarEmpresasActivity"
+    tools:context=".Activities.InterfaceCliente.ListarProdutosCliActivity"
     android:orientation="vertical">
 
 
@@ -24,12 +24,13 @@
             />
 
         <TextView
+            android:id="@+id/nome_Vendedor"
             android:textColor="#fff"
             android:textSize="20dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vendedores"/>
+            android:text="Produtos"/>
 
     </LinearLayout>
 
@@ -44,12 +45,6 @@
             android:layout_weight="1"
             android:id="@+id/listview" />
 
-
-
     </RelativeLayout>
-
-
-
-
 
 </LinearLayout>

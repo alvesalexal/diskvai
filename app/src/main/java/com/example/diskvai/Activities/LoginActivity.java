@@ -224,13 +224,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void login(JSONObject jsonObjects) throws JSONException {
         Intent intent;
+        Bundle parameters = new Bundle();
         switch (Integer.parseInt(jsonObjects.getString("tipo_usuario"))){
             case 1:
+                parameters.putString("ID_Cliente", jsonObjects.getString("ID"));
                 intent = new Intent(this, ClienteHomeActivity.class);
                 startActivity(intent);
             break;
             case 2:
-                Bundle parameters = new Bundle();
+                parameters = new Bundle();
                 parameters.putString("ID", jsonObjects.getString("ID"));
                 intent = new Intent(this, EmpresaHomeActivity.class);
                 intent.putExtras(parameters);

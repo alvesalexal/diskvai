@@ -105,20 +105,7 @@
         android:gravity="right"
         android:layout_marginRight="10dp">
 
-        <ImageButton
-            android:id="@+id/editar"
-            android:backgroundTint="#fff"
-            android:src="@drawable/ic_icons8_edit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            />
-        <ImageButton
-            android:id="@+id/excluir"
-            android:backgroundTint="#fff"
-            android:src="@drawable/ic_icons8_trash"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            />
+
 
     </LinearLayout>
 
