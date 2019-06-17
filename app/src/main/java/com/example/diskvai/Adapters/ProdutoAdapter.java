@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProdutoAdapter extends BaseAdapter {
 
@@ -54,12 +57,21 @@ public class ProdutoAdapter extends BaseAdapter {
         TextView preco = view1.findViewById(R.id.preco);
         ImageButton editar = view1.findViewById(R.id.editar);
         ImageButton excluir = view1.findViewById(R.id.excluir);
-        //ImageView imagem = view1.findViewById(R.id.imgProduto);
+        CircleImageView imagem = view1.findViewById(R.id.imgProduto);
 
         id.setText("ID: " + produtoLista.get(position).getId());
         nome.setText("Nome: " +produtoLista.get(position).getNome());
         descricao.setText("Descrição: " + produtoLista.get(position).getDescricao());
         preco.setText("Preço: R$ " + produtoLista.get(position).getPreco());
+        if(produtoLista.get(position).getUrl_imagem()==null||produtoLista.get(position).getUrl_imagem().equals("")) {
+            Picasso.get().load(R.mipmap.perfil_empresa).into(imagem);
+        } else {
+            Picasso.get()
+                    .load(produtoLista.get(position).getUrl_imagem())
+                    .placeholder(R.mipmap.box)
+                    .error(R.mipmap.box)
+                    .into(imagem);
+        }
 
         return view1;
     }
