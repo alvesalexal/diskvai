@@ -49,6 +49,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
     private ArrayList<Categoria> categorias;
     ProgressDialog progressDialog;
+    CategoriaAdapter categoriaAdapter;
 
     private String id_empresa, resposta;
     private String a[]={"#"};
@@ -136,6 +137,16 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
     }
 
     public void cadastrarProduto(View view) {
+
+        // Como pegar as categorias selecionadas
+//        String cats = "categorias selecionadas: ";
+//        for(int i = 0; i<categoriaAdapter.getSelected().size(); i++) {
+//            if(categoriaAdapter.getSelected().get(i)!=null) {
+//                cats += ", " + categoriaAdapter.getSelected().get(i).getNome();
+//            }
+//        }
+//        alert(cats);
+
         if (validaCadastro()) {
             try {
 
@@ -328,9 +339,10 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
             }
 
-            CategoriaAdapter categoriaAdapter = new CategoriaAdapter(CadastrarProdutoActivity.this, 0,
+            categoriaAdapter = new CategoriaAdapter(CadastrarProdutoActivity.this, 0,
                     categorias);
             spinner.setAdapter(categoriaAdapter);
+
 
 //            ListView listView = findViewById(R.id.listview);
 //            listView.setAdapter(new ProdutoAdapter(this, produtoLista));

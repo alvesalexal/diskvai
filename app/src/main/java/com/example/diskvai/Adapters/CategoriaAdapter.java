@@ -17,15 +17,15 @@ import java.util.List;
 
 public class CategoriaAdapter extends ArrayAdapter<Categoria> {
     private Context mContext;
-    private ArrayList<Categoria> listState;
-    private CategoriaAdapter myAdapter;
+    private ArrayList<Categoria> categorias;
+    private CategoriaAdapter categoriaAdapter;
     private boolean isFromView = false;
 
     public CategoriaAdapter(Context context, int resource, List<Categoria> objects) {
         super(context, resource, objects);
         this.mContext = context;
-        this.listState = (ArrayList<Categoria>) objects;
-        this.myAdapter = this;
+        this.categorias = (ArrayList<Categoria>) objects;
+        this.categoriaAdapter = this;
     }
 
     @Override
@@ -56,11 +56,11 @@ public class CategoriaAdapter extends ArrayAdapter<Categoria> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.mTextView.setText(listState.get(position).getNome());
+        holder.mTextView.setText(categorias.get(position).getNome());
 
         // To check weather checked event fire from getview() or user input
         isFromView = true;
-        holder.mCheckBox.setChecked(listState.get(position).isSelected());
+        holder.mCheckBox.setChecked(categorias.get(position).isSelected());
         isFromView = false;
 
         if ((position == 0)) {
@@ -76,7 +76,7 @@ public class CategoriaAdapter extends ArrayAdapter<Categoria> {
                 int getPosition = (Integer) buttonView.getTag();
 
                 if (!isFromView) {
-                    listState.get(position).setSelected(isChecked);
+                    categorias.get(position).setSelected(isChecked);
                 }
             }
         });
@@ -86,5 +86,15 @@ public class CategoriaAdapter extends ArrayAdapter<Categoria> {
     private class ViewHolder {
         private TextView mTextView;
         private CheckBox mCheckBox;
+    }
+
+    public ArrayList<Categoria> getSelected() {
+        ArrayList<Categoria> categoriasSelecionadas = new ArrayList<>();
+        for(int i = 0; i<categorias.size(); i++) {
+            if(categorias.get(i).isSelected()) {
+                categoriasSelecionadas.add(categorias.get(i));
+            }
+        }
+        return categoriasSelecionadas;
     }
 }
