@@ -1,5 +1,6 @@
 package com.example.diskvai.Activities.InterfaceEmpresa;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.InterfaceCadastro.CadastroEntregadorActivity;
 import com.example.diskvai.Adapters.EntregadorAdapter;
 import com.example.diskvai.Models.Entregador;
 import com.example.diskvai.R;
@@ -63,7 +65,7 @@ public class ListarEntregadorActivity extends AppCompatActivity {
             Request request = new Request.Builder().url(url).build();
 
             progressDialog = ProgressDialog.show(ListarEntregadorActivity.this, "",
-                    "Carregando Produtos", true);
+                    "Carregando Entregadores", true);
 
             client.newCall(request).enqueue(new Callback() {
 
@@ -124,9 +126,9 @@ public class ListarEntregadorActivity extends AppCompatActivity {
                 entregadores.add(entregador);
             }
 
-            ListView listaDeEntregadores = (ListView) findViewById(R.id.listView);
+            ListView listaDeEntregadores = (ListView) findViewById(R.id.listview);
 
-            EntregadorAdapter entregadorAdapter = new EntregadorAdapter(entregadores, ListarEntregadorActivity.this);
+            EntregadorAdapter entregadorAdapter = new EntregadorAdapter(entregadores, ListarEntregadorActivity.this,this);
             listaDeEntregadores.setAdapter(entregadorAdapter);
             progressDialog.dismiss();
 
@@ -143,5 +145,13 @@ public class ListarEntregadorActivity extends AppCompatActivity {
 
     public void back(View view) {
         this.finish();
+    }
+
+    public void cadastrarEntregadores(View view) {
+        Intent intent;
+        Bundle parameters = new Bundle();
+        parameters.putString("id_empresa", id_empresa);
+        intent = new Intent(this, CadastrarEntregadoresEmpActivity.class);
+        startActivityForResult(intent, 1);
     }
 }

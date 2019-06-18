@@ -1,6 +1,9 @@
 package com.example.diskvai.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.InterfaceCadastro.CompletarCadastroFacebookActivity;
+import com.example.diskvai.Activities.InterfaceEmpresa.CadastrarEntregadoresEmpActivity;
+import com.example.diskvai.Activities.InterfaceEmpresa.EditarEntregadorActivity;
+import com.example.diskvai.Activities.InterfaceEmpresa.ListarEntregadorActivity;
 import com.example.diskvai.Models.Entregador;
 import com.example.diskvai.R;
 
@@ -17,10 +24,12 @@ public class EntregadorAdapter extends BaseAdapter {
 
     private final List<Entregador> entregadores;
     private final Activity act;
+    Context context;
 
-    public EntregadorAdapter(List<Entregador> entregadores, Activity act) {
+    public EntregadorAdapter(List<Entregador> entregadores, Activity act, Context context) {
         this.entregadores = entregadores;
         this.act = act;
+        this.context = context;
     }
 
     @Override
@@ -52,24 +61,34 @@ public class EntregadorAdapter extends BaseAdapter {
 
         view.findViewById(R.id.editar).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                clickEditar(entregadores.get(position).getNome_ent());
+                Intent intent = new Intent(context, EditarEntregadorActivity.class);
+                Bundle parameters = new Bundle();
+                parameters.putString("Nome", entregadores.get(position).getNome_ent());
+                parameters.putString("Email", entregadores.get(position).getEmail());
+                parameters.putString("Telefone", entregadores.get(position).getTelefone());
+                intent.putExtras(parameters);
+                context.startActivity(intent);
             }
         });
 
         view.findViewById(R.id.excluir).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                clickExcluir(entregadores.get(position).getNome_ent());
+
             }
         });
 
         return view;
     }
 
-    private void clickEditar(String s){ // <-- Este método é chamado ao clicar em Editar (abrir todos os dados do entregador)
+    private void clickEditar(String s, int pos){ // <-- Este método é chamado ao clicar em Editar (abrir todos os dados do entregador)
         Toast.makeText(act, "Clicou em editar " + s, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(context, EditarEntregadorActivity.class);
+
+        context.startActivity(intent);
     }
 
-    private void clickExcluir(String s){ // <-- Este método é chamado ao clicar em Excluir
+    private void clickExcluir(String s, int pos){ // <-- Este método é chamado ao clicar em Excluir
         Toast.makeText(act, "Clicou em excluir " + s, Toast.LENGTH_SHORT).show();
     }
+
 }

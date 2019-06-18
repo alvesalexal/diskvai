@@ -143,8 +143,6 @@ public class EditarEmpresaActivity extends AppCompatActivity {
         });
     }
 
-
-
     public void read() {
         nome = findViewById(R.id.Nome);
         email = findViewById(R.id.EndEmail);

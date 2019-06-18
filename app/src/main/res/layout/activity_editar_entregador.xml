@@ -1,9 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.InterfaceEmpresa.EditarEntregadorActivity">
+    tools:context=".Activities.InterfaceEmpresa.EditarEntregadorActivity"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:layout_margin="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_back_button"
+            android:backgroundTint="#fff"
+            android:onClick="back"
+            />
+
+        <TextView
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar Perfil"/>
+
+    </LinearLayout>
+
+    <!-- Campo Nome-->
+    <EditText
+        android:layout_marginTop="30dp"
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Nome"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:maxLines="1"
+        android:inputType="textPersonName"
+        android:id="@+id/Nome"
+        android:paddingRight="10dp"
+        />
+
+    <!-- Campo Email -->
+    <AutoCompleteTextView
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Email"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:id="@+id/EndEmail"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Login"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:maxLines="1"
+        android:id="@+id/Login"
+        android:paddingRight="10dp"
+        />
+
+    <!-- Campo Telefone -->
+    <EditText
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Telefone (opcional)"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:inputType="phone"
+        android:maxLines="1"
+        android:id="@+id/Telefone"
+        android:paddingRight="10dp"
+        />
+
+
+    <!-- Campo Senha -->
+    <EditText
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Senha"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:maxLines="1"
+        android:id="@+id/Senha"
+        android:inputType="textPassword"
+        android:paddingRight="10dp"
+        />
+    <EditText
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded_corner_line"
+        android:hint="Nova Senha"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:maxLines="1"
+        android:inputType="textPassword"
+        android:id="@+id/Novasenha"
+        android:paddingRight="10dp"
+        />
+
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_filled"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Editar Perfil"
+        android:textColor="#fff"
+        android:paddingHorizontal="20dp"
+        android:layout_gravity="center"
+        android:id="@+id/editar"/>
+
+
+</LinearLayout>
