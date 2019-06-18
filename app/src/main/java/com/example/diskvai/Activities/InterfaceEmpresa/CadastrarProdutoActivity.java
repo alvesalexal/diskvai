@@ -1,5 +1,6 @@
 package com.example.diskvai.Activities.InterfaceEmpresa;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,16 +12,28 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.diskvai.Adapters.CategoriaAdapter;
+import com.example.diskvai.Adapters.ProdutoAdapter;
+import com.example.diskvai.Models.Categoria;
+import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -33,6 +46,9 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 1;
 
     private EditText nome, descricao, preco;
+
+    private ArrayList<Categoria> categorias;
+    ProgressDialog progressDialog;
 
     private String id_empresa, resposta;
     private String a[]={"#"};
@@ -49,7 +65,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
         nomeValido();
         descricaoValida();
         precoValido();
-
+        resgatarCategorias();
         Intent intent = this.getIntent();
         id_empresa = intent.getStringExtra("ID");
     }
@@ -234,6 +250,98 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
+    }
+
+    private void resgatarCategorias() {
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            OkHttpClient client = new OkHttpClient();
+
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarCategorias.php").newBuilder();
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder().url(url).build();
+
+            progressDialog = ProgressDialog.show(CadastrarProdutoActivity.this, "",
+                    "Carregando Categorias", true);
+
+            client.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    alert("deu lenha");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                //alert(response.body().string());
+                                try {
+                                    String data = response.body().string();
+                                    JSONArray jsonArray = new JSONArray(data);
+                                    if(jsonArray.length()!=0){
+                                        //jsonObject = jsonArray.getJSONObject(0);
+
+                                        listar(jsonArray);
+                                    } else {
+                                        progressDialog.cancel();
+                                        alert("Não há produtos cadastrados");
+                                    }
+                                } catch (JSONException e) {
+                                    alert("erro no json");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void listar(JSONArray jsonArray) {
+        categorias = new ArrayList<>();
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        try {
+            Categoria categoria = new Categoria("0", "selecionar categoria");
+            categorias.add(categoria);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonChildNode = (JSONObject) jsonArray.getJSONObject(i);
+                String id = jsonChildNode.optString("ID");
+                String nome = jsonChildNode.optString("Nome_cat");
+
+                categoria = new Categoria(id, nome);
+                categorias.add(categoria);
+
+            }
+
+            CategoriaAdapter categoriaAdapter = new CategoriaAdapter(CadastrarProdutoActivity.this, 0,
+                    categorias);
+            spinner.setAdapter(categoriaAdapter);
+
+//            ListView listView = findViewById(R.id.listview);
+//            listView.setAdapter(new ProdutoAdapter(this, produtoLista));
+            progressDialog.dismiss();
+
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            alert("Falha ao Carregar Categorias");
+        }
+
     }
 
 }

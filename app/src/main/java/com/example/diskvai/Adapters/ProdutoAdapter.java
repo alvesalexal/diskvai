@@ -60,7 +60,7 @@ public class ProdutoAdapter extends BaseAdapter {
         CircleImageView imagem = view1.findViewById(R.id.imgProduto);
 
         id.setText("ID: " + produtoLista.get(position).getId());
-        nome.setText("Nome: " +produtoLista.get(position).getNome());
+        nome.setText(produtoLista.get(position).getNome());
         descricao.setText("Descrição: " + produtoLista.get(position).getDescricao());
         preco.setText("Preço: R$ " + produtoLista.get(position).getPreco());
         if(produtoLista.get(position).getUrl_imagem()==null||produtoLista.get(position).getUrl_imagem().equals("")) {

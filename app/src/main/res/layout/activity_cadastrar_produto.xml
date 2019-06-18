@@ -38,13 +38,14 @@
         android:onClick="showFileChooser"
         android:layout_marginTop="30dp"
         android:id="@+id/imgProduto"
-        android:src="@mipmap/perfil_empresa"
+        android:src="@mipmap/box"
         android:layout_gravity="center"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/colorPrimary"
         />
+
 
 
 
@@ -67,7 +68,7 @@
         android:layout_width="240dp"
         android:layout_height="100dp"
         android:background="@drawable/rounded_corner_line"
-        android:hint="Descriçãossssssssssssssssssss"
+        android:hint="Descrição"
         android:layout_gravity="center"
         android:paddingLeft="20dp"
         android:layout_marginBottom="20dp"
@@ -103,7 +104,12 @@
 
     </LinearLayout>
 
-
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_marginTop="20dp"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"/>
 
 
     <Button
