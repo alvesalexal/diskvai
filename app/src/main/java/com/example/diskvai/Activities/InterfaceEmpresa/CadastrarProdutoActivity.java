@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +22,9 @@ import com.example.diskvai.Adapters.ProdutoAdapter;
 import com.example.diskvai.Models.Categoria;
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
+import com.pchmn.materialchips.ChipsInput;
+import com.pchmn.materialchips.model.Chip;
+import com.pchmn.materialchips.model.ChipInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +32,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -47,9 +53,12 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
     private EditText nome, descricao, preco;
 
-    private ArrayList<Categoria> categorias;
     ProgressDialog progressDialog;
     CategoriaAdapter categoriaAdapter;
+    ChipsInput chipsInput;
+
+    ArrayList<Chip> list;
+
 
     private String id_empresa, resposta;
     private String a[]={"#"};
@@ -76,6 +85,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
         descricao = findViewById(R.id.descricao);
         preco = findViewById(R.id.preco);
         imageView = findViewById(R.id.imgProduto);
+        chipsInput = findViewById(R.id.chips_input);
     }
 
     public void back(View view) {
@@ -138,17 +148,19 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
     public void cadastrarProduto(View view) {
 
-        // Como pegar as categorias selecionadas
-//        String cats = "categorias selecionadas: ";
-//        for(int i = 0; i<categoriaAdapter.getSelected().size(); i++) {
-//            if(categoriaAdapter.getSelected().get(i)!=null) {
-//                cats += ", " + categoriaAdapter.getSelected().get(i).getNome();
-//            }
-//        }
-//        alert(cats);
+        // obter as categorias selecionadas
+
+
+
 
         if (validaCadastro()) {
             try {
+
+                ArrayList<String> categoriasSelecionadas = new ArrayList<>();
+                for(int i = 0; i < chipsInput.getSelectedChipList().size(); i++) {
+                    categoriasSelecionadas.add(chipsInput.getSelectedChipList().get(i).getLabel());
+                }
+                JSONArray jsonArray = new JSONArray(categoriasSelecionadas);
 
 
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -168,6 +180,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                         .addFormDataPart("id_empresa", id_empresa)
                         .addFormDataPart("desc_produto", descricao.getText().toString())
                         .addFormDataPart("preco", preco.getText().toString())
+                        .addFormDataPart("categorias", jsonArray.toString())
                         .build();
                 Request request = new Request.Builder()
                         .url("http://gabriellacastro.com.br/disk_vai/inserirProduto.php")
@@ -322,30 +335,46 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
     }
 
     private void listar(JSONArray jsonArray) {
-        categorias = new ArrayList<>();
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+         list = new ArrayList<>();
 
         try {
-            Categoria categoria = new Categoria("0", "selecionar categoria");
-            categorias.add(categoria);
+
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonChildNode = (JSONObject) jsonArray.getJSONObject(i);
                 String id = jsonChildNode.optString("ID");
                 String nome = jsonChildNode.optString("Nome_cat");
 
-                categoria = new Categoria(id, nome);
-                categorias.add(categoria);
+                Chip chip = new Chip(nome, "");
+                list.add(chip);
+
 
             }
+            chipsInput.setFilterableList(list);
+            chipsInput.addChipsListener(new ChipsInput.ChipsListener() {
+                @Override
+                public void onChipAdded(ChipInterface chip, int newSize) {
 
-            categoriaAdapter = new CategoriaAdapter(CadastrarProdutoActivity.this, 0,
-                    categorias);
-            spinner.setAdapter(categoriaAdapter);
+                }
 
+                @Override
+                public void onChipRemoved(ChipInterface chip, int newSize) {
 
-//            ListView listView = findViewById(R.id.listview);
-//            listView.setAdapter(new ProdutoAdapter(this, produtoLista));
+                }
+
+                @Override
+                public void onTextChanged(CharSequence text) {
+                    if(text.toString().equals(",")) {
+                        chipsInput.getEditText().setText("");
+                    }
+                    if(text.toString().contains(",")&&!text.toString().equals(",")) {
+                        String chiplabel[] = text.toString().split(",");
+                        Chip chip = new Chip(chiplabel[0], "");
+                        chipsInput.addChip(chip);
+                    }
+                }
+            });
+
             progressDialog.dismiss();
 
         } catch (JSONException e) {
