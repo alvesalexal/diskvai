@@ -33,6 +33,14 @@
 
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:scaleType="centerCrop"
         android:onClick="showFileChooser"
@@ -113,13 +121,16 @@
         android:layout_gravity="center"/>
 
     <com.pchmn.materialchips.ChipsInput
+        android:padding="10dp"
+        android:background="@drawable/rounded_corner_line"
         android:layout_marginTop="30dp"
         android:id="@+id/chips_input"
         android:layout_gravity="center"
         android:layout_width="240dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         app:hint="Tags"
         app:maxRows="3"
+        app:showChipDetailed="false"
         app:chip_labelColor="@color/colorPrimary"
         app:chip_hasAvatarIcon="false"
         app:chip_backgroundColor="#EEEEEE"
@@ -138,6 +149,8 @@
         android:layout_gravity="center"
         android:onClick="cadastrarProduto"
         android:id="@+id/cadastrar"/>
+    </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

@@ -125,6 +125,15 @@ public class EditarEmpresaActivity extends AppCompatActivity {
                                         }
                                         else {
                                             alert(a[1]);
+                                            Intent resultIntent = new Intent();
+                                            Bundle parameters = new Bundle();
+                                            parameters.putString("Nome", nome.getText().toString());
+                                            parameters.putString("Login", login.getText().toString());
+                                            parameters.putString("Email", email.getText().toString());
+                                            parameters.putString("Telefone", telefone.getText().toString());
+                                            resultIntent.putExtras(parameters);
+                                            setResult(RESULT_OK, resultIntent);
+                                            finish();
                                         }
                                     } catch (IOException e) {
                                         e.printStackTrace();

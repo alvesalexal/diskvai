@@ -54,6 +54,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
     private EditText nome, descricao, preco;
 
     ProgressDialog progressDialog;
+    ProgressDialog cadastrandoProdutoProgress;
     CategoriaAdapter categoriaAdapter;
     ChipsInput chipsInput;
 
@@ -150,11 +151,11 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
         // obter as categorias selecionadas
 
-
-
-
         if (validaCadastro()) {
             try {
+
+                cadastrandoProdutoProgress = ProgressDialog.show(CadastrarProdutoActivity.this, "",
+                        "Cadastrando Produto", true);
 
                 ArrayList<String> categoriasSelecionadas = new ArrayList<>();
                 for(int i = 0; i < chipsInput.getSelectedChipList().size(); i++) {
@@ -221,14 +222,20 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
                                     if(a[1].split("'")[0].equals("Duplicate entry ")){
                                         alert("email ja cadastrado");
+                                        cadastrandoProdutoProgress.cancel();
+                                        cadastrandoProdutoProgress = null;
                                     }
                                     else {
                                         alert(a[1]);
+                                        cadastrandoProdutoProgress.cancel();
+                                        cadastrandoProdutoProgress = null;
                                         setResult(RESULT_OK);
                                         finish();
                                     }
                                 } catch (IOException e) {
                                     e.printStackTrace();
+                                    cadastrandoProdutoProgress.cancel();
+                                    cadastrandoProdutoProgress = null;
                                 }
                             }
                         });
@@ -314,6 +321,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                                         listar(jsonArray);
                                     } else {
                                         progressDialog.cancel();
+                                        progressDialog = null;
                                         alert("Não há produtos cadastrados");
                                     }
                                 } catch (JSONException e) {
@@ -375,7 +383,8 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                 }
             });
 
-            progressDialog.dismiss();
+            progressDialog.cancel();
+            progressDialog = null;
 
         } catch (JSONException e) {
             Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();

@@ -6,12 +6,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diskvai.Adapters.PedidoAdapter;
+import com.example.diskvai.Adapters.ProdutoAdapter;
+import com.example.diskvai.Models.Pedido;
 import com.example.diskvai.R;
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
+
+import java.util.ArrayList;
 
 public class EmpresaHomeActivity extends AppCompatActivity {
 
@@ -20,6 +26,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
     ImageView imgPerfil;
     TextView nome_empresa;
     String id_empresa, empresa_nome, login_empresa, email_empresa, telefone_empresa;
+    ListView listaPedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,8 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         read();
         menu();
         nome_empresa.setText(empresa_nome);
+
+        listarPedidos();
 
 
 
@@ -56,6 +65,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
             @Override
             public void onPreOpen() {
                 infoPerfil.expand();
+                listaPedidos.setVisibility(View.GONE);
             }
 
             @Override
@@ -66,6 +76,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
                 listarEntregadores.setText("");
                 logout.setText("");
                 infoPerfil.collapse();
+
             }
 
             @Override
@@ -79,7 +90,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
 
             @Override
             public void onClosed() {
-
+                listaPedidos.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -114,6 +125,17 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void listarPedidos() {
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        Pedido pedido = new Pedido("1", "Isaac Carvalho");
+        pedidos.add(pedido);
+        pedido.setFormaPagamento("Dinheiro");
+        pedido.setStatus("Pendente");
+        pedido.setEndereco("Rua Manuel Francisco de Assis, 775, Joao VI. Muriae - MG");
+        listaPedidos = findViewById(R.id.pedidosLista);
+        listaPedidos.setAdapter(new PedidoAdapter(this, pedidos));
+    }
+
 
     public void listarEntregadores(View view) {
         Intent intent;
@@ -134,6 +156,25 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         parameters.putString("Telefone", telefone_empresa);
         intent = new Intent(this, EditarEmpresaActivity.class);
         intent.putExtras(parameters);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+
+            if(resultCode == RESULT_OK){
+
+                empresa_nome = data.getStringExtra("Nome");
+                email_empresa = data.getStringExtra("Email");
+                login_empresa = data.getStringExtra("Login");
+                telefone_empresa = data.getStringExtra("Telefone");
+                nome_empresa.setText(empresa_nome);
+            }
+            if (resultCode == RESULT_CANCELED) {
+
+            }
+        }
     }
 }

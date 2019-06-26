@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_corner_line">
+
+        <!-- Status -->
+        <Button
+            android:layout_gravity="right"
+            android:drawableTint="#10D119"
+            android:drawableRight="@drawable/status_ball"
+            android:drawablePadding="10dp"
+            android:backgroundTint="#fff"
+            android:background="@drawable/rounded_corner_line"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Status"
+            android:elevation="3dp"
+            android:id="@+id/status"/>
+
+        <!-- Ver Produtos  -->
+        <Button
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="@drawable/rounded_corner_filled"
+            android:backgroundTint="#686868"
+            android:text="Ver produtos"
+            android:textColor="#fff"
+            android:paddingHorizontal="10dp"
+            android:id="@+id/verProdutos"
+            />
+
+        <!-- Endereço -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Endereço: rua dos bobos, 00"
+            android:textSize="17dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/endereco"/>
+
+        <!-- Cliente -->
+        <TextView
+            android:textSize="17dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cliente: Fulano da Silva"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/cliente"/>
+
+        <!-- Subtotal -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Subtotal: R$ 00,00"
+                android:textSize="17dp"
+                android:id="@+id/subtotal"/>
+
+            <!-- Forma de Pagamento -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="(Dinheiro)"
+                android:textSize="15dp"
+                android:id="@+id/formaPagamento"
+                />
+        </LinearLayout>
+
+        <!-- Botoes Aceitar o Recusar -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#fff"
+                android:background="@drawable/rounded_corner_line"
+                android:drawableLeft="@drawable/ic_aceitar_pedido"
+                android:drawablePadding="5dp"
+                android:drawableTint="#4CAF50"
+                android:padding="10dp"
+                android:text="Aceitar"
+                android:elevation="3dp"
+                android:id="@+id/aceitarPedido"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#fff"
+                android:background="@drawable/rounded_corner_line"
+                android:drawableLeft="@drawable/ic_recusar_pedido"
+                android:drawablePadding="5dp"
+                android:drawableTint="#FF0000"
+                android:padding="10dp"
+                android:text="Recusar"
+                android:elevation="3dp"
+                android:id="@+id/recusarPedido"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
