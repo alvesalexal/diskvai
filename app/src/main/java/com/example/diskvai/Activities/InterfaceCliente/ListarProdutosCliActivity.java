@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.diskvai.Adapters.ProdutoAdapter;
+import com.example.diskvai.Adapters.ProdutoCarrinhoAdapter;
+import com.example.diskvai.Adapters.ProdutoCliAdapter;
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
 
@@ -34,9 +36,11 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
     String id_empresa,id_cliente,nome_vendedor;
     private JSONObject jsonObject;
     List<Produto> produtoLista;
+    ArrayList<Produto> produtoListaCar;
     ProgressDialog progressDialog;
     TextView nomeVendedor;
 
+    ListView listView2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,11 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         nomeVendedor = findViewById(R.id.nome_Vendedor);
         nomeVendedor.setText(nome_vendedor);
         resgatarProdutos();
+
+        produtoListaCar = new ArrayList<>();
+        listView2 = findViewById(R.id.listviewPedido);
+
+
     }
 
     private void resgatarProdutos() {
@@ -61,7 +70,6 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
             HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarProdutos.php").newBuilder();
             urlBuilder.addQueryParameter("id_empresa", id_empresa);
-
 
             String url = urlBuilder.build().toString();
 
@@ -130,7 +138,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
             }
 
             ListView listView = findViewById(R.id.listview);
-            listView.setAdapter(new ProdutoAdapter(this, produtoLista));
+            listView.setAdapter(new ProdutoCliAdapter(this, produtoLista));
             progressDialog.dismiss();
 
         } catch (JSONException e) {
@@ -147,5 +155,17 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
     public void back(View view) {
         this.finish();
     }
-}
 
+    public void enviarPedido(View view) {
+
+    }
+
+    public void adicionarProdutoCarrinho(Produto produto) {
+        produtoListaCar.add(produto);
+        listView2.setAdapter(new ProdutoCarrinhoAdapter(this,this, produtoListaCar));
+        if(!produtoListaCar.isEmpty()){
+            TextView textView = findViewById(R.id.vazio);
+            textView.setText("Não está vazio");
+        }
+    }
+}
