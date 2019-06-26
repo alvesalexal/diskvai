@@ -1,5 +1,6 @@
 package com.example.diskvai.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -7,14 +8,20 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
 import com.example.diskvai.Models.Pedido;
+import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoAdapter extends BaseAdapter {
@@ -64,6 +71,17 @@ public class PedidoAdapter extends BaseAdapter {
         subtotal.setText("Subtotal: R$ " + pedidoLista.get(position).getValor());
         status.setText(pedidoLista.get(position).getStatus());
         formaPagamento.setText("("+pedidoLista.get(position).getFormaPagamento()+")");
+
+
+        verProdutos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(context instanceof EmpresaHomeActivity){
+                    ((EmpresaHomeActivity)context).mostrarProdutosPedido(pedidoLista.get(position).getId());
+                }
+            }
+        });
+
         int color = Color.rgb(33, 150, 243);
         switch (pedidoLista.get(position).getStatus()) {
             case "Pendente":

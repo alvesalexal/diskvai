@@ -1,5 +1,6 @@
 package com.example.diskvai.Activities.InterfaceEmpresa;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
@@ -7,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -317,6 +319,88 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    public void mostrarProdutosPedido(String id_pedido) {
+
+        try {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarProdutosPedido.php").newBuilder();
+        urlBuilder.addQueryParameter("pedido_id", id_pedido);
+
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder().url(url).build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                alert("deu lenha");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            try {
+                                String data = response.body().string();
+                                JSONArray jsonArray = new JSONArray(data);
+                                if(jsonArray.length()!=0){
+                                    //jsonObject = jsonArray.getJSONObject(0);
+                                    ArrayList<String> produtos = new ArrayList<>();
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                                            JSONObject jsonChildNode = (JSONObject) jsonArray.getJSONObject(i);
+                                            String id = jsonChildNode.optString("ID");
+                                            String nome = jsonChildNode.optString("Nome_prod");
+                                            String descricao = jsonChildNode.optString("Descricao");
+                                            Double preco = Double.parseDouble(jsonChildNode.optString("Preco"));
+                                            int qtd = Integer.parseInt(jsonChildNode.optString("QTD"));
+
+                                            produtos.add("\n" + qtd + "x " + nome + "\n");
+
+                                        }
+
+                                    final Dialog dialog = new Dialog(EmpresaHomeActivity.this);
+                                    dialog.setContentView(R.layout.popup_produtos_pedido);
+                                    dialog.setTitle("Title...");
+                                    ListView produtoLista = (ListView) dialog.findViewById(R.id.List);
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(EmpresaHomeActivity.this, android.R.layout.simple_list_item_1, produtos);
+                                    produtoLista.setAdapter(adapter);
+                                    dialog.show();
+
+                                } else {
+                                    progressDialog.cancel();
+                                    alert("Não há produtos cadastrados");
+                                }
+                            } catch (JSONException e) {
+                                alert("erro no json");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+
+
 
 
     }

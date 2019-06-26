@@ -129,8 +129,6 @@
             />
     </LinearLayout>
 
-
-
     <!-- Campo Senha -->
     <EditText
         android:layout_width="240dp"
@@ -145,6 +143,7 @@
         android:inputType="textPassword"
         android:paddingRight="10dp"
         />
+
     <EditText
         android:layout_width="240dp"
         android:layout_height="30dp"
