@@ -3,6 +3,7 @@ package com.example.diskvai.Activities.InterfaceEmpresa;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -121,6 +122,14 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         menuLateral = findViewById(R.id.menuLateral);
         menuLateral.setClosePosition(100);
         logout = findViewById(R.id.logout);
+        SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                resgatarPedidos(); // your code
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
     }
 
@@ -182,6 +191,8 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         }
     }
 
+    // Pedidos
+
     private void resgatarPedidos() {
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -223,6 +234,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
                                     } else {
                                         alert("Não há pedidos pendentes");
                                         progressDialog.cancel();
+                                        progressDialog = null;
                                     }
                                 } catch (JSONException e) {
                                     alert("erro no json");
@@ -273,13 +285,39 @@ public class EmpresaHomeActivity extends AppCompatActivity {
 
 
             listaPedidos.setAdapter(new PedidoAdapter(this, pedidos));
-            progressDialog.dismiss();
+
+            progressDialog.cancel();
+            progressDialog = null;
 
         } catch (JSONException e) {
             Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
-            progressDialog.dismiss();
+            progressDialog.cancel();
+            progressDialog = null;
+
             alert("Falha ao Carregar produtos");
         }
+
+    }
+
+    public void alterarStatusPedido(String pedido_id, String status) {
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/atualizarPedido.php").newBuilder();
+        urlBuilder.addQueryParameter("pedido_id", pedido_id);
+        urlBuilder.addQueryParameter("status", status);
+
+
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder().url(url).build();
+
+        try {
+            client.newCall(request).execute();
+            resgatarPedidos();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
