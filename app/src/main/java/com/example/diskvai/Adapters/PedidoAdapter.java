@@ -1,6 +1,10 @@
 package com.example.diskvai.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +23,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PedidoAdapter extends BaseAdapter {
-
-
 
     private Context context;
     private List<Pedido> pedidoLista;
@@ -63,7 +65,7 @@ public class PedidoAdapter extends BaseAdapter {
         Button recusarPedudo = view1.findViewById(R.id.recusarPedido);
 
         endereco.setText(pedidoLista.get(position).getEndereco());
-        cliente.setText(pedidoLista.get(position).getCliente());
+        cliente.setText("Cliente: " + pedidoLista.get(position).getCliente());
         subtotal.setText("Subtotal: R$ " + pedidoLista.get(position).getValor());
         status.setText(pedidoLista.get(position).getStatus());
         formaPagamento.setText("("+pedidoLista.get(position).getFormaPagamento()+")");
