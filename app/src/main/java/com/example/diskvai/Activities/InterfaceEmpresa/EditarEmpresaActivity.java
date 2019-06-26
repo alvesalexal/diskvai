@@ -27,7 +27,7 @@ import okhttp3.Response;
 public class EditarEmpresaActivity extends AppCompatActivity {
 
     String id_empresa, nome_empresa, email_empresa, login_empresa, telefone_empresa;
-    EditText nome, login, telefone, senha, nova_senha;
+    EditText nome, login, telefone, senha, nova_senha, frete;
     Button btnEditar;
     private AutoCompleteTextView email;
     private String resposta;
@@ -97,6 +97,7 @@ public class EditarEmpresaActivity extends AppCompatActivity {
                     urlBuilder.addQueryParameter("senha", senha.getText().toString());
                     urlBuilder.addQueryParameter("nova_senha", nova_senha.getText().toString());
                     urlBuilder.addQueryParameter("url_foto", null);
+                    urlBuilder.addQueryParameter("valor_frete", frete.getText().toString());
 
 
                     String url = urlBuilder.build().toString();
@@ -160,6 +161,7 @@ public class EditarEmpresaActivity extends AppCompatActivity {
         senha = findViewById(R.id.Senha);
         nova_senha = findViewById(R.id.Novasenha);
         btnEditar = findViewById(R.id.editar);
+        frete = findViewById(R.id.frete);
     }
 
     public void back(View view) {
@@ -173,7 +175,8 @@ public class EditarEmpresaActivity extends AppCompatActivity {
                     !(senha.getText().toString().equals("")) &&
                     !(login.getText().toString().equals("")) &&
                     !(email.getText().toString().equals("")) &&
-                    !(nova_senha.getText().toString().equals(""))
+                    !(nova_senha.getText().toString().equals(""))&&
+                    !(frete.getText().toString().equals(""))
             ) {
                 return true;
             } else {
@@ -188,6 +191,7 @@ public class EditarEmpresaActivity extends AppCompatActivity {
                 login.getError()==null&&
                 telefone.getError()==null&&
                 senha.getError()==null&&
+                frete.getError()==null&&
                 nova_senha.getError()==null) {
             return true;
         }
