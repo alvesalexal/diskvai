@@ -309,6 +309,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         urlBuilder.addQueryParameter("status", status);
 
 
+
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder().url(url).build();
@@ -398,10 +399,5 @@ public class EmpresaHomeActivity extends AppCompatActivity {
     } catch (Exception e) {
         e.printStackTrace();
     }
-
-
-
-
-
     }
 }

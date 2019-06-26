@@ -150,7 +150,7 @@ public class ListarEntregadorActivity extends AppCompatActivity {
     public void cadastrarEntregadores(View view) {
         Intent intent;
         Bundle parameters = new Bundle();
-        parameters.putString("id_empresa", id_empresa);
+        parameters.putString("ID", id_empresa);
         intent = new Intent(this, CadastrarEntregadoresEmpActivity.class);
         startActivityForResult(intent, 1);
     }
