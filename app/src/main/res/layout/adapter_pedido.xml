@@ -16,6 +16,8 @@
 
         <!-- Status -->
         <Button
+            android:textColor="#777777"
+            android:textSize="10dp"
             android:layout_gravity="right"
             android:drawableTint="#10D119"
             android:drawableRight="@drawable/status_ball"

@@ -1,6 +1,8 @@
 package com.example.diskvai.Activities.InterfaceEmpresa;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,11 +15,24 @@ import android.widget.Toast;
 import com.example.diskvai.Adapters.PedidoAdapter;
 import com.example.diskvai.Adapters.ProdutoAdapter;
 import com.example.diskvai.Models.Pedido;
+import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class EmpresaHomeActivity extends AppCompatActivity {
 
@@ -27,6 +42,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
     TextView nome_empresa;
     String id_empresa, empresa_nome, login_empresa, email_empresa, telefone_empresa;
     ListView listaPedidos;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +54,12 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         login_empresa = intent.getStringExtra("Login_empresa");
         email_empresa= intent.getStringExtra("Email_empresa");
         telefone_empresa= intent.getStringExtra("Telefone_empresa");
-        alert("empresa de id:" + id_empresa);
+
 
         read();
         menu();
+
         nome_empresa.setText(empresa_nome);
-
-        listarPedidos();
-
-
 
     }
 
@@ -91,11 +104,13 @@ public class EmpresaHomeActivity extends AppCompatActivity {
             @Override
             public void onClosed() {
                 listaPedidos.setVisibility(View.VISIBLE);
+                resgatarPedidos();
             }
         });
     }
 
     public void read() {
+        listaPedidos = findViewById(R.id.pedidosLista);
         infoPerfil = findViewById(R.id.infoPerfil);
         editarPerfil = findViewById(R.id.editarPerfil);
         pedidos = findViewById(R.id.pedidos);
@@ -106,6 +121,7 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         menuLateral = findViewById(R.id.menuLateral);
         menuLateral.setClosePosition(100);
         logout = findViewById(R.id.logout);
+
     }
 
     public void fechar(View view) {
@@ -124,18 +140,6 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         intent.putExtras(parameters);
         startActivity(intent);
     }
-
-    public void listarPedidos() {
-        ArrayList<Pedido> pedidos = new ArrayList<>();
-        Pedido pedido = new Pedido("1", "Isaac Carvalho");
-        pedidos.add(pedido);
-        pedido.setFormaPagamento("Dinheiro");
-        pedido.setStatus("Pendente");
-        pedido.setEndereco("Rua Manuel Francisco de Assis, 775, Joao VI. Muriae - MG");
-        listaPedidos = findViewById(R.id.pedidosLista);
-        listaPedidos.setAdapter(new PedidoAdapter(this, pedidos));
-    }
-
 
     public void listarEntregadores(View view) {
         Intent intent;
@@ -176,5 +180,106 @@ public class EmpresaHomeActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void resgatarPedidos() {
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            OkHttpClient client = new OkHttpClient();
+
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarPedidos.php").newBuilder();
+            urlBuilder.addQueryParameter("id_empresa", id_empresa);
+
+
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder().url(url).build();
+
+            progressDialog = ProgressDialog.show(EmpresaHomeActivity.this, "",
+                    "Atualizando Pedidos", true);
+
+            client.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    alert("deu lenha");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                //alert(response.body().string());
+                                try {
+                                    String data = response.body().string();
+                                    JSONArray jsonArray = new JSONArray(data);
+                                    if(jsonArray.length()!=0){
+                                        //jsonObject = jsonArray.getJSONObject(0);
+                                        listarPedidos(jsonArray);
+                                    } else {
+                                        alert("Não há pedidos pendentes");
+                                        progressDialog.cancel();
+                                    }
+                                } catch (JSONException e) {
+                                    alert("erro no json");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void listarPedidos(JSONArray jsonArray) {
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonChildNode = (JSONObject) jsonArray.getJSONObject(i);
+                String pedido_id = jsonChildNode.optString("ID");
+                String nome_comprador = jsonChildNode.optString("Nome_comp");
+                Double valor = Double.parseDouble(jsonChildNode.optString("Valor"));
+                String forma_pagamento = jsonChildNode.optString("Forma_Pagamento");
+                String status = jsonChildNode.optString("status");
+
+                // endereço
+                String rua = jsonChildNode.optString("Rua");
+                String numero = jsonChildNode.optString("Numero");
+                String complemento = jsonChildNode.optString("Complemento");
+                String bairro = jsonChildNode.optString("Bairro");
+                String cidade = jsonChildNode.optString("Cidade");
+                String estado = jsonChildNode.optString("Estado");
+                String cep = jsonChildNode.optString("Cep");
+
+                Pedido pedido = new Pedido(pedido_id, nome_comprador);
+                pedido.setEndereco(rua + ", " + numero + ", " + complemento + ", " + bairro + ". " + cidade + " - " + estado + ". " + cep);
+                pedido.setFormaPagamento(forma_pagamento);
+                pedido.setValor(valor);
+                pedido.setStatus(status);
+                pedidos.add(pedido);
+
+            }
+
+
+            listaPedidos.setAdapter(new PedidoAdapter(this, pedidos));
+            progressDialog.dismiss();
+
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            alert("Falha ao Carregar produtos");
+        }
+
     }
 }

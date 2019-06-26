@@ -87,4 +87,8 @@ public class Pedido {
             valor += produtoLista.get(i).getPreco();
         }
     }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
 }
