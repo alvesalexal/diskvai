@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity;
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
 import com.squareup.picasso.Picasso;
@@ -16,12 +18,12 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProdutoAdapter extends BaseAdapter {
+public class ProdutoCliAdapter extends BaseAdapter {
 
     private Context context;
     private List<Produto> produtoLista;
 
-    public ProdutoAdapter(Context context,List produtoLista) {
+    public ProdutoCliAdapter(Context context, List produtoLista) {
         this.context = context;
         this.produtoLista = produtoLista;
     }
@@ -44,7 +46,7 @@ public class ProdutoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view1 = LayoutInflater.from(context).inflate(
-                R.layout.adapter_produto,
+                R.layout.adapter_produto_cli,
                 parent,
                 false
         );
@@ -53,8 +55,7 @@ public class ProdutoAdapter extends BaseAdapter {
         TextView nome = view1.findViewById(R.id.nome);
         TextView descricao = view1.findViewById(R.id.descricao);
         TextView preco = view1.findViewById(R.id.preco);
-        ImageButton editar = view1.findViewById(R.id.editar);
-        ImageButton excluir = view1.findViewById(R.id.excluir);
+        ImageButton adicionar = view1.findViewById(R.id.editar);
         CircleImageView imagem = view1.findViewById(R.id.imgProduto);
 
         id.setText("ID: " + produtoLista.get(position).getId());
@@ -71,7 +72,21 @@ public class ProdutoAdapter extends BaseAdapter {
                     .into(imagem);
         }
 
+        view1.findViewById(R.id.adicionar).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                if(context instanceof ListarProdutosCliActivity){
+                    ((ListarProdutosCliActivity)context).adicionarProdutoCarrinho(produtoLista.get(position));
+                    alert("adicionar no carrinho ok");
+                }
+            }
+        });
+
         return view1;
+    }
+
+    void alert(String a){
+        Toast.makeText(context,a,Toast.LENGTH_SHORT).show();
     }
 
 }
