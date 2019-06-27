@@ -1,17 +1,24 @@
 package com.example.diskvai.Activities.InterfaceEmpresa;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.LoginActivity;
 import com.example.diskvai.Helpers.TratamentoDados;
 import com.example.diskvai.R;
 
@@ -264,6 +271,78 @@ public class EditarEmpresaActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void deletarEmpresa(View view) {
+
+        final EditText input = new EditText(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            input.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Deletar Conta?")
+                .setIcon(R.drawable.ic_icons8_trash)
+                .setMessage("Digite sua senha")
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    if(!input.getText().toString().equals("")) {
+                        OkHttpClient client = new OkHttpClient();
+
+                        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/excluirCadastro.php").newBuilder();
+                        urlBuilder.addQueryParameter("ID", id_empresa);
+                        urlBuilder.addQueryParameter("tabela", "Vendedor");
+                        urlBuilder.addQueryParameter("senha", input.getText().toString());
+
+
+                        String url = urlBuilder.build().toString();
+
+                        Request request = new Request.Builder().url(url).build();
+
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                runOnUiThread(() -> {
+                                    try {
+                                        String a[] = {"#"};
+                                        String resposta = (response.body().string());
+                                        a = resposta.split("#");
+                                        if (a[1].split("'")[0].equals("Senha Incorreta")) {
+                                            alert("Senha Incorreta");
+
+                                        } else {
+                                            alert(a[1]);
+                                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+
+                            }
+                        });
+
+                    } else {
+                        alert("Digite a senha");
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setView(input).show();
+
+
+
     }
 
 }
