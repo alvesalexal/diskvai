@@ -1,5 +1,6 @@
 package com.example.diskvai.Activities.InterfaceEmpresa;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.LoginActivity;
 import com.example.diskvai.Adapters.ProdutoAdapter;
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
@@ -166,4 +168,51 @@ public class ListarProdutosActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void excluirProduto(String id_produto, String nome_produto) {
+        new AlertDialog.Builder(this)
+                .setTitle("Excluir Produto")
+                .setIcon(R.drawable.ic_icons8_trash)
+                .setMessage("Tem certeza que deseja excluir o produto " + nome_produto + " ?")
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    OkHttpClient client = new OkHttpClient();
+
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/excluirProduto.php").newBuilder();
+                    urlBuilder.addQueryParameter("id_produto", id_produto);
+
+
+                    String url = urlBuilder.build().toString();
+
+                    Request request = new Request.Builder().url(url).build();
+
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            runOnUiThread(() -> {
+                                try {
+                                    String a[] = {"#"};
+                                    String resposta = (response.body().string());
+                                    a = resposta.split("#");
+                                    if (a[1].split("'")[0].equals("Produto deletado")) {
+                                        alert("Produto deletado");
+                                        resgatarProdutos();
+                                    } else {
+                                        alert(a[1]);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+
+                        }
+                    });
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
 }

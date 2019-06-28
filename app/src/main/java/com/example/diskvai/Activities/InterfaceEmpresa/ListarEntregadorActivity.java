@@ -1,16 +1,22 @@
 package com.example.diskvai.Activities.InterfaceEmpresa;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.diskvai.Activities.InterfaceCadastro.CadastroEntregadorActivity;
+import com.example.diskvai.Activities.LoginActivity;
 import com.example.diskvai.Adapters.EntregadorAdapter;
 import com.example.diskvai.Models.Entregador;
 import com.example.diskvai.R;
@@ -86,16 +92,21 @@ public class ListarEntregadorActivity extends AppCompatActivity {
                                     JSONArray jsonArray = new JSONArray(data);
                                     if(jsonArray.length()!=0){
                                         //jsonObject = jsonArray.getJSONObject(0);
-
                                         listar(jsonArray);
                                     } else {
                                         alert("Não há entregadores cadastrados");
+                                        progressDialog.cancel();
+                                        progressDialog = null;
                                     }
                                 } catch (JSONException e) {
                                     alert("erro no json");
+                                    progressDialog.cancel();
+                                    progressDialog = null;
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                progressDialog.cancel();
+                                progressDialog = null;
                             }
                         }
                     });
@@ -153,5 +164,71 @@ public class ListarEntregadorActivity extends AppCompatActivity {
         parameters.putString("ID", id_empresa);
         intent = new Intent(this, CadastrarEntregadoresEmpActivity.class);
         startActivityForResult(intent, 1);
+    }
+
+    public void excluirEntregador(String id_entregador) {
+        final EditText input = new EditText(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            input.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Deletar Entregador?")
+                .setIcon(R.drawable.ic_icons8_trash)
+                .setMessage("Digite sua senha")
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    if(!input.getText().toString().equals("")) {
+                        OkHttpClient client = new OkHttpClient();
+
+                        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/excluirEntregador.php").newBuilder();
+                        urlBuilder.addQueryParameter("ID", id_entregador);
+                        urlBuilder.addQueryParameter("senha_empresa", input.getText().toString());
+
+
+                        String url = urlBuilder.build().toString();
+
+                        Request request = new Request.Builder().url(url).build();
+
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                runOnUiThread(() -> {
+                                    try {
+                                        String a[] = {"#"};
+                                        String resposta = (response.body().string());
+                                        a = resposta.split("#");
+                                        if (a[1].split("'")[0].equals("Senha Incorreta")) {
+                                            alert("Senha Incorreta");
+
+                                        } else {
+                                            alert(a[1]);
+                                            resgatarEntregadores();
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+
+                            }
+                        });
+
+                    } else {
+                        alert("Digite a senha");
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setView(input).show();
+
     }
 }

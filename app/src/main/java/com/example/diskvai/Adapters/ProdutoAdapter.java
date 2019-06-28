@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
+import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
 import com.squareup.picasso.Picasso;
@@ -70,6 +72,12 @@ public class ProdutoAdapter extends BaseAdapter {
                     .error(R.mipmap.box)
                     .into(imagem);
         }
+
+        excluir.setOnClickListener(view -> {
+            if(context instanceof ListarProdutosActivity){
+                ((ListarProdutosActivity)context).excluirProduto(produtoLista.get(position).getId(), produtoLista.get(position).getNome());
+            }
+        });
 
         return view1;
     }
