@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.diskvai.Activities.InterfaceCadastro.CompletarCadastroFacebookActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.CadastrarEntregadoresEmpActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.EditarEntregadorActivity;
+import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.ListarEntregadorActivity;
 import com.example.diskvai.Models.Entregador;
 import com.example.diskvai.R;
@@ -50,13 +51,19 @@ public class EntregadorAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = act.getLayoutInflater().inflate(R.layout.adapter_entregador, parent, false);
-        final Entregador func = entregadores.get(position);
+        final Entregador ent = entregadores.get(position);
 
         TextView nome = (TextView) view.findViewById(R.id.nome);
+        TextView telefone = view.findViewById(R.id.telefone);
         //TextView descricao = (TextView) view.findViewById(Integer.parseInt("entregador"));
         ImageView imagem = (ImageView) view.findViewById(R.id.foto);
 
-        nome.setText(func.getNome_ent());
+        nome.setText(ent.getNome_ent());
+        if(!telefone.equals(null)) {
+            telefone.setText(ent.getTelefone());
+        } else {
+            telefone.setText("Telefone nao cadastrado");
+        }
         //imagem.setImageResource(func.getFoto());
 
         view.findViewById(R.id.editar).setOnClickListener(new View.OnClickListener() {
@@ -73,22 +80,14 @@ public class EntregadorAdapter extends BaseAdapter {
 
         view.findViewById(R.id.excluir).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                if(context instanceof ListarEntregadorActivity){
+                    ((ListarEntregadorActivity)context).excluirEntregador(String.valueOf(ent.getID()));
+                }
             }
         });
 
         return view;
     }
 
-    private void clickEditar(String s, int pos){ // <-- Este método é chamado ao clicar em Editar (abrir todos os dados do entregador)
-        Toast.makeText(act, "Clicou em editar " + s, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(context, EditarEntregadorActivity.class);
-
-        context.startActivity(intent);
-    }
-
-    private void clickExcluir(String s, int pos){ // <-- Este método é chamado ao clicar em Excluir
-        Toast.makeText(act, "Clicou em excluir " + s, Toast.LENGTH_SHORT).show();
-    }
 
 }

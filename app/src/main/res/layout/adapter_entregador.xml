@@ -27,11 +27,11 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/entregador"
+            android:id="@+id/telefone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Entregador"
+            android:text="Telefone"
             android:textSize="20dp" />
     </LinearLayout>
 
