@@ -117,11 +117,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             />
-        <EditText
-            android:id="@+id/quantidade"
-            android:text="1"
-            android:layout_width="30dp"
-            android:layout_height="50dp"/>
 
     </LinearLayout>
 

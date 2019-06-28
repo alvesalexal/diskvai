@@ -1,5 +1,6 @@
 package com.example.diskvai.Activities.InterfaceCliente;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
@@ -10,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.diskvai.Adapters.ProdutoAdapter;
 import com.example.diskvai.Adapters.ProdutoCarrinhoAdapter;
 import com.example.diskvai.Adapters.ProdutoCliAdapter;
 import com.example.diskvai.Models.Produto;
@@ -35,11 +35,9 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
     String id_empresa,id_cliente,nome_vendedor;
     private JSONObject jsonObject;
-    List<Produto> produtoLista;
-    ArrayList<Produto> produtoListaCar;
+    List<Produto> produtoLista, produtoListaCar;
     ProgressDialog progressDialog;
     TextView nomeVendedor;
-
     ListView listView2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +53,8 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         nomeVendedor.setText(nome_vendedor);
         resgatarProdutos();
 
-        produtoListaCar = new ArrayList<>();
+        produtoListaCar = new ArrayList<Produto>();
         listView2 = findViewById(R.id.listviewPedido);
-
-
     }
 
     private void resgatarProdutos() {
@@ -139,6 +135,8 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
             ListView listView = findViewById(R.id.listview);
             listView.setAdapter(new ProdutoCliAdapter(this, produtoLista));
+            //listView2.setAdapter(new ProdutoCliAdapter(this, produtoListaCar));
+            listView2.setAdapter(new ProdutoCarrinhoAdapter(this,this, produtoListaCar));
             progressDialog.dismiss();
 
         } catch (JSONException e) {
@@ -148,8 +146,8 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         }
     }
 
-    private void alert(String valor) {
-        Toast.makeText(this, valor, Toast.LENGTH_SHORT).show();
+    private void alert(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
     }
 
     public void back(View view) {
@@ -157,15 +155,77 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
     }
 
     public void enviarPedido(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Enviar Pedido?")
+                .setIcon(R.drawable.ic_icons8_trash)
+                .setMessage("Digite sua senha")
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
 
+                    OkHttpClient client = new OkHttpClient();
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/excluirCadastro.php").newBuilder();
+                    urlBuilder.addQueryParameter("ID", id_empresa);
+                    urlBuilder.addQueryParameter("tabela", "Vendedor");
+
+                    String url = urlBuilder.build().toString();
+
+                    Request request = new Request.Builder().url(url).build();
+
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            runOnUiThread(() -> {
+                                try {
+                                    String a[] = {"#"};
+                                    String resposta = (response.body().string());
+                                    a = resposta.split("#");
+                                    if (a[1].split("'")[0].equals("Senha Incorreta")) {
+                                        alert("Senha Incorreta");
+
+                                    } else {
+                                        alert(a[1]);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+
+                        }
+                    });
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setView(view).show();
     }
 
     public void adicionarProdutoCarrinho(Produto produto) {
         produtoListaCar.add(produto);
-        listView2.setAdapter(new ProdutoCarrinhoAdapter(this,this, produtoListaCar));
+        atualizarListCarrinho();
+        alert(produto.getNome()+" adicionado ao carrinho");
+        atualizarQtdItensCarrinho();
+    }
+    public void removerProdutoCarrinho(int position, Produto produto) {
+        produtoListaCar.remove(position);
+        atualizarListCarrinho();
+        alert(produto.getNome()+" removido do carrinho");
+        atualizarQtdItensCarrinho();
+    }
+
+    private void atualizarQtdItensCarrinho(){
+        TextView textView = findViewById(R.id.quantidadeItens);
         if(!produtoListaCar.isEmpty()){
-            TextView textView = findViewById(R.id.vazio);
-            textView.setText("Não está vazio");
+            String s = String.valueOf(produtoListaCar.size());
+            if(produtoListaCar.size()==1) s+=" Item no carrinho";
+            else s+=" Itens no carrinho";
+            textView.setText(s);
         }
+    }
+
+    private void atualizarListCarrinho(){
+        ListView listView = findViewById(R.id.listviewPedido);
+        listView.setAdapter(new ProdutoCarrinhoAdapter(this,this, produtoListaCar));
     }
 }

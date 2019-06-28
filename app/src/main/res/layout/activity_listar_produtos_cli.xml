@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     tools:context=".Activities.InterfaceCliente.ListarProdutosCliActivity"
     android:orientation="vertical">
 
@@ -39,29 +39,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Carrinho"/>
-
-        <TextView
-            android:id="@+id/vazio"
-            android:textAlignment="center"
-            android:textSize="10dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="-"/>
-
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/listviewPedido" />
 
 
         <TextView
@@ -73,10 +50,41 @@
             android:text="Adicionar ao carrinho"/>
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:id="@+id/listview" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textAlignment="center"
+                android:textSize="30dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:text="Carrinho"
+                />
+            <TextView
+                android:id="@+id/quantidadeItens"
+                android:layout_weight="1"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 Itens no carrinho"/>
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/listviewPedido" />
 
 
 

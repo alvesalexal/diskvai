@@ -340,9 +340,6 @@ public class EditarEmpresaActivity extends AppCompatActivity {
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .setView(input).show();
-
-
-
     }
 
 }

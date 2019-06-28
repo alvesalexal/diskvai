@@ -74,14 +74,11 @@ public class ProdutoCliAdapter extends BaseAdapter {
 
         view1.findViewById(R.id.adicionar).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 if(context instanceof ListarProdutosCliActivity){
                     ((ListarProdutosCliActivity)context).adicionarProdutoCarrinho(produtoLista.get(position));
-                    alert("adicionar no carrinho ok");
                 }
             }
         });
-
         return view1;
     }
 
