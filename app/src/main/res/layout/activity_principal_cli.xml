@@ -4,49 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.InterfaceCliente.ClienteHomeActivity"
-    android:orientation="vertical">
+    tools:context=".Activities.InterfaceEmpresa.EmpresaHomeActivity"
+    android:background="#fff"
+    android:orientation="horizontal">
 
-
-    <LinearLayout
+    <com.github.aakira.expandablelayout.ExpandableLinearLayout
+        android:id="@+id/menuLateral"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimary">
+        android:layout_height="match_parent"
+        app:ael_expanded="false"
+        app:ael_duration="300"
+        app:ael_interpolator="accelerate"
+        app:ael_orientation="vertical"
 
-        <Button
-            android:layout_margin="20dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_back_button"
-            android:backgroundTint="#fff"
-            android:onClick="back"
-            />
+        >
 
-        <TextView
-            android:textColor="#fff"
-            android:textSize="20dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vendedores"/>
-
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/listview" />
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
 
 
 
-    </RelativeLayout>
+            <ImageButton
+                android:src="@drawable/ic_icons8_menu"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fechar"
+                android:onClick="fechar"/>
+
+
+        </LinearLayout>
+
+
+
+    </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/listview"
+                android:visibility="visible"/>
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 

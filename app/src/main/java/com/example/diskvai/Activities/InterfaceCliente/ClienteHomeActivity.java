@@ -3,6 +3,7 @@ package com.example.diskvai.Activities.InterfaceCliente;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
 import com.example.diskvai.Adapters.EmpresaAdapter;
 import com.example.diskvai.Models.Empresa;
 import com.example.diskvai.R;
+import com.github.aakira.expandablelayout.ExpandableLayoutListener;
+import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +44,8 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
     private Empresa empresa;
     private ListView listView;
 
+    ExpandableLinearLayout menuLateral;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +57,21 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
         Intent intent = this.getIntent();
         id_cliente = intent.getStringExtra("ID_Cliente");
         id_empresa = intent.getStringExtra("ID_Empresa");
+        menuLateral = findViewById(R.id.menuLateral);
+        menuLateral.setClosePosition(100);
 
         listView.setOnItemClickListener(this);
         resgatarProdutos();
+        SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                resgatarProdutos(); // your code
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
+        menu();
     }
 
     private void resgatarProdutos() {
@@ -161,4 +178,44 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
     public void back(View view) {
         this.finish();
     }
+
+    private void menu() {
+        menuLateral.setListener(new ExpandableLayoutListener() {
+            @Override
+            public void onAnimationStart() {
+
+            }
+
+            @Override
+            public void onAnimationEnd() {
+
+            }
+
+            @Override
+            public void onPreOpen() {
+                listView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPreClose() {
+
+            }
+
+            @Override
+            public void onOpened() {
+
+            }
+
+            @Override
+            public void onClosed() {
+                listView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void fechar(View view) {
+        menuLateral.toggle();
+    }
+
+
 }

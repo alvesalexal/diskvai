@@ -176,6 +176,7 @@ public class ListarEntregadorActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             input.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         }
+
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         new AlertDialog.Builder(this)
@@ -189,7 +190,6 @@ public class ListarEntregadorActivity extends AppCompatActivity {
                         HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/excluirEntregador.php").newBuilder();
                         urlBuilder.addQueryParameter("ID", id_entregador);
                         urlBuilder.addQueryParameter("senha_empresa", input.getText().toString());
-
 
                         String url = urlBuilder.build().toString();
 
