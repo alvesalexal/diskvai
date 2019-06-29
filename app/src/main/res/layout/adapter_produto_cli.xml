@@ -112,8 +112,9 @@
 
         <ImageButton
             android:id="@+id/adicionar"
-            android:backgroundTint="#fff"
-            android:src="@drawable/ic_icons8_edit"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/rounded_corner_filled"
+            android:src="@drawable/ic_icons8_plus"
             android:layout_width="30dp"
             android:layout_height="30dp"
             />

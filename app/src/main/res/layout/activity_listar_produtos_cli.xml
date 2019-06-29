@@ -35,54 +35,65 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-
-
-        <TextView
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Adicionar ao carrinho"/>
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/listview" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
 
             <TextView
                 android:textAlignment="center"
                 android:textSize="30dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="50dp"
-                android:text="Carrinho"
-                />
+                android:text="Adicionar ao carrinho"
+                android:visibility="gone"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/listview" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary"
+            android:onClick="abrirFecharCarrinho">
+
+
             <TextView
-                android:id="@+id/quantidadeItens"
+                android:id="@+id/carrinhoTitulo"
+                android:paddingLeft="20dp"
                 android:layout_weight="1"
                 android:textSize="20dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0 Itens no carrinho"/>
+                android:text="Ver Carrinho"
+                android:textColor="#fff"
+                />
+            <Button
+                android:id="@+id/quantidadeItens"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:textColor="#fff"
+                android:background="@color/colorPrimary"
+                android:drawableLeft="@drawable/ic_shopping_cart"
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
+
+
+
         <ListView
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/listviewPedido" />
 
@@ -90,11 +101,18 @@
 
 
         <Button
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            android:textColor="#fff"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/rounded_corner_filled"
+            android:id="@+id/enviarPedidoBtn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Enviar Pedido"
-            android:onClick="enviarPedido"/>
+            android:layout_height="wrap_content"
+            android:text="Enviar Pedido" />
+
 
     </LinearLayout>
+
 
 </LinearLayout>

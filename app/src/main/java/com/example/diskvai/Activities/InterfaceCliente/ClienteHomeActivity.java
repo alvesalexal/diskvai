@@ -164,6 +164,7 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
         empresa = empresaLista.get(i);
         Intent intent = new Intent(this, ListarProdutosCliActivity.class);
         intent.putExtra("ID_Empresa",empresa.getId());
+        intent.putExtra("ID_Cliente", id_cliente);
         intent.putExtra("Nome_Vend",empresa.getNome());
 
         alert(empresa.getId()+"-"+empresa.getNome());

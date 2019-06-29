@@ -229,6 +229,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case 1:
                 parameters.putString("ID_Cliente", jsonObjects.getString("ID"));
                 intent = new Intent(this, ClienteHomeActivity.class);
+                intent.putExtras(parameters);
                 startActivity(intent);
             break;
             case 2:

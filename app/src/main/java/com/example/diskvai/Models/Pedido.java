@@ -1,5 +1,7 @@
 package com.example.diskvai.Models;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,10 @@ public class Pedido {
         produtoLista = new ArrayList<>();
     }
 
+    public Pedido() {
+        produtoLista = new ArrayList<>();
+    }
+
     public void associarEntregador(String entregador) {
         this.entregador = entregador;
     }
@@ -27,6 +33,11 @@ public class Pedido {
 
     public void removerProduto(Produto produto) {
         produtoLista.remove(produto);
+        calculaValor();
+    }
+
+    public void setProdutoLista(List<Produto> produtoLista) {
+        this.produtoLista = produtoLista;
         calculaValor();
     }
 
@@ -90,5 +101,14 @@ public class Pedido {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public JSONArray getIDArray() {
+        ArrayList<String> produtosID = new ArrayList<>();
+        for(int i = 0; i < produtoLista.size(); i++) {
+            produtosID.add(produtoLista.get(i).getId());
+        }
+        JSONArray jsonArray = new JSONArray(produtosID);
+        return jsonArray;
     }
 }
