@@ -9,6 +9,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.diskvai.Activities.InterfaceEmpresa.CadastrarProdutoActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
+import com.example.diskvai.Adapters.EnderecoAdapter;
 import com.example.diskvai.Adapters.ProdutoCarrinhoAdapter;
 import com.example.diskvai.Adapters.ProdutoCliAdapter;
 import com.example.diskvai.Models.Endereco;
@@ -78,6 +80,14 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         produtoListaCar = new ArrayList<Produto>();
 
         enviarPedido(this);
+
+        enderecoBtn.setOnClickListener(view -> {
+            resgatarEnderecos();
+        });
+
+        formaPagamentoBtn.setOnClickListener(view -> {
+
+        });
     }
 
     private void resgatarProdutos() {
@@ -186,7 +196,6 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                     pedido.setProdutoLista(produtoListaCar);
                     pedido.setFormaPagamento("Dinheiro");
                     pedido.setEndereco("Sei la");
-                    id_endereco = "1";
                     id_forma_pagamento = "10";
 
                     new AlertDialog.Builder(context)
@@ -318,17 +327,6 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         }
     }
 
-    public void formaPagamento() {
-        formaPagamentoBtn.setOnClickListener(view -> {
-
-        });
-    }
-
-    public void endereco() {
-        enderecoBtn.setOnClickListener(view -> {
-
-        });
-    }
 
     public void resgatarEnderecos() {
         try {
@@ -415,6 +413,39 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                 enderecoLista.add(endereco);
             }
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            final View customView = View.inflate(this, R.layout.custom_dialog_view, null);
+            builder.setView(customView);
+
+
+            final AlertDialog backDialog = builder.create();
+
+            backDialog.setTitle("Escolha um Endereço");
+
+            backDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            backDialog.cancel();
+                        }
+                    });
+            backDialog.setCanceledOnTouchOutside(false);
+            backDialog.show();
+
+            EnderecoAdapter adapter = new EnderecoAdapter(this, enderecoLista);
+
+            ListView listView = (ListView) customView
+                    .findViewById(R.id.list_view);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int location, long id) {
+                    backDialog.dismiss();
+                }
+            });
 
 
 //            ListView listView = findViewById(R.id.listview);
@@ -426,7 +457,12 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
-            alert("Falha ao Carregar produtos");
+            alert("Falha ao Carregar Endereços");
         }
+    }
+
+    public void setEnderecoID(String id, String endereco) {
+        id_endereco = id;
+        enderecoBtn.setText(endereco);
     }
 }

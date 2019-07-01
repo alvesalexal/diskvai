@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
 import com.example.diskvai.Models.Endereco;
 import com.example.diskvai.Models.Pedido;
@@ -50,11 +52,15 @@ public class EnderecoAdapter  extends BaseAdapter {
                 parent,
                 false
         );
-
+        LinearLayout enderecoView = view1.findViewById(R.id.enderecoView);
         TextView id = view1.findViewById(R.id.id);
         TextView endereco = view1.findViewById(R.id.endereco);
 
-
+        enderecoView.setOnClickListener(view -> {
+            if(context instanceof ListarProdutosCliActivity){
+                ((ListarProdutosCliActivity)context).setEnderecoID(enderecoLista.get(position).getID(), enderecoLista.get(position).getEndereco());
+            }
+        });
         endereco.setText(enderecoLista.get(position).getEndereco());
         id.setText("ID: " + enderecoLista.get(position).getID());
 
