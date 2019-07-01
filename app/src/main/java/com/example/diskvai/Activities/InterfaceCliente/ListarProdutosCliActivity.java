@@ -342,14 +342,17 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
             Request request = new Request.Builder().url(url).build();
 
-            progressDialog = ProgressDialog.show(com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity.this, "",
-                    "Carregando Enderecos", true);
 
             client.newCall(request).enqueue(new Callback() {
 
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    alert("deu lenha");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            alert("deu lenha");
+                        }
+                    });
                 }
 
                 @Override
