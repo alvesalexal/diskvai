@@ -91,7 +91,7 @@
 
 
         <ListView
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -99,9 +99,38 @@
 
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginHorizontal="20dp">
+            <Button
+                android:layout_marginRight="20dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Rua Manuel Francisco de Assis 775"
+                android:paddingHorizontal="10dp"
+                android:layout_width="220dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+            <Button
+                android:textColor="@color/colorPrimary"
+                android:text="Forma de Pagamento"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:paddingHorizontal="10dp"
+                android:background="@drawable/rounded_corner_line"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+        </LinearLayout>
 
         <Button
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_margin="10dp"
             android:textColor="#fff"
             android:backgroundTint="@color/colorPrimary"
