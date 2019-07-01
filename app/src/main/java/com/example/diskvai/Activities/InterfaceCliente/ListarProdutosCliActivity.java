@@ -3,6 +3,7 @@ package com.example.diskvai.Activities.InterfaceCliente;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.example.diskvai.Activities.InterfaceEmpresa.CadastrarProdutoActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
 import com.example.diskvai.Adapters.ProdutoCarrinhoAdapter;
 import com.example.diskvai.Adapters.ProdutoCliAdapter;
+import com.example.diskvai.Models.Endereco;
 import com.example.diskvai.Models.Pedido;
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
@@ -45,10 +47,11 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
     String id_empresa,id_cliente,nome_vendedor, id_endereco, id_forma_pagamento;
     private JSONObject jsonObject;
     List<Produto> produtoLista, produtoListaCar;
+    List<Endereco> enderecoLista;
     ProgressDialog progressDialog;
     TextView nomeVendedor, carrinhoTitulo;
     ListView listView2, listView;
-    Button enviarBtn;
+    Button enviarBtn, formaPagamentoBtn, enderecoBtn;
     Boolean menuIsOpen = false;
 
     @Override
@@ -66,8 +69,11 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         resgatarProdutos();
         listView = findViewById(R.id.listview);
         enviarBtn = findViewById(R.id.enviarPedidoBtn);
+        formaPagamentoBtn = findViewById(R.id.formaPagamentoBtn);
+        enderecoBtn = findViewById(R.id.enderecoBtn);
         listView2 = findViewById(R.id.listviewPedido);
         carrinhoTitulo = findViewById(R.id.carrinhoTitulo);
+
 
         produtoListaCar = new ArrayList<Produto>();
 
@@ -298,12 +304,130 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
             enviarBtn.setVisibility(View.GONE);
             listView2.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
+            enderecoBtn.setVisibility(View.GONE);
+            formaPagamentoBtn.setVisibility(View.GONE);
+
         } else {
             menuIsOpen = true;
+            enderecoBtn.setVisibility(View.VISIBLE);
+            formaPagamentoBtn.setVisibility(View.VISIBLE);
             carrinhoTitulo.setText("Minimizar Carrinho");
             enviarBtn.setVisibility(View.VISIBLE);
             listView2.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
+        }
+    }
+
+    public void formaPagamento() {
+        formaPagamentoBtn.setOnClickListener(view -> {
+
+        });
+    }
+
+    public void endereco() {
+        enderecoBtn.setOnClickListener(view -> {
+
+        });
+    }
+
+    public void resgatarEnderecos() {
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            OkHttpClient client = new OkHttpClient();
+
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://http://gabriellacastro.com.br/disk_vai/listarEnderecos.php").newBuilder();
+            urlBuilder.addQueryParameter("id_cliente", id_cliente);
+
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder().url(url).build();
+
+            progressDialog = ProgressDialog.show(com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity.this, "",
+                    "Carregando Enderecos", true);
+
+            client.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    alert("deu lenha");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                //alert(response.body().string());
+                                try {
+                                    String data = response.body().string();
+                                    JSONArray jsonArray = new JSONArray(data);
+                                    if(jsonArray.length()!=0){
+                                        //jsonObject = jsonArray.getJSONObject(0);
+
+                                        listarEnderecos(jsonArray);
+                                    } else {
+                                        progressDialog.cancel();
+                                        alert("Cadastre um Endereco primeiro");
+                                        //enviar pra activity de cadastrar endereço
+                                    }
+                                } catch (JSONException e) {
+                                    alert("erro no json");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void resgatarFormasPagamento() {
+
+    }
+
+    private void listarEnderecos(JSONArray jsonArray) {
+        enderecoLista = new ArrayList<>();
+
+        try {
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonChildNode = (JSONObject) jsonArray.getJSONObject(i);
+                String id = jsonChildNode.optString("ID");
+                String rua = jsonChildNode.optString("Rua");
+                String numero = jsonChildNode.optString("Numero");
+                String complemento = jsonChildNode.optString("Complemento");
+                String bairro = jsonChildNode.optString("Bairro");
+                String cidade = jsonChildNode.optString("Cidade");
+                String estado = jsonChildNode.optString("Estado");
+                String cep = jsonChildNode.optString("CEP");
+
+                String url_img = jsonChildNode.optString("Foto");
+
+                Endereco endereco = new Endereco(id, rua, numero, complemento, bairro, cidade, estado, cep);
+                enderecoLista.add(endereco);
+            }
+
+
+
+//            ListView listView = findViewById(R.id.listview);
+//            listView.setAdapter(new ProdutoCliAdapter(this, produtoLista));
+//            //listView2.setAdapter(new ProdutoCliAdapter(this, produtoListaCar));
+//            listView2.setAdapter(new ProdutoCarrinhoAdapter(this,this, produtoListaCar));
+//            progressDialog.dismiss();
+
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            alert("Falha ao Carregar produtos");
         }
     }
 }
