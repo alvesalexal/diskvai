@@ -410,7 +410,6 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                 String estado = jsonChildNode.optString("Estado");
                 String cep = jsonChildNode.optString("CEP");
 
-                String url_img = jsonChildNode.optString("Foto");
 
                 Endereco endereco = new Endereco(id, rua, numero, complemento, bairro, cidade, estado, cep);
                 enderecoLista.add(endereco);
