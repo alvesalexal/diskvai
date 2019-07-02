@@ -225,13 +225,14 @@ public class CadastrarEntregadoresEmpActivity extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
 
-                HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/insertEntr.php").newBuilder();
+                HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/inserirEntregador.php").newBuilder();
                 urlBuilder.addQueryParameter("Ent_Nome", nome.getText().toString());
                 urlBuilder.addQueryParameter("id_empresa", id_empresa);
                 urlBuilder.addQueryParameter("Ent_TEL", telefone.getText().toString());
                 urlBuilder.addQueryParameter("Ent_LOGIN", login.getText().toString());
                 urlBuilder.addQueryParameter("Ent_SENHA", senha.getText().toString());
                 urlBuilder.addQueryParameter("Ent_EMAIL", email.getText().toString());
+                urlBuilder.addQueryParameter("url_foto", null);
 
                 String url = urlBuilder.build().toString();
 
@@ -254,12 +255,13 @@ public class CadastrarEntregadoresEmpActivity extends AppCompatActivity {
                                     resposta = (response.body().string());
                                     a=resposta.split("#");
 
-                                    if(a[1].split("'")[0].equals("Duplicate entry ")){
-                                        alert("email ja cadastrado");
+                                    if(a[1].split("'")[0].equals("Nome de usuario ou email já cadastrados")){
+                                        alert("Nome de usuario ou email já cadastrados");
                                     }
                                     else {
                                         alert(a[1]);
-                                        principal();
+                                        setResult(RESULT_OK);
+                                        finish();
                                     }
                                 } catch (IOException e) {
                                     e.printStackTrace();

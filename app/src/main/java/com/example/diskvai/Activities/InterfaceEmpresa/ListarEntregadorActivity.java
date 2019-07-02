@@ -51,6 +51,7 @@ public class ListarEntregadorActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         id_empresa = intent.getStringExtra("ID");
 
+
         resgatarEntregadores();
     }
 
@@ -95,6 +96,7 @@ public class ListarEntregadorActivity extends AppCompatActivity {
                                         listar(jsonArray);
                                     } else {
                                         alert("Não há entregadores cadastrados");
+                                        listar(jsonArray);
                                         progressDialog.cancel();
                                         progressDialog = null;
                                     }
@@ -163,7 +165,23 @@ public class ListarEntregadorActivity extends AppCompatActivity {
         Bundle parameters = new Bundle();
         parameters.putString("ID", id_empresa);
         intent = new Intent(this, CadastrarEntregadoresEmpActivity.class);
+        intent.putExtras(parameters);
         startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+
+            if(resultCode == RESULT_OK){
+
+                resgatarEntregadores();
+            }
+            if (resultCode == RESULT_CANCELED) {
+
+            }
+        }
     }
 
     public void excluirEntregador(String id_entregador) {
