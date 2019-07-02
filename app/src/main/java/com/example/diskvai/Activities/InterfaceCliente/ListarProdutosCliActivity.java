@@ -1,6 +1,7 @@
 package com.example.diskvai.Activities.InterfaceCliente;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,12 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.diskvai.Activities.InterfaceEmpresa.CadastrarProdutoActivity;
+import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
 import com.example.diskvai.Adapters.EnderecoAdapter;
 import com.example.diskvai.Adapters.ProdutoCarrinhoAdapter;
@@ -86,7 +89,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         });
 
         formaPagamentoBtn.setOnClickListener(view -> {
-
+            resgatarFormasPagamento();
         });
     }
 
@@ -391,7 +394,64 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
     }
 
     public void resgatarFormasPagamento() {
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
+            OkHttpClient client = new OkHttpClient();
+
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/formaPagamento.php?").newBuilder();
+            urlBuilder.addQueryParameter("id_empresa", id_empresa);
+
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder().url(url).build();
+
+
+            client.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            alert("deu lenha");
+                        }
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                //alert(response.body().string());
+                                try {
+                                    String data = response.body().string();
+                                    JSONArray jsonArray = new JSONArray(data);
+                                    if(jsonArray.length()!=0){
+                                        //jsonObject = jsonArray.getJSONObject(0);
+
+                                        listarFormasPagamento(jsonArray);
+                                    } else {
+                                        progressDialog.cancel();
+                                        //enviar pra activity de cadastrar endereço
+                                    }
+                                } catch (JSONException e) {
+                                    alert("erro no json");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void listarEnderecos(JSONArray jsonArray) {
@@ -464,8 +524,82 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         }
     }
 
+    public void listarFormasPagamento(JSONArray jsonArray) {
+        ArrayList<String> formasPagamento = new ArrayList<>();
+
+        try {
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonChildNode = (JSONObject) jsonArray.getJSONObject(i);
+                String descricao = jsonChildNode.optString("Descricao");
+
+
+                formasPagamento.add(descricao);
+            }
+
+            final Dialog dialog = new Dialog(ListarProdutosCliActivity.this);
+            dialog.setContentView(R.layout.popup_produtos_pedido);
+            dialog.setTitle("Escolher Forma de Pagamento");
+            ListView formaPagamentoLista = (ListView) dialog.findViewById(R.id.List);
+
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(ListarProdutosCliActivity.this, android.R.layout.simple_list_item_1, formasPagamento);
+            formaPagamentoLista.setAdapter(adapter);
+            formaPagamentoLista.setOnItemClickListener((adapterView, view, i, l) -> {
+                switch (adapterView.getItemAtPosition(i).toString()) {
+                    case "Crédito Diners Club":
+                        setFormaPagamentoID("1", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Crédito Mastercard":
+                        setFormaPagamentoID("2", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Crédito Visa":
+                        setFormaPagamentoID("3", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Débito Mastercard":
+                        setFormaPagamentoID("4", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Débito Visa":
+                        setFormaPagamentoID("5", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Pagamento online Mercado Pago":
+                        setFormaPagamentoID("6", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Pagamento online PagSeguro":
+                        setFormaPagamentoID("7", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Pagamento online PayPal":
+                        setFormaPagamentoID("8", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Boleto":
+                        setFormaPagamentoID("9", adapterView.getItemAtPosition(i).toString());
+                        break;
+                    case "Dinheiro":
+                        setFormaPagamentoID("10", adapterView.getItemAtPosition(i).toString());
+                        break;
+
+                }
+                dialog.dismiss();
+
+            });
+            dialog.show();
+
+
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            alert("Falha ao Carregar Endereços");
+        }
+    }
+
     public void setEnderecoID(String id, String endereco) {
         id_endereco = id;
         enderecoBtn.setText(endereco);
+    }
+
+    public void setFormaPagamentoID(String id, String forma_pagamento) {
+        id_forma_pagamento = id;
+        formaPagamentoBtn.setText(forma_pagamento);
     }
 }
