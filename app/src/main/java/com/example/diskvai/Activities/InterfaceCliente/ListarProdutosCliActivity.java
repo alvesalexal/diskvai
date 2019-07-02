@@ -49,7 +49,7 @@ import okhttp3.Response;
 
 public class ListarProdutosCliActivity extends AppCompatActivity {
 
-    String id_empresa,id_cliente,nome_vendedor, id_endereco, id_forma_pagamento;
+    String id_empresa,id_cliente,nome_vendedor, id_endereco = null, id_forma_pagamento = null;
     private JSONObject jsonObject;
     List<Produto> produtoLista, produtoListaCar;
     List<Endereco> enderecoLista;
@@ -195,37 +195,39 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (produtoListaCar.size() > 0) {
-                    Pedido pedido = new Pedido();
-                    pedido.setProdutoLista(produtoListaCar);
-                    pedido.setFormaPagamento("Dinheiro");
-                    pedido.setEndereco("Sei la");
+                    if(id_forma_pagamento!=null) {
+                        if(id_endereco!=null) {
+                            Pedido pedido = new Pedido();
+                            pedido.setProdutoLista(produtoListaCar);
+                            pedido.setFormaPagamento(formaPagamentoBtn.getText().toString());
+                            pedido.setEndereco(enderecoBtn.getText().toString());
 
-                    new AlertDialog.Builder(context)
-                            .setTitle("Confirmar Envio do Pedido")
-                            .setIcon(R.drawable.ic_icons8_trash)
-                            .setMessage("Subotal: R$" + pedido.getValor().toString() +
-                                    "\nForma de Pagamento :" + pedido.getFormaPagamento() +
-                                    "\nEndereço: " + pedido.getEndereco() + "\nID Cliente = " + id_cliente)
-                            .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                            new AlertDialog.Builder(context)
+                                    .setTitle("Confirmar Envio do Pedido")
+                                    .setIcon(R.drawable.ic_icons8_trash)
+                                    .setMessage("Subotal: R$" + pedido.getValor().toString() +
+                                            "\nForma de Pagamento :" + pedido.getFormaPagamento() +
+                                            "\nEndereço: " + pedido.getEndereco() + "\nID Cliente = " + id_cliente)
+                                    .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
 
-                                progressDialog = ProgressDialog.show(context, "",
-                                        "Enviando Pedido", true);
+                                        progressDialog = ProgressDialog.show(context, "",
+                                                "Enviando Pedido", true);
 
-                                OkHttpClient client = new OkHttpClient();
+                                        OkHttpClient client = new OkHttpClient();
 
-                                RequestBody multiPartBody = new MultipartBody.Builder()
-                                        .setType(MultipartBody.FORM)
-                                        .addFormDataPart("valor", pedido.getValor().toString())
-                                        .addFormDataPart("id_cliente", id_cliente)
-                                        .addFormDataPart("id_empresa", id_empresa)
-                                        .addFormDataPart("id_endereco", id_endereco)
-                                        .addFormDataPart("id_forma_pagamento", id_forma_pagamento)
-                                        .addFormDataPart("id_produtos", pedido.getIDArray().toString())
-                                        .build();
-                                Request request = new Request.Builder()
-                                        .url("http://gabriellacastro.com.br/disk_vai/inserirPedido.php")
-                                        .post(multiPartBody)
-                                        .build();
+                                        RequestBody multiPartBody = new MultipartBody.Builder()
+                                                .setType(MultipartBody.FORM)
+                                                .addFormDataPart("valor", pedido.getValor().toString())
+                                                .addFormDataPart("id_cliente", id_cliente)
+                                                .addFormDataPart("id_empresa", id_empresa)
+                                                .addFormDataPart("id_endereco", id_endereco)
+                                                .addFormDataPart("id_forma_pagamento", id_forma_pagamento)
+                                                .addFormDataPart("id_produtos", pedido.getIDArray().toString())
+                                                .build();
+                                        Request request = new Request.Builder()
+                                                .url("http://gabriellacastro.com.br/disk_vai/inserirPedido.php")
+                                                .post(multiPartBody)
+                                                .build();
 
 
 //                            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/inserirPedido.php").newBuilder();
@@ -240,39 +242,45 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 //
 //                            Request request = new Request.Builder().url(url).build();
 
-                                client.newCall(request).enqueue(new Callback() {
-                                    @Override
-                                    public void onFailure(Call call, IOException e) {
+                                        client.newCall(request).enqueue(new Callback() {
+                                            @Override
+                                            public void onFailure(Call call, IOException e) {
 
-                                    }
+                                            }
 
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        runOnUiThread(() -> {
-                                            try {
-                                                String a[] = {"#"};
-                                                String resposta = (response.body().string());
-                                                a = resposta.split("#");
-                                                if (a[1].split("'")[0].equals("Pedido Cadastrado com Sucesso!")) {
-                                                    alert("Pedido Cadastrado com Sucesso!");
-                                                    progressDialog.cancel();
-                                                    progressDialog = null;
-                                                } else {
-                                                    alert(a[1]);
-                                                    progressDialog.cancel();
-                                                    progressDialog = null;
-                                                }
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                                progressDialog.cancel();
-                                                progressDialog = null;
+                                            @Override
+                                            public void onResponse(Call call, Response response) throws IOException {
+                                                runOnUiThread(() -> {
+                                                    try {
+                                                        String a[] = {"#"};
+                                                        String resposta = (response.body().string());
+                                                        a = resposta.split("#");
+                                                        if (a[1].split("'")[0].equals("Pedido Cadastrado com Sucesso!")) {
+                                                            alert("Pedido Cadastrado com Sucesso!");
+                                                            progressDialog.cancel();
+                                                            progressDialog = null;
+                                                        } else {
+                                                            alert(a[1]);
+                                                            progressDialog.cancel();
+                                                            progressDialog = null;
+                                                        }
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                        progressDialog.cancel();
+                                                        progressDialog = null;
+                                                    }
+                                                });
+
                                             }
                                         });
-
-                                    }
-                                });
-                            })
-                            .setNegativeButton(android.R.string.no, null).show();
+                                    })
+                                    .setNegativeButton(android.R.string.no, null).show();
+                        } else {
+                            alert("Selecione um Endereço");
+                        }
+                    } else {
+                        alert("Escolha uma Forma de Pagamento");
+                    }
                 }else {
                     alert("Insira Produtos no Carrinho");
                 }
@@ -337,12 +345,15 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://http://gabriellacastro.com.br/disk_vai/listarEnderecos.php").newBuilder();
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarEnderecos.php").newBuilder();
             urlBuilder.addQueryParameter("id_cliente", id_cliente);
 
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder().url(url).build();
+
+            progressDialog = ProgressDialog.show(com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity.this, "",
+                    "Carregando Endereços", true);
 
 
             client.newCall(request).enqueue(new Callback() {
@@ -369,6 +380,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                                     JSONArray jsonArray = new JSONArray(data);
                                     if(jsonArray.length()!=0){
                                         //jsonObject = jsonArray.getJSONObject(0);
+                                        progressDialog.cancel();
 
                                         listarEnderecos(jsonArray);
                                     } else {
@@ -378,9 +390,11 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                                     }
                                 } catch (JSONException e) {
                                     alert("erro no json");
+                                    progressDialog.cancel();
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                progressDialog.cancel();
                             }
                         }
                     });
@@ -389,6 +403,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+            progressDialog.cancel();
         }
     }
 
@@ -406,6 +421,9 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
             Request request = new Request.Builder().url(url).build();
 
+            progressDialog = ProgressDialog.show(com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity.this, "",
+                    "Carregando Formas de Pagamento", true);
+
 
             client.newCall(request).enqueue(new Callback() {
 
@@ -431,17 +449,18 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                                     JSONArray jsonArray = new JSONArray(data);
                                     if(jsonArray.length()!=0){
                                         //jsonObject = jsonArray.getJSONObject(0);
-
+                                        progressDialog.cancel();
                                         listarFormasPagamento(jsonArray);
                                     } else {
                                         progressDialog.cancel();
-                                        //enviar pra activity de cadastrar endereço
                                     }
                                 } catch (JSONException e) {
+                                    progressDialog.cancel();
                                     alert("erro no json");
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                progressDialog.cancel();
                             }
                         }
                     });
@@ -450,6 +469,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+            progressDialog.cancel();
         }
     }
 
@@ -505,7 +525,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int location, long id) {
-                    backDialog.dismiss();
+                    backDialog.cancel();
                 }
             });
 

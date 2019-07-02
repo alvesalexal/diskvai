@@ -91,7 +91,7 @@
 
 
         <ListView
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -106,10 +106,11 @@
             android:gravity="center"
             android:layout_marginHorizontal="20dp">
             <Button
+                android:visibility="gone"
                 android:id="@+id/enderecoBtn"
                 android:layout_marginRight="20dp"
                 android:textColor="@color/colorPrimary"
-                android:text="Rua Manuel Francisco de Assis 775"
+                android:text="Endereço"
                 android:paddingHorizontal="10dp"
                 android:layout_width="220dp"
                 android:layout_height="30dp"
@@ -118,6 +119,7 @@
                 android:ellipsize="end"
                 />
             <Button
+                android:visibility="gone"
                 android:id="@+id/formaPagamentoBtn"
                 android:textColor="@color/colorPrimary"
                 android:text="Forma de Pagamento"
@@ -132,7 +134,7 @@
         </LinearLayout>
 
         <Button
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_margin="10dp"
             android:textColor="#fff"
             android:backgroundTint="@color/colorPrimary"
