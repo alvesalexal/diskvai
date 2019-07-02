@@ -12,6 +12,8 @@ import com.example.diskvai.Activities.InterfaceEmpresa.EmpresaHomeActivity;
 import com.example.diskvai.Activities.InterfaceEmpresa.ListarProdutosActivity;
 import com.example.diskvai.Models.Produto;
 import com.example.diskvai.R;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -64,10 +66,10 @@ public class ProdutoAdapter extends BaseAdapter {
         descricao.setText("Descrição: " + produtoLista.get(position).getDescricao());
         preco.setText("Preço: R$ " + produtoLista.get(position).getPreco());
         if(produtoLista.get(position).getUrl_imagem()==null||produtoLista.get(position).getUrl_imagem().equals("")) {
-            Picasso.get().load(R.mipmap.perfil_empresa).into(imagem);
+            Picasso.get().load(R.mipmap.box).into(imagem);
         } else {
             Picasso.get()
-                    .load(produtoLista.get(position).getUrl_imagem())
+                    .load(produtoLista.get(position).getUrl_imagem()).memoryPolicy(MemoryPolicy.NO_CACHE) .networkPolicy(NetworkPolicy.NO_CACHE)
                     .placeholder(R.mipmap.box)
                     .error(R.mipmap.box)
                     .into(imagem);
@@ -76,6 +78,12 @@ public class ProdutoAdapter extends BaseAdapter {
         excluir.setOnClickListener(view -> {
             if(context instanceof ListarProdutosActivity){
                 ((ListarProdutosActivity)context).excluirProduto(produtoLista.get(position).getId(), produtoLista.get(position).getNome());
+            }
+        });
+        editar.setOnClickListener(view -> {
+            if(context instanceof ListarProdutosActivity){
+                ((ListarProdutosActivity)context).editarProduto(produtoLista.get(position).getId(), produtoLista.get(position).getNome(),
+                        produtoLista.get(position).getDescricao(), produtoLista.get(position).getPreco(), produtoLista.get(position).getUrl_imagem());
             }
         });
 

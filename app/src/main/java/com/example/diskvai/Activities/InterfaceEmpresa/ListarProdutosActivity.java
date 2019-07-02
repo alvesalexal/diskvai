@@ -215,4 +215,17 @@ public class ListarProdutosActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
+    public void editarProduto(String id, String nome, String descricao, Double preco, String url_foto) {
+        Intent intent;
+        Bundle parameters = new Bundle();
+        parameters.putString("id", id);
+        parameters.putString("nome", nome);
+        parameters.putString("descricao", descricao);
+        parameters.putDouble("preco", preco);
+        parameters.putString("url_foto", url_foto);
+        intent = new Intent(this, EditarProdutoActivity.class);
+        intent.putExtras(parameters);
+        startActivityForResult(intent, 1);
+    }
+
 }
