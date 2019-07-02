@@ -199,7 +199,6 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
                     pedido.setProdutoLista(produtoListaCar);
                     pedido.setFormaPagamento("Dinheiro");
                     pedido.setEndereco("Sei la");
-                    id_forma_pagamento = "10";
 
                     new AlertDialog.Builder(context)
                             .setTitle("Confirmar Envio do Pedido")
