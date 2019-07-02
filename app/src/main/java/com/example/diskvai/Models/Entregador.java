@@ -8,14 +8,16 @@ public class Entregador {
     private String telefone;
     private String Email;
     private String Foto;
+    private String login;
     private int ID;
 
-    public Entregador(String nome,String foto,int ID,String telefone,String Email) {
+    public Entregador(String nome,String foto,int ID,String telefone,String Email, String login) {
         this.Nome_ent = nome;
         this.Foto = foto;
         this.telefone = telefone;
         this.Email = Email;
         this.ID = ID;
+        this.login = login;
     }
 
 
@@ -57,5 +59,9 @@ public class Entregador {
 
     public void setNome_ent(String nome_ent) {
         Nome_ent = nome_ent;
+    }
+
+    public String getLogin() {
+        return login;
     }
 }

@@ -132,10 +132,11 @@ public class ListarEntregadorActivity extends AppCompatActivity {
                 int id = jsonChildNode.optInt("ID");
                 String nome = jsonChildNode.optString("Nome_ent");
                 String email = jsonChildNode.optString("Email");
+                String login = jsonChildNode.optString("Login");
                 String Telefone = jsonChildNode.optString("Telefone");
                 String url_img = jsonChildNode.optString("Foto");
 
-                Entregador entregador = new Entregador(nome,url_img,id,Telefone,email);
+                Entregador entregador = new Entregador(nome,url_img,id,Telefone,email, login);
                 entregadores.add(entregador);
             }
 

@@ -89,9 +89,9 @@ public class EditarEntregadorActivity extends AppCompatActivity {
 
                     OkHttpClient client = new OkHttpClient();
 
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/editarVendedor.php").newBuilder();
-                    //urlBuilder.addQueryParameter("id", id_empresa);
-                    urlBuilder.addQueryParameter("nome_vend", nome.getText().toString());
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/editarEntregador.php").newBuilder();
+                    urlBuilder.addQueryParameter("id", id_entregador);
+                    urlBuilder.addQueryParameter("nome_ent", nome.getText().toString());
                     urlBuilder.addQueryParameter("email", email.getText().toString());
                     urlBuilder.addQueryParameter("login", login.getText().toString());
                     urlBuilder.addQueryParameter("telefone", telefone.getText().toString());

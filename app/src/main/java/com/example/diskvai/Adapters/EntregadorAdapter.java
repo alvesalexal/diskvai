@@ -70,9 +70,11 @@ public class EntregadorAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditarEntregadorActivity.class);
                 Bundle parameters = new Bundle();
+                parameters.putString("ID", String.valueOf(entregadores.get(position).getID()));
                 parameters.putString("Nome", entregadores.get(position).getNome_ent());
                 parameters.putString("Email", entregadores.get(position).getEmail());
                 parameters.putString("Telefone", entregadores.get(position).getTelefone());
+                parameters.putString("Login", entregadores.get(position).getLogin());
                 intent.putExtras(parameters);
                 context.startActivity(intent);
             }
