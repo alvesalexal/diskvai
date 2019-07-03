@@ -41,6 +41,14 @@
                 android:textColor="#fff"
                 android:drawableRight="@drawable/ic_icons8_scroll"
                 android:backgroundTint="@color/colorPrimaryDark" />
+            <Button
+                android:id="@+id/editarPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Editar Perfil"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_icons8_scroll"
+                android:backgroundTint="@color/colorPrimaryDark" />
 
         </LinearLayout>
     </com.github.aakira.expandablelayout.ExpandableLinearLayout>

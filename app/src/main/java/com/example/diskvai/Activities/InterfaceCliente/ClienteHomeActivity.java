@@ -38,13 +38,13 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
 
 public class ClienteHomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener  {
 
-    String id_cliente,id_empresa;
+    String id_cliente,id_empresa,nome_cliente,email_cliente,login_cliente,telefone_cliente;
     private JSONObject jsonObject;
     List<Empresa> empresaLista;
     ProgressDialog progressDialog;
     private Empresa empresa;
     private ListView listView;
-    private Button endereco;
+    private Button endereco, editar;
 
     ExpandableLinearLayout menuLateral;
 
@@ -53,6 +53,7 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal_cli);
 
+        editar = findViewById(R.id.editarPerfil);
         endereco = findViewById(R.id.enderecos);
         listView = findViewById(R.id.listview);
         listView.setAdapter(new EmpresaAdapter(this, empresaLista));
@@ -60,6 +61,13 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
         Intent intent = this.getIntent();
         id_cliente = intent.getStringExtra("ID_Cliente");
         id_empresa = intent.getStringExtra("ID_Empresa");
+        id_cliente = intent.getStringExtra("ID");
+        nome_cliente = intent.getStringExtra("Nome");
+        email_cliente = intent.getStringExtra("Email");
+        login_cliente = intent.getStringExtra("Login");
+        telefone_cliente = intent.getStringExtra("Telefone");
+
+
         menuLateral = findViewById(R.id.menuLateral);
         menuLateral.setClosePosition(100);
 
@@ -80,7 +88,26 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editarComprador();
+            }
+        });
+
         menu();
+    }
+
+    private void editarComprador() {
+        Bundle parameters = new Bundle();
+        Intent intent = new Intent(this, EditarClienteActivity.class);
+        parameters.putString("ID_Cliente", id_cliente);
+        parameters.putString("Nome",nome_cliente);
+        parameters.putString("Email",email_cliente);
+        parameters.putString("Login",login_cliente);
+        parameters.putString("Telefone",telefone_cliente);
+        intent.putExtras(parameters);
+        startActivity(intent);
     }
 
     private void listarEnderecos(String id_cliente){

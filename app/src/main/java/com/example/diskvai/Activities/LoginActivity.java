@@ -228,6 +228,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         switch (Integer.parseInt(jsonObjects.getString("tipo_usuario"))){
             case 1:
                 parameters.putString("ID_Cliente", jsonObjects.getString("ID"));
+                parameters.putString("Nome",jsonObjects.getString("Nome"));
+                parameters.putString("Email",jsonObjects.getString("Email"));
+                parameters.putString("Login",jsonObjects.getString("Login"));
+                parameters.putString("Telefone",jsonObjects.getString("Telefone"));
                 intent = new Intent(this, ClienteHomeActivity.class);
                 intent.putExtras(parameters);
                 startActivity(intent);
