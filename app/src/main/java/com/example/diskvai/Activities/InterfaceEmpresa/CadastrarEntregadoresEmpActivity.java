@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -259,7 +260,8 @@ public class CadastrarEntregadoresEmpActivity extends AppCompatActivity {
                                         alert("Nome de usuario ou email já cadastrados");
                                     }
                                     else {
-                                        alert(a[1]);
+                                        //alert(a[1]);
+                                        Log.d(id_empresa+"-ERRO",a[1]);
                                         setResult(RESULT_OK);
                                         finish();
                                     }

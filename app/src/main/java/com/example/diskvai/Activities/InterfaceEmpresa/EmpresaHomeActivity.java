@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diskvai.Activities.InterfaceCliente.ListarEnderecosActivity;
 import com.example.diskvai.Adapters.PedidoAdapter;
 import com.example.diskvai.Adapters.ProdutoAdapter;
 import com.example.diskvai.Models.Pedido;
@@ -155,6 +156,8 @@ public class EmpresaHomeActivity extends AppCompatActivity {
     public void listarEntregadores(View view) {
         Intent intent;
         Bundle parameters = new Bundle();
+
+
         parameters.putString("ID", id_empresa);
         intent = new Intent(this, ListarEntregadorActivity.class);
         intent.putExtras(parameters);
@@ -400,4 +403,17 @@ public class EmpresaHomeActivity extends AppCompatActivity {
         e.printStackTrace();
     }
     }
+
+
+    public void ListarEnderecos(View view) {
+        Intent intent;
+        Bundle parameters = new Bundle();
+
+
+        parameters.putString("ID", id_empresa);
+        intent = new Intent(this, ListarEnderecosActivity.class);
+        intent.putExtras(parameters);
+        startActivity(intent);
+    }
+
 }

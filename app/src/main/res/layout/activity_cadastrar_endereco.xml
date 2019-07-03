@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.InterfaceCliente.CadastrarEnderecoActivity"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:layout_margin="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_back_button"
+            android:backgroundTint="#fff"
+            android:onClick="back"
+            />
+
+        <TextView
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cadastrar Endereço"/>
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            >
+            <EditText
+                android:layout_marginTop="30dp"
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:hint="Rua"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:maxLines="1"
+                android:inputType="text"
+                android:id="@+id/rua"
+                android:paddingRight="10dp"
+                />
+
+            <!-- Campo Email -->
+            <AutoCompleteTextView
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:hint="Numero"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:inputType="text"
+                android:maxLines="1"
+                android:id="@+id/numero"
+                android:paddingRight="10dp"
+                />
+
+            <EditText
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:hint="Complemento"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:maxLines="1"
+                android:id="@+id/complemento"
+                android:paddingRight="10dp"
+                />
+
+            <!-- Campo Telefone -->
+            <EditText
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:hint="Bairro"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:inputType="text"
+                android:maxLines="1"
+                android:id="@+id/bairro"
+                android:paddingRight="10dp"
+                />
+
+
+            <!-- Campo Senha -->
+            <EditText
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:hint="Cidade"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:maxLines="1"
+                android:id="@+id/cidade"
+                android:inputType="text"
+                android:paddingRight="10dp"
+                />
+            <EditText
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:hint="UF"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:maxLines="1"
+                android:maxLength="2"
+                android:inputType="textCapWords"
+                android:id="@+id/estado"
+                android:paddingRight="10dp"
+                />
+            <EditText
+                android:layout_width="240dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_corner_line"
+                android:hint="CEP"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:maxLines="1"
+                android:maxLength="9"
+                android:inputType="number"
+                android:id="@+id/cep"
+                android:paddingRight="10dp"
+                />
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_filled"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Cadastrar"
+                android:textColor="#fff"
+                android:paddingHorizontal="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/cadastrar"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

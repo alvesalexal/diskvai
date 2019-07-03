@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
     ProgressDialog progressDialog;
     private Empresa empresa;
     private ListView listView;
+    private Button endereco;
 
     ExpandableLinearLayout menuLateral;
 
@@ -51,6 +53,7 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal_cli);
 
+        endereco = findViewById(R.id.enderecos);
         listView = findViewById(R.id.listview);
         listView.setAdapter(new EmpresaAdapter(this, empresaLista));
 
@@ -70,8 +73,20 @@ public class ClienteHomeActivity extends AppCompatActivity implements AdapterVie
                 pullToRefresh.setRefreshing(false);
             }
         });
+        endereco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listarEnderecos(id_cliente);
+            }
+        });
 
         menu();
+    }
+
+    private void listarEnderecos(String id_cliente){
+        Intent intent = new Intent(this, ListarEnderecosActivity.class);
+        intent.putExtra("ID_Cliente", id_cliente);
+        startActivity(intent);
     }
 
     private void resgatarProdutos() {

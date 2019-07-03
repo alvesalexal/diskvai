@@ -12,11 +12,10 @@
         android:id="@+id/menuLateral"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:ael_expanded="false"
+        app:ael_expanded="true"
         app:ael_duration="300"
         app:ael_interpolator="accelerate"
         app:ael_orientation="vertical"
-
         >
 
         <LinearLayout
@@ -24,8 +23,6 @@
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:orientation="vertical">
-
-
 
             <ImageButton
                 android:src="@drawable/ic_icons8_menu"
@@ -36,12 +33,18 @@
                 android:text="Fechar"
                 android:onClick="fechar"/>
 
+            <Button
+                android:id="@+id/enderecos"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Endereços"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_icons8_scroll"
+                android:backgroundTint="@color/colorPrimaryDark" />
 
         </LinearLayout>
-
-
-
     </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"

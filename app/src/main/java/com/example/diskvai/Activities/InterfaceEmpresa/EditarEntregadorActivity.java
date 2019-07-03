@@ -192,8 +192,6 @@ public class EditarEntregadorActivity extends AppCompatActivity {
     private void alert(String valor) {
         Toast.makeText(this, valor, Toast.LENGTH_LONG).show();
     }
-
-
     // métodos dos tratamentos de dados
 
     public void nomeValido() {

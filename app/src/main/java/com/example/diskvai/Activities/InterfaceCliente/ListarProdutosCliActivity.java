@@ -56,7 +56,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     TextView nomeVendedor, carrinhoTitulo;
     ListView listView2, listView;
-    Button enviarBtn, formaPagamentoBtn, enderecoBtn;
+    Button enviarBtn, formaPagamentoBtn, enderecoBtn, listarEnderecos;
     Boolean menuIsOpen = false;
 
     @Override
@@ -78,6 +78,7 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
         enderecoBtn = findViewById(R.id.enderecoBtn);
         listView2 = findViewById(R.id.listviewPedido);
         carrinhoTitulo = findViewById(R.id.carrinhoTitulo);
+        listarEnderecos = findViewById(R.id.enderecos);
 
 
         produtoListaCar = new ArrayList<Produto>();
@@ -90,6 +91,10 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
         formaPagamentoBtn.setOnClickListener(view -> {
             resgatarFormasPagamento();
+        });
+
+        listarEnderecos.setOnClickListener(view -> {
+            listarEnderecos();
         });
     }
 
@@ -305,8 +310,8 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
 
     private void atualizarQtdItensCarrinho(){
         Button quantidadeItens = findViewById(R.id.quantidadeItens);
-            String s = String.valueOf(produtoListaCar.size());
-            quantidadeItens.setText(s);
+        String s = String.valueOf(produtoListaCar.size());
+        quantidadeItens.setText(s);
 
 
     }
@@ -620,5 +625,68 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
     public void setFormaPagamentoID(String id, String forma_pagamento) {
         id_forma_pagamento = id;
         formaPagamentoBtn.setText(forma_pagamento);
+    }
+
+    public void listarEnderecos(){
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            OkHttpClient client = new OkHttpClient();
+
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://gabriellacastro.com.br/disk_vai/listarEnderecos.php").newBuilder();
+            urlBuilder.addQueryParameter("id_cliente", id_cliente);
+
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder().url(url).build();
+
+            progressDialog = ProgressDialog.show(com.example.diskvai.Activities.InterfaceCliente.ListarProdutosCliActivity.this, "",
+                    "Carregando Endereços", true);
+
+            client.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    alert("deu lenha");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                //alert(response.body().string());
+                                try {
+                                    String data = response.body().string();
+                                    JSONArray jsonArray = new JSONArray(data);
+                                    if(jsonArray.length()!=0){
+                                        //jsonObject = jsonArray.getJSONObject(0);
+
+                                        listar(jsonArray);
+                                    } else {
+                                        progressDialog.cancel();
+                                        alert("Não há enderecos cadastrados");
+                                    }
+                                } catch (JSONException e) {
+                                    alert("erro no json");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void todosEnderecos(){
+
     }
 }
