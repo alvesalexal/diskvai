@@ -93,9 +93,9 @@ public class ListarProdutosCliActivity extends AppCompatActivity {
             resgatarFormasPagamento();
         });
 
-        listarEnderecos.setOnClickListener(view -> {
+       /* listarEnderecos.setOnClickListener(view -> {
             listarEnderecos();
-        });
+        });*/
     }
 
     private void resgatarProdutos() {
